@@ -1,6 +1,6 @@
 import 'package:cracked_notes/core/extensions/extensions.dart';
+import 'package:cracked_notes/viewmodel/clicknav.dart';
 import 'package:flutter/material.dart';
-
 
 class WelcomeScreenWidgets {
   static Widget upperContainerLottieFile(double height) {
@@ -16,14 +16,20 @@ class WelcomeScreenWidgets {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        Text("Welcome To App", style: context.headlineLarge),
         Text(
-          "Discover the beauty of North-East India, worry-free.\nStay safe with real-time alerts, digital ID, and instant emergency help.",
+          "Welcome To Cracked Notes",
+          style: context.headlineLarge,
+          textAlign: TextAlign.center,
+        ),
+        Text(
+          "Dummy Welcome Screen",
           textAlign: TextAlign.center,
           style: context.bodyLarge,
         ),
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            ClickNav.clickGetStarted(context);
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: context.primary,
             minimumSize: Size(width * 0.8, 60),
