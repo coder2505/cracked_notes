@@ -1,5 +1,8 @@
+import 'package:cracked_notes/repositories/secure_storage_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../viewmodel/user_viewmodel.dart';
 import '../widgets/welcome_screen_widgets.dart';
@@ -18,6 +21,17 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    _checkLoginStatus();
+
+  }
+
+  Future<void> _checkLoginStatus() async {
+    bool hasToken = await SecureStorageService.contains(dotenv.env['TOKEN']!) ?? false;
+    if (mounted) {
+      if(hasToken){
+        context.go("/home");
+      }
+    }
   }
 
   @override
@@ -27,7 +41,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
       next.when(
         data: (isSignedUp) {
           if (isSignedUp) {
-            Navigator.pushReplacementNamed(context, '/home');
+            context.go("/home");
           } else {
             ScaffoldMessenger.of(context)
                 .showSnackBar(const SnackBar(content: Text('Signup failed')));

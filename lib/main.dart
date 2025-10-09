@@ -1,4 +1,4 @@
-import 'package:cracked_notes/views/screens/welcome_screen.dart';
+import 'package:cracked_notes/viewmodel/gorouter/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,9 +14,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      home: WelcomeScreen(),
+    return MaterialApp.router(
+      routerConfig: Routes(context: context).router,
     );
   }
 }

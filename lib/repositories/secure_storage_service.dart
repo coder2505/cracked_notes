@@ -7,6 +7,10 @@ class SecureStorageService{
     await _storage.write(key: key, value: value);
   }
 
+  static Future<bool?> contains(String key) async {
+    return await _storage.containsKey(key: key);
+  }
+
   static Future<String?> read(String key) async {
     return await _storage.read(key: key);
   }
