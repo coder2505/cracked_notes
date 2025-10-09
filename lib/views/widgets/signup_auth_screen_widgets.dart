@@ -1,4 +1,6 @@
 import 'package:cracked_notes/core/extensions/extensions.dart';
+import 'package:cracked_notes/viewmodel/clicknav.dart';
+import 'package:cracked_notes/viewmodel/user_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -86,7 +88,9 @@ class SignupAuthScreenWidgets {
               borderRadius: BorderRadius.circular(12),
             ),
           ),
-          onPressed: () {},
+          onPressed: () {
+          ClickNav.clickCreateUser(ref, email.text.toString(), password.text.toString());
+          },
           child: Text("Continue", style: context.bodyLarge),
         ),
       ),
