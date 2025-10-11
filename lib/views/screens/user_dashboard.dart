@@ -1,3 +1,4 @@
+import 'package:cracked_notes/core/extensions/extensions.dart';
 import 'package:cracked_notes/views/widgets/user_dashboard_widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +12,6 @@ class UserDashboard extends StatefulWidget {
 class _UserDashboardState extends State<UserDashboard> {
   @override
   Widget build(BuildContext context) {
-
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
@@ -24,31 +24,42 @@ class _UserDashboardState extends State<UserDashboard> {
               spacing: 20,
               children: [
                 UserDashboardWidgets.topRow(),
-                UserDashboardWidgets.streakContainer(width,height, context),
-
+                UserDashboardWidgets.streakContainer(width, height, context),
                 Container(
                   width: width,
-                  height: height,
                   decoration: BoxDecoration(
                     color: Colors.white60,
                     borderRadius: BorderRadius.circular(20.0),
                   ),
-                  padding:const EdgeInsets.all(20.0) ,
+                  padding: const EdgeInsets.all(20.0),
                   child: Column(
+                    spacing: 40,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       Row(
                         children: [
-                          Text("Problems Solved"),
-
+                          Text(
+                            "Problems Solved",
+                            style: context.headlineMedium,
+                          ),
                           Spacer(),
-                          Text("23")
-
+                          Text("23"),
                         ],
-                      )
+                      ),
+                      UserDashboardWidgets.radarChart(),
+
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          "Recent Activity",
+                          style: context.headlineMedium,
+                        ),
+                      ),
+
+                      UserDashboardWidgets.recentActivity(),
                     ],
                   ),
-                )
-
+                ),
               ],
             ),
           ),
