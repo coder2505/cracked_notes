@@ -1,6 +1,5 @@
 import 'package:cracked_notes/core/extensions/extensions.dart';
 import 'package:cracked_notes/viewmodel/clicknav.dart';
-import 'package:cracked_notes/viewmodel/user_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

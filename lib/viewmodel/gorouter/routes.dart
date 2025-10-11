@@ -2,7 +2,7 @@ import 'package:cracked_notes/views/screens/welcome_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../views/screens/home_screen.dart';
+import '../../views/screens/nav_bar_holder.dart';
 
 class Routes{
 
@@ -24,7 +24,7 @@ class Routes{
       GoRoute(
         path: '/home',
         builder: (BuildContext context, GoRouterState state) {
-          return const HomeScreen();
+          return const NavBarHolder();
         },
       ),
     ],
