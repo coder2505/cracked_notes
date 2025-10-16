@@ -155,22 +155,13 @@ class UserDashboardWidgets {
 
   static Widget recentActivity() {
     return ListView.builder(
-      itemCount: problems.length,
+      itemCount: 3,
       shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         String title = problems[index]['title'] ?? '';
         String subtitle = problems[index]['subtitle'] ?? '';
-
-        return Container(
-          margin: const EdgeInsets.only(bottom: 8.0),
-          // Use margin to add spacing between items
-          decoration: BoxDecoration(
-            // Using a more readable way to represent the color with opacity.
-            color: Colors.black.withOpacity(0.51),
-            borderRadius: BorderRadius.all(Radius.circular(25)),
-          ),
-          child: ListTile(title: Text(title), subtitle: Text(subtitle)),
-        );
+        return ListTile(title: Text(title), subtitle: Text(subtitle));
       },
     );
   }
