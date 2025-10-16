@@ -4,7 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../viewmodel/user_viewmodel.dart';
+import '../../viewmodel/user_data_viewmodel.dart';
 import '../widgets/welcome_screen_widgets.dart';
 
 class WelcomeScreen extends ConsumerStatefulWidget {

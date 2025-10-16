@@ -1,4 +1,4 @@
-import 'package:cracked_notes/viewmodel/user_viewmodel.dart';
+import 'package:cracked_notes/viewmodel/user_data_viewmodel.dart';
 import 'package:cracked_notes/views/screens/signup_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

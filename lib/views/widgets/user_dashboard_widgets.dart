@@ -31,12 +31,12 @@ class UserDashboardWidgets {
     },
   ];
 
-  static Widget topRow() {
+  static Widget topRow(String name) {
     return Row(
       spacing: 10,
       children: [
         Icon(Icons.people),
-        Column(children: [Text("Manish R"), Text("Level 6")]),
+        Column(children: [Text(name), Text("Level 6")]),
         Expanded(child: SizedBox()),
         Container(width: 50, height: 50, color: Colors.grey),
       ],
@@ -98,7 +98,13 @@ class UserDashboardWidgets {
     );
   }
 
-  static Widget radarChart() {
+  static Widget radarChart(List<Map<String, dynamic>> skillStats) {
+    //{tagName: Array, tagSlug: array, problemsSolved: 46}
+
+    List<RadarEntry> problemSolved = List.generate(8,(index)=> RadarEntry(value: skillStats[index]["problemsSolved"].toDouble()));
+    List<String> titlesList = List.generate(8,(index)=> "${skillStats[index]["tagName"]}\n${problemSolved[index].value.toInt()}");
+
+
     return SizedBox(
       height: 250,
       child: RadarChart(
@@ -107,44 +113,19 @@ class UserDashboardWidgets {
             RadarDataSet(
               fillColor: Colors.blue.withValues(alpha: 0.4),
               borderColor: Colors.blue,
-              entryRadius: 3,
-              dataEntries: [
-                const RadarEntry(value: 5),
-                const RadarEntry(value: 3),
-                const RadarEntry(value: 4),
-                const RadarEntry(value: 2),
-                const RadarEntry(value: 4.5),
-              ],
-            ),
-            RadarDataSet(
-              fillColor: Colors.red.withValues(alpha: 0.4),
-              borderColor: Colors.red,
-              entryRadius: 3,
-              dataEntries: [
-                const RadarEntry(value: 2),
-                const RadarEntry(value: 4),
-                const RadarEntry(value: 3),
-                const RadarEntry(value: 5),
-                const RadarEntry(value: 3.5),
-              ],
+              entryRadius: 4,
+              dataEntries: problemSolved,
             ),
           ],
           radarBackgroundColor: Colors.transparent,
           radarBorderData: const BorderSide(color: Colors.grey),
           titleTextStyle: const TextStyle(color: Colors.black, fontSize: 14),
           getTitle: (index, angle) {
-            const titles = [
-              'Arrays',
-              'String',
-              'Recursion',
-              'Dynamic Programming',
-              'Stacks',
-            ];
-            return RadarChartTitle(text: titles[index]);
+            return RadarChartTitle(text: titlesList[index]);
           },
-          tickCount: 5,
-          ticksTextStyle: const TextStyle(color: Colors.grey, fontSize: 10),
-          tickBorderData: const BorderSide(color: Colors.grey, width: 1),
+          tickCount: 1,
+          ticksTextStyle: const TextStyle(color: Colors.transparent, fontSize: 10),
+          tickBorderData: const BorderSide(color: Colors.grey, width: 2),
           gridBorderData: const BorderSide(color: Colors.grey, width: 1),
         ),
         duration: const Duration(milliseconds: 150),

@@ -4,15 +4,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
-class UserDataViewModel {
+class UserDataRepo {
   late Map<String, dynamic> data, calendar, solved, submissions, skillstats;
 
   Future<UserModel> callForInfo(String username) async {
     Uri urlUserinfo = Uri.parse('${dotenv.env["BASE_URL"]}/$username');
     Uri urlCalendar = Uri.parse('${dotenv.env["BASE_URL"]}/$username/calendar');
-    Uri urlSolved = Uri.parse('${dotenv.env["BASE_URL"]}/$username/submission');
+    Uri urlSolved = Uri.parse('${dotenv.env["BASE_URL"]}/$username/solved');
     Uri urlSubmissions = Uri.parse(
-      '${dotenv.env["BASE_URL"]}/$username/solved',
+      '${dotenv.env["BASE_URL"]}/$username/acSubmission',
     );
     Uri urlSkillStats = Uri.parse(
       '${dotenv.env["BASE_URL"]}/skillStats/$username',

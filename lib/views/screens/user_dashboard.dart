@@ -1,86 +1,96 @@
 import 'package:cracked_notes/core/extensions/extensions.dart';
-import 'package:cracked_notes/model/user_model.dart';
-import 'package:cracked_notes/viewmodel/userdata_viewmodel.dart';
+import 'package:cracked_notes/utils/datacleaning_user.dart';
+import 'package:cracked_notes/viewmodel/user_provider.dart';
 import 'package:cracked_notes/views/widgets/user_dashboard_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class UserDashboard extends StatefulWidget {
+class UserDashboard extends ConsumerStatefulWidget {
   const UserDashboard({super.key});
 
   @override
-  State<UserDashboard> createState() => _UserDashboardState();
+  ConsumerState<UserDashboard> createState() => _UserDashboardState();
 }
 
-class _UserDashboardState extends State<UserDashboard> {
-
-  late final UserModel model;
-
-
-  Future<void> set() async{
-    model = await UserDataViewModel().callForInfo("manishraja2505");
-    print(model);
-  }
-
+class _UserDashboardState extends ConsumerState<UserDashboard> {
   @override
   void initState() {
     super.initState();
-    set();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      ref.read(userProvider.notifier).fetchUserData("manishraja2505");
+    });
   }
-
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
+    final user = ref.watch(userProvider);
+
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              spacing: 20,
-              children: [
-                UserDashboardWidgets.topRow(),
-                UserDashboardWidgets.streakContainer(width, height, context),
-                Container(
-                  width: width,
-                  decoration: BoxDecoration(
-                    color: Colors.white60,
-                    borderRadius: BorderRadius.circular(20.0),
-                  ),
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    spacing: 40,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Row(
+        child: user.when(
+          data: (data) {
+            print(data.solved);
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  spacing: 20,
+                  children: [
+                    UserDashboardWidgets.topRow(data.name),
+                    UserDashboardWidgets.streakContainer(
+                      width,
+                      height,
+                      context,
+                    ),
+                    Container(
+                      width: width,
+                      decoration: BoxDecoration(
+                        color: Colors.white60,
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        spacing: 40,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
-                            "Problems Solved",
-                            style: context.headlineMedium,
+                          Row(
+                            children: [
+                              Text(
+                                "Problems Solved",
+                                style: context.headlineMedium,
+                              ),
+                              Spacer(),
+                              Text(data.solved["solvedProblem"].toString()),
+                            ],
                           ),
-                          Spacer(),
-                          Text("23"),
+                          UserDashboardWidgets.radarChart(DataCleaningUser.sortProblemCounts(data.skillStats)),
+
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Recent Activity",
+                              style: context.headlineMedium,
+                            ),
+                          ),
+
+                          UserDashboardWidgets.recentActivity(),
                         ],
                       ),
-                      UserDashboardWidgets.radarChart(),
-
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "Recent Activity",
-                          style: context.headlineMedium,
-                        ),
-                      ),
-
-                      UserDashboardWidgets.recentActivity(),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
+          error: (e, st) {
+            return Center(child: Text("error"));
+          },
+          loading: () {
+            return Center(child: CircularProgressIndicator());
+          },
         ),
       ),
     );
