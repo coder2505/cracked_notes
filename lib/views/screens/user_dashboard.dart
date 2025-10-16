@@ -1,4 +1,5 @@
 import 'package:cracked_notes/core/extensions/extensions.dart';
+import 'package:cracked_notes/model/user_model.dart';
 import 'package:cracked_notes/viewmodel/userdata_viewmodel.dart';
 import 'package:cracked_notes/views/widgets/user_dashboard_widgets.dart';
 import 'package:flutter/material.dart';
@@ -12,10 +13,18 @@ class UserDashboard extends StatefulWidget {
 
 class _UserDashboardState extends State<UserDashboard> {
 
+  late final UserModel model;
+
+
+  Future<void> set() async{
+    model = await UserDataViewModel().callForInfo("manishraja2505");
+    print(model);
+  }
+
   @override
   void initState() {
     super.initState();
-    UserDataViewModel().callForInfo("manishraja2505");
+    set();
   }
 
 

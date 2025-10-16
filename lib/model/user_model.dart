@@ -2,13 +2,24 @@ class UserModel {
   final String username, name, ranking;
   final Map<String, dynamic> calendar, solved, skillStats, submissions;
 
+  factory UserModel.fromJSON(
+    Map<String, dynamic> userDetails,
+    Map<String, dynamic> calendar,
+    submissions,
+    solved,
+    skillStats,
+  ) {
 
-  // factory UserModel.fromJSON(Map<String, dynamic> data){
-  //
-  //
-  //
-  //
-  // }
+    return UserModel(
+      username: userDetails["username"],
+      name: userDetails["name"],
+      ranking: userDetails["ranking"].toString(),
+      calendar: calendar,
+      solved: solved,
+      skillStats: skillStats,
+      submissions: submissions,
+    );
+  }
 
   UserModel({
     required this.username,
