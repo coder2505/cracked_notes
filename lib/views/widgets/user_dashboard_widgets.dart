@@ -1,36 +1,9 @@
 import 'package:cracked_notes/core/extensions/extensions.dart';
+import 'package:cracked_notes/utils/datacleaning_user.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class UserDashboardWidgets {
-  static final List<Map<String, String>> problems = [
-    {
-      'title': '1. Two Sum',
-      'subtitle': 'Find indices of two numbers that add up to a target.',
-    },
-    {
-      'title': '2. Reverse Linked List',
-      'subtitle': 'Reverse a singly linked list using iteration or recursion.',
-    },
-    {
-      'title': '3. Binary Search',
-      'subtitle': 'Find the position of a target value within a sorted array.',
-    },
-    {
-      'title': '4. Merge Sort',
-      'subtitle': 'Sort an array using the divide and conquer technique.',
-    },
-    {
-      'title': '5. Detect Cycle in Graph',
-      'subtitle': 'Check if a directed/undirected graph contains a cycle.',
-    },
-    {
-      'title': '6. Longest Common Subsequence',
-      'subtitle':
-          'Find the length of the longest subsequence present in both strings.',
-    },
-  ];
-
   static Widget topRow(String name) {
     return Row(
       spacing: 10,
@@ -134,15 +107,55 @@ class UserDashboardWidgets {
     );
   }
 
-  static Widget recentActivity() {
+  static Widget recentActivity(Map<String, dynamic> submissions) {
     return ListView.builder(
       itemCount: 3,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
-        String title = problems[index]['title'] ?? '';
-        String subtitle = problems[index]['subtitle'] ?? '';
-        return ListTile(title: Text(title), subtitle: Text(subtitle));
+        String title = submissions["submission"][index]["title"];
+        String language = submissions["submission"][index]["lang"];
+        String time =  DataCleaningUser.formatSubmissionTime(submissions["submission"][index]["timestamp"]);
+        return ListTile(
+          // 1. Title remains the same
+          title: Text(
+            title,
+            style: const TextStyle(fontWeight: FontWeight.w600),
+          ),
+
+          // 2. Subtitle is replaced with a Row for two-sided alignment
+          subtitle: Padding(
+            padding: const EdgeInsets.only(top: 4.0),
+            child: Row(
+              // Ensure items are aligned to the baseline for consistent text size
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                // Extreme Left Field (Language)
+                Text(
+                  language,
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor, // Use a primary color for emphasis
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
+                ),
+
+                // Spacer pushes the next widget to the far right end
+                const Spacer(),
+
+                // Extreme Right Field (Time)
+                Text(
+                  time,
+                  style: TextStyle(
+                    color: Colors.grey.shade600,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
       },
     );
   }

@@ -76,7 +76,7 @@ class _UserDashboardState extends ConsumerState<UserDashboard> {
                             ),
                           ),
 
-                          UserDashboardWidgets.recentActivity(),
+                          UserDashboardWidgets.recentActivity(data.submissions),
                         ],
                       ),
                     ),
