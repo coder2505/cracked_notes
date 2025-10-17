@@ -8,7 +8,7 @@ class AppColors{
   static const Color primaryLight = Color(0xFF90CAF9); // Light blue - approachable
 
   // Secondary
-  static const Color secondary = Color(0xFF43A047); // Green - safe zones, success
+  static const Color secondary = Color(0xFF1DB954); // Green - safe zones, success
   static const Color secondaryLight = Color(0xFFA5D6A7); // Soft green - confirmation
   static const Color secondaryDark = Color(0xFF1B5E20); // Dark green - stability
 
@@ -27,5 +27,8 @@ class AppColors{
   static const Color textSecondary = Color(0xFF2E2E2E); // Medium grey
   static const Color textOnPrimary = Color(0xFFFFFFFF); // White on blue
   static const Color textOnDanger = Color(0xFFFFFFFF); // White on red
+
+  static const Color green_counter = Color.fromRGBO(29, 185, 84,100); // Green - safe zones, success
+  static const Color green_trans_counter = Color.fromRGBO(29, 185, 84,75);
 
 }

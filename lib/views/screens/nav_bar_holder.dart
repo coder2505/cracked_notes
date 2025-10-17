@@ -1,6 +1,7 @@
 import 'package:cracked_notes/views/screens/challenges_screen.dart';
 import 'package:cracked_notes/views/screens/community_screen.dart';
 import 'package:cracked_notes/views/screens/user_dashboard.dart';
+import 'package:cracked_notes/views/screens/user_homescreen.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 
@@ -17,7 +18,8 @@ class _NavBarHolderState extends State<NavBarHolder> {
     return PersistentTabView(
       tabs: [
         PersistentTabConfig(
-          screen: UserDashboard(),
+          screen: UserHomescreen(),
+          // screen: UserDashboard(),
           item: ItemConfig(
             icon: Icon(Icons.home),
             title: "Home",

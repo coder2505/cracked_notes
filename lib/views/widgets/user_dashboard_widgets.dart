@@ -24,8 +24,9 @@ class UserDashboardWidgets {
     return Container(
       width: width,
       decoration: BoxDecoration(
-        color: Colors.grey,
+        color: Color(0xFFA9CFFF),
         borderRadius: BorderRadius.circular(20.0),
+        border: BoxBorder.all(color: Color(0xFF328EFF))
       ),
       padding: const EdgeInsets.all(20.0),
       child: Column(
