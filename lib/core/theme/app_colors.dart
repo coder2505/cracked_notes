@@ -28,7 +28,20 @@ class AppColors{
   static const Color textOnPrimary = Color(0xFFFFFFFF); // White on blue
   static const Color textOnDanger = Color(0xFFFFFFFF); // White on red
 
-  static const Color green_counter = Color.fromRGBO(29, 185, 84,100); // Green - safe zones, success
-  static const Color green_trans_counter = Color.fromRGBO(29, 185, 84,75);
+  static const Color green_counter = Color(0xFF1DB954); // Green - safe zones, success
+  static const Color green_trans_counter = Color(0xBF1DB954);
+
+  static const Color stronger_yellow = Color.fromRGBO(255, 193, 76,100); // Green - safe zones, success
+  static const Color faded_yellow  = Color.fromRGBO(253, 244, 227,100);
+  
+  static const Color app_trans_blue = Color(0x9E134686);
+  static const Color app_blue = Color(0xFF134686);
+
+  static const Color app_trans_red = Color(0x94ED3F27);
+  static const Color app_red = Color(0xFFED3F27);
+
+  static const Color app_trans_yellow = Color(0x94FEB21A);
+  static const Color app_yellow = Color(0xFFFEB21A);
+
 
 }
