@@ -1,6 +1,7 @@
 import 'package:cracked_notes/core/theme/app_colors.dart';
-import 'package:cracked_notes/utils/timer_circles.dart';
+import 'package:cracked_notes/utils/timer_countdown.dart';
 import 'package:cracked_notes/views/widgets/github_widget.dart';
+import 'package:cracked_notes/views/widgets/timer_circles.dart';
 import 'package:flutter/material.dart';
 
 class UserHomescreen extends StatefulWidget {
@@ -11,6 +12,23 @@ class UserHomescreen extends StatefulWidget {
 }
 
 class _UserHomescreenState extends State<UserHomescreen> {
+
+  TimerCountDown timerService = TimerCountDown();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    timerService.timeToMidnight();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    TimerCountDown.controller.close();
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -46,7 +64,17 @@ class _UserHomescreenState extends State<UserHomescreen> {
                         Positioned(
                           left: 38,
                           top: 20,
-                          child: Text("23\n58", style: TextStyle(fontFamily: 'Inter', fontWeight: FontWeight.w700, fontSize: 22)),
+                          child: StreamBuilder(
+                            initialData: TimerCountDown().printTimeInitial(),
+                            stream: TimerCountDown.controller.stream,
+                            builder: (context, snapshot) {
+                              return Text('${snapshot.data}', style: TextStyle(
+                                    fontFamily: 'Inter',
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 22,
+                                  ),);
+                            },
+                          ),
                         ),
                       ],
                     ),
@@ -61,7 +89,7 @@ class _UserHomescreenState extends State<UserHomescreen> {
                           style: TextStyle(
                             fontFamily: 'Inter',
                             fontWeight: FontWeight.w300,
-                            fontSize: 18
+                            fontSize: 18,
                           ),
                         ),
                         Text(
@@ -201,9 +229,9 @@ class _UserHomescreenState extends State<UserHomescreen> {
               SizedBox(
                 child: CustomPaint(
                   painter: GithubWidget(),
-                  size: Size(width, height*0.25),
+                  size: Size(width, height * 0.25),
                 ),
-              )
+              ),
             ],
           ),
         ),

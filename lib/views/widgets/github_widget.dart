@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class GithubWidget extends CustomPainter {
   final double padding_between_cells = 4.0;
-  final double padding_from_box = 12.0;
+  final double padding_from_box = 16.0;
   final int columns = 15;
   final int rows = 7;
 
@@ -11,7 +11,7 @@ class GithubWidget extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     Paint p = Paint();
 
-    p.color = AppColors.app_blue;
+    p.color = Colors.black87;
 
     Rect rect = Rect.fromLTWH(0, 0, size.width, size.height);
     RRect rRect = RRect.fromRectAndCorners(
@@ -24,7 +24,7 @@ class GithubWidget extends CustomPainter {
     canvas.drawRRect(rRect, p);
 
     Paint p1 = Paint();
-    p1.color = Color(0xfffdf4e3);
+    p1.color = AppColors.app_blue;
 
     // Paint p2 = Paint();
     // p2.color = AppColors.app_trans_blue;
