@@ -12,7 +12,6 @@ class UserHomescreen extends StatefulWidget {
 }
 
 class _UserHomescreenState extends State<UserHomescreen> {
-
   TimerCountDown timerService = TimerCountDown();
 
   @override
@@ -56,9 +55,15 @@ class _UserHomescreenState extends State<UserHomescreen> {
                       children: [
                         SizedBox(
                           width: 100,
-                          child: CustomPaint(
-                            painter: TimerCircles(),
-                            size: Size(200, 300),
+                          child: StreamBuilder(
+                            initialData: TimerCountDown().printPercentageInitial(),
+                            stream: TimerCountDown.percentageController.stream,
+                            builder: (context, snapshot) {
+                              return CustomPaint(
+                                painter: TimerCircles(snapshot.data ?? 0),
+                                size: Size(200, 300),
+                              );
+                            },
                           ),
                         ),
                         Positioned(
@@ -68,11 +73,14 @@ class _UserHomescreenState extends State<UserHomescreen> {
                             initialData: TimerCountDown().printTimeInitial(),
                             stream: TimerCountDown.controller.stream,
                             builder: (context, snapshot) {
-                              return Text('${snapshot.data}', style: TextStyle(
-                                    fontFamily: 'Inter',
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 22,
-                                  ),);
+                              return Text(
+                                '${snapshot.data}',
+                                style: TextStyle(
+                                  fontFamily: 'Inter',
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 22,
+                                ),
+                              );
                             },
                           ),
                         ),

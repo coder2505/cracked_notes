@@ -1,7 +1,12 @@
 import 'dart:async';
 
 class TimerCountDown {
-  static StreamController<String> controller = StreamController<String>.broadcast();
+  static StreamController<String> controller =
+      StreamController<String>.broadcast();
+  static StreamController<double> percentageController =
+      StreamController<double>.broadcast();
+
+  static final double _totalminutes = 24 * 60;
 
   String _printDuration(Duration duration) {
     String negativeSign = duration.isNegative ? '-' : '';
@@ -10,14 +15,12 @@ class TimerCountDown {
     return "$negativeSign${twoDigits(duration.inHours)}\n$twoDigitMinutes";
   }
 
-  static Duration fromStringToDuration(String duration){
-
+  static Duration fromStringToDuration(String duration) {
     List time = duration.split('\n');
     int hour = int.parse(time[0]);
     int minutes = int.parse(time[1]);
 
     return Duration(hours: hour, minutes: minutes);
-
   }
 
   void timeToMidnight() async {
@@ -31,6 +34,9 @@ class TimerCountDown {
       Duration difference = midnight.difference(DateTime.now());
 
       String timeLeft = _printDuration(difference);
+
+      calculatePercentage(timeLeft);
+
       controller.add(timeLeft);
 
       if (midnight.compareTo(DateTime.now()) < 0) {
@@ -40,18 +46,43 @@ class TimerCountDown {
     });
   }
 
-  String printTimeInitial(){
+  void calculatePercentage(String timeLeft1) {
+    int timeLeft = fromStringToDuration(timeLeft1).inMinutes;
 
-      DateTime midnight = DateTime(
-        DateTime.now().year,
-        DateTime.now().month,
-        DateTime.now().day + 1,
-      );
+    percentageController.add((timeLeft) / _totalminutes);
 
-      Duration difference = midnight.difference(DateTime.now());
+    if ((timeLeft) / _totalminutes <= 1) {
+      percentageController.close();
+    }
+  }
 
-       return _printDuration(difference);
+  double printPercentageInitial() {
+    DateTime midnight = DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day + 1,
+    );
+
+    Duration difference = midnight.difference(DateTime.now());
+
+    int timeLeft = fromStringToDuration(_printDuration(difference)).inMinutes;
+
+    return timeLeft/_totalminutes;
+
 
   }
 
+  String printTimeInitial() {
+    DateTime midnight = DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day + 1,
+    );
+
+    Duration difference = midnight.difference(DateTime.now());
+
+    calculatePercentage(_printDuration(difference));
+
+    return _printDuration(difference);
+  }
 }
