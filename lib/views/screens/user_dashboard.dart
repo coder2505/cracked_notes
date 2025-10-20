@@ -32,7 +32,6 @@ class _UserDashboardState extends ConsumerState<UserDashboard> {
       body: SafeArea(
         child: user.when(
           data: (data) {
-            print(data.solved);
             return SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),

@@ -1,10 +1,13 @@
+import 'package:cracked_notes/utils/datacleaning_user.dart';
+
 class UserModel {
   final String username, name, ranking;
-  final Map<String, dynamic> calendar, solved, skillStats, submissions;
+  final Map<String, dynamic> solved, skillStats, submissions;
+  final Map<DateTime, int> calendar;
 
   factory UserModel.fromJSON(
     Map<String, dynamic> userDetails,
-    Map<String, dynamic> calendar,
+    Map<String,dynamic> calendar,
     submissions,
     solved,
     skillStats,
@@ -14,7 +17,7 @@ class UserModel {
       username: userDetails["username"],
       name: userDetails["name"],
       ranking: userDetails["ranking"].toString(),
-      calendar: calendar,
+      calendar: DataCleaningUser.formatCalendar(calendar),
       solved: solved,
       skillStats: skillStats,
       submissions: submissions,

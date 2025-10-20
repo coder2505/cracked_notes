@@ -6,6 +6,8 @@ class GithubWidget extends CustomPainter {
   final double padding_from_box = 16.0;
   final int columns = 15;
   final int rows = 7;
+  final Map<RRect, DateTime> cellToDate = {};
+  final endTime = DateTime.now();
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -26,11 +28,6 @@ class GithubWidget extends CustomPainter {
     Paint p1 = Paint();
     p1.color = AppColors.app_blue;
 
-    // Paint p2 = Paint();
-    // p2.color = AppColors.app_trans_blue;
-    // p2.style = PaintingStyle.stroke;
-
-    // Calculate available space after accounting for box padding
     double availableWidth = size.width - (2 * padding_from_box);
     double availableHeight = size.height - (2 * padding_from_box);
 
@@ -42,8 +39,10 @@ class GithubWidget extends CustomPainter {
 
     for (int i = 0; i < columns; i++) {
       for (int j = 0; j < rows; j++) {
-        double dx = padding_from_box + (i * (cellWidth + padding_between_cells));
-        double dy = padding_from_box + (j * (cellHeight + padding_between_cells));
+        double dx =
+            padding_from_box + (i * (cellWidth + padding_between_cells));
+        double dy =
+            padding_from_box + (j * (cellHeight + padding_between_cells));
 
         Rect rect = Rect.fromLTWH(dx, dy, cellWidth, cellHeight);
 
@@ -56,8 +55,17 @@ class GithubWidget extends CustomPainter {
         );
         canvas.drawRRect(rRect, p1);
         // canvas.drawRRect(rRect, p2);
+
+        DateTime time = endTime.subtract(
+          Duration(days: (((columns-i-1) * rows) + (rows-j))),
+        );
+
+        cellToDate[rRect] = DateTime(time.year, time.month, time.day);
+
       }
     }
+
+    print(cellToDate);
   }
 
   @override

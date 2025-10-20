@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 class DataCleaningUser{
@@ -75,5 +77,56 @@ class DataCleaningUser{
 
     // Final formatted string, e.g., "14:30, 16 Oct"
     return '$hour:$minute, $day $monthAbbr';
+  }
+  static Map<DateTime, int> formatCalendar(Map<String, dynamic> calendar) {
+    Map<DateTime, int> toReturn = {};
+    calendar = jsonDecode(calendar["submissionCalendar"]);
+    calendar.forEach((timestampString, frequency) {
+      try {
+        // 1. Convert the String key to an integer (the Unix timestamp)
+        int timestampSeconds = int.parse(timestampString);
+
+        // 2. Convert seconds to milliseconds (required by fromMillisecondsSinceEpoch)
+        int timestampMilliseconds = timestampSeconds * 1000;
+
+        // 3. Create the full DateTime object
+        // Use isUtc: true since Unix timestamps are typically UTC
+        DateTime fullDateTime = DateTime.fromMillisecondsSinceEpoch(
+          timestampMilliseconds,
+          isUtc: true,
+        );
+
+        // 4. Create a new DateTime object that only contains the date (year, month, day)
+        // This is crucial for grouping submissions on the same calendar day.
+        // We convert it to local time first if the original data should be interpreted in the user's timezone.
+        // For simplicity and consistency, let's keep it as a UTC date for the key,
+        // but you might need to adjust based on your specific needs (e.g., fullDateTime.toLocal())
+        DateTime dateOnly = DateTime(
+          fullDateTime.year,
+          fullDateTime.month,
+          fullDateTime.day,
+        );
+
+        // 5. Safely cast frequency to int
+        int count = frequency as int;
+
+        // 6. Aggregate the submissions by date
+        toReturn.update(
+          dateOnly,
+              (existingCount) => existingCount + count,
+          ifAbsent: () => count,
+        );
+
+      } on FormatException {
+        // Handles keys that are not valid integers (like "submissionCalendar")
+        debugPrint('Skipping invalid map key (not a number): "$timestampString"');
+      } catch (e) {
+        // General error handling
+        debugPrint('Error processing entry with key "$timestampString": $e');
+      }
+    });
+
+    print(toReturn);
+    return toReturn;
   }
 }

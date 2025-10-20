@@ -25,7 +25,6 @@ class _UserHomescreenState extends State<UserHomescreen> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    TimerCountDown.controller.close();
   }
 
   @override

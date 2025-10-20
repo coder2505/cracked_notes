@@ -1,5 +1,8 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 class TimerCountDown {
   static StreamController<String> controller =
       StreamController<String>.broadcast();
@@ -51,7 +54,7 @@ class TimerCountDown {
 
     percentageController.add((timeLeft) / _totalminutes);
 
-    if ((timeLeft) / _totalminutes <= 1) {
+    if ((timeLeft) / _totalminutes <= 0.01) {
       percentageController.close();
     }
   }
