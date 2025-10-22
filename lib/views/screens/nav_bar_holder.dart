@@ -1,3 +1,4 @@
+import 'package:cracked_notes/core/theme/app_colors.dart';
 import 'package:cracked_notes/views/screens/challenges_screen.dart';
 import 'package:cracked_notes/views/screens/community_screen.dart';
 import 'package:cracked_notes/views/screens/user_homescreen.dart';
@@ -34,7 +35,7 @@ class _NavBarHolderState extends ConsumerState<NavBarHolder> {
           return PersistentTabView(
             tabs: [
               PersistentTabConfig(
-                screen: UserHomescreen(),
+                screen: UserHomescreen(user: data),
                 // screen: UserDashboard(),
                 item: ItemConfig(icon: Icon(Icons.home), title: "Home"),
               ),
@@ -50,12 +51,17 @@ class _NavBarHolderState extends ConsumerState<NavBarHolder> {
                 ),
               ),
             ],
-            navBarBuilder: (navBarConfig) =>
-                Style1BottomNavBar(navBarConfig: navBarConfig),
+            navBarBuilder: (navBarConfig) => Style1BottomNavBar(
+              navBarConfig: navBarConfig,
+              navBarDecoration: NavBarDecoration(
+                color: AppColors.background_black,
+              ),
+            ),
           );
         },
         error: (e, st) => Scaffold(body: Center(child: Text("error"))),
-        loading: () => Scaffold(body: Center(child: CircularProgressIndicator())),
+        loading: () =>
+            Scaffold(body: Center(child: CircularProgressIndicator())),
       ),
     );
   }

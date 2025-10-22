@@ -22,7 +22,7 @@ class TimerCircles extends CustomPainter {
     paint.style = PaintingStyle.stroke;
 
     timer.strokeWidth = 7;
-    timer.color = AppColors.app_red;
+    timer.color = AppColors.app_highest_blue_github;
     timer.style = PaintingStyle.stroke;
     timer.strokeCap = StrokeCap.round;
 

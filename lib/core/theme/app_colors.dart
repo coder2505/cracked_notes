@@ -32,7 +32,7 @@ class AppColors{
   static const Color green_trans_counter = Color(0xBF1DB954);
 
   static const Color stronger_yellow = Color.fromRGBO(255, 193, 76,100); // Green - safe zones, success
-  static const Color faded_yellow  = Color.fromRGBO(253, 244, 227,100);
+  static const Color faded_yellow  = Color(0xFFFDF4E3);
   
   static const Color app_trans_blue = Color(0x9E134686);
   static const Color app_blue = Color(0xFF134686);
@@ -42,6 +42,17 @@ class AppColors{
 
   static const Color app_trans_yellow = Color(0x94FEB21A);
   static const Color app_yellow = Color(0xFFFEB21A);
+
+  static const Color app_base_blue_github = Color(0x99134686);
+  static const Color app_highest_blue_github = Color(0xFF0569ED);
+
+  static const Color background_black = Color(0xFF1e1e1e);
+  static const Color secondary_black_outline = Color(0xFF020B1C);
+  static const Color secondary_black_trans = Color(0x5E020B1C);
+
+  static const Color countdown = Color(0xBF00487B);
+  static const Color countdown_outline = Color(0xFF00487B);
+
 
 
 }
