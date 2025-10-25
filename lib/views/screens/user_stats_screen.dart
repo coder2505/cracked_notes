@@ -1,9 +1,16 @@
 import 'package:cracked_notes/core/theme/app_colors.dart';
+import 'package:cracked_notes/model/user_model.dart';
 import 'package:cracked_notes/views/widgets/stacked_progress_bar.dart';
+import 'package:cracked_notes/views/widgets/userstats_screen_widgets.dart';
 import 'package:flutter/material.dart';
 
+import '../../utils/datacleaning_user.dart';
+import '../widgets/user_dashboard_widgets.dart';
+
 class UserStatsScreen extends StatefulWidget {
-  const UserStatsScreen({super.key});
+  const UserStatsScreen({super.key, required this.userModel});
+
+  final UserModel userModel;
 
   @override
   State<UserStatsScreen> createState() => _UserStatsScreenState();
@@ -61,7 +68,6 @@ class _UserStatsScreenState extends State<UserStatsScreen> {
                   borderRadius: BorderRadius.all(Radius.circular(25)),
                 ),
                 width: width,
-                height: height * 0.4,
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: Column(
@@ -96,6 +102,7 @@ class _UserStatsScreenState extends State<UserStatsScreen> {
                         hardSolved: 10,
                         totalProblems: 100,
                       ),
+                      UserstatsScreenWidgets.carousel_stats(widget.userModel.skillStats)
                     ],
                   ),
                 ),

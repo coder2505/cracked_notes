@@ -93,7 +93,7 @@ class UserDashboardWidgets {
           ],
           radarBackgroundColor: Colors.transparent,
           radarBorderData: const BorderSide(color: Colors.grey),
-          titleTextStyle: const TextStyle(color: Colors.black, fontSize: 14),
+          titleTextStyle: const TextStyle(color: Colors.white, fontSize: 14),
           getTitle: (index, angle) {
             return RadarChartTitle(text: titlesList[index]);
           },

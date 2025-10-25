@@ -1,5 +1,6 @@
 import 'package:cracked_notes/core/theme/app_colors.dart';
 import 'package:cracked_notes/views/screens/challenges_screen.dart';
+import 'package:cracked_notes/views/screens/user_homescreen.dart';
 import 'package:cracked_notes/views/screens/user_stats_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,68 +29,39 @@ class _NavBarHolderState extends ConsumerState<NavBarHolder> {
   Widget build(BuildContext context) {
     final user = ref.watch(userProvider);
 
-
-    // design format
-    return PersistentTabView(
-      tabs: [
-        PersistentTabConfig(
-          screen: UserStatsScreen(),
-          // screen: UserHomescreen(user: data),
-          item: ItemConfig(icon: Icon(Icons.home), title: "Home"),
-        ),
-        PersistentTabConfig(
-          screen: UserStatsScreen(),
-          item: ItemConfig(icon: Icon(Icons.person), title: "User"),
-        ),
-        PersistentTabConfig(
-          screen: ChallengesScreen(),
-          item: ItemConfig(
-            icon: Icon(Icons.military_tech),
-            title: "Challenges",
-          ),
-        ),
-      ],
-      navBarBuilder: (navBarConfig) => Style1BottomNavBar(
-        navBarConfig: navBarConfig,
-        navBarDecoration: NavBarDecoration(color: AppColors.background_black),
+    return Material(
+      child: user.when(
+        data: (data) {
+          return PersistentTabView(
+            tabs: [
+              PersistentTabConfig(
+                screen: UserHomescreen(user: data),
+                item: ItemConfig(icon: Icon(Icons.home), title: "Home"),
+              ),
+              PersistentTabConfig(
+                screen: UserStatsScreen(userModel: data,),
+                item: ItemConfig(icon: Icon(Icons.person), title: "User"),
+              ),
+              PersistentTabConfig(
+                screen: ChallengesScreen(),
+                item: ItemConfig(
+                  icon: Icon(Icons.military_tech),
+                  title: "Challenges",
+                ),
+              ),
+            ],
+            navBarBuilder: (navBarConfig) => Style1BottomNavBar(
+              navBarConfig: navBarConfig,
+              navBarDecoration: NavBarDecoration(
+                color: AppColors.background_black,
+              ),
+            ),
+          );
+        },
+        error: (e, st) => Scaffold(body: Center(child: Text("error"))),
+        loading: () =>
+            Scaffold(body: Center(child: CircularProgressIndicator())),
       ),
     );
-
-    // COMMENTING OUT FOR DESIGN CHANGES
-    // return Material(
-    //   child: user.when(
-    //     data: (data) {
-    //       return PersistentTabView(
-    //         tabs: [
-    //           PersistentTabConfig(
-    //             screen: UserStatsScreen(),
-    //             // screen: UserHomescreen(user: data),
-    //             item: ItemConfig(icon: Icon(Icons.home), title: "Home"),
-    //           ),
-    //           PersistentTabConfig(
-    //             screen: UserStatsScreen(),
-    //             item: ItemConfig(icon: Icon(Icons.person), title: "User"),
-    //           ),
-    //           PersistentTabConfig(
-    //             screen: ChallengesScreen(),
-    //             item: ItemConfig(
-    //               icon: Icon(Icons.military_tech),
-    //               title: "Challenges",
-    //             ),
-    //           ),
-    //         ],
-    //         navBarBuilder: (navBarConfig) => Style1BottomNavBar(
-    //           navBarConfig: navBarConfig,
-    //           navBarDecoration: NavBarDecoration(
-    //             color: AppColors.background_black,
-    //           ),
-    //         ),
-    //       );
-    //     },
-    //     error: (e, st) => Scaffold(body: Center(child: Text("error"))),
-    //     loading: () =>
-    //         Scaffold(body: Center(child: CircularProgressIndicator())),
-    //   ),
-    // );
   }
 }

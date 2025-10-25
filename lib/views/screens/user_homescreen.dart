@@ -4,7 +4,6 @@ import 'package:cracked_notes/utils/timer_countdown.dart';
 import 'package:cracked_notes/views/widgets/github_widget.dart';
 import 'package:cracked_notes/views/widgets/timer_circles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class UserHomescreen extends StatefulWidget {
 
