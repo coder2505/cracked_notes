@@ -1,18 +1,30 @@
 import 'dart:convert';
+
 import 'package:cracked_notes/model/user_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 class UserDataRepo {
-  late Map<String, dynamic> data, calendar, solved, submissions, skillstats, languageStats;
+  late Map<String, dynamic> data,
+      calendar,
+      solved,
+      submissions,
+      acSubmissions,
+      skillstats,
+      languageStats;
 
   Future<UserModel> callForInfo(String username) async {
     Uri urlUserinfo = Uri.parse('${dotenv.env["BASE_URL"]}/$username');
     Uri urlCalendar = Uri.parse('${dotenv.env["BASE_URL"]}/$username/calendar');
     Uri urlSolved = Uri.parse('${dotenv.env["BASE_URL"]}/$username/solved');
-    Uri urlLang = Uri.parse('${dotenv.env["BASE_URL"]}/languageStats?username=$username');
+    Uri urlLang = Uri.parse(
+      '${dotenv.env["BASE_URL"]}/languageStats?username=$username',
+    );
     Uri urlSubmissions = Uri.parse(
+      '${dotenv.env["BASE_URL"]}/$username/Submission',
+    );
+    Uri urlAcSubmissions = Uri.parse(
       '${dotenv.env["BASE_URL"]}/$username/acSubmission',
     );
     Uri urlSkillStats = Uri.parse(
@@ -20,7 +32,7 @@ class UserDataRepo {
     );
 
     final httpCalls = [
-      http.get(urlUserinfo).catchError((e){
+      http.get(urlUserinfo).catchError((e) {
         debugPrint("err $e");
         return http.Response("Not Found", 200);
       }),
@@ -28,7 +40,8 @@ class UserDataRepo {
       http.get(urlSubmissions),
       http.get(urlSolved),
       http.get(urlSkillStats),
-      http.get(urlLang)
+      http.get(urlLang),
+      http.get(urlAcSubmissions),
     ];
 
     await Future.wait(httpCalls).then((value) async {
@@ -38,9 +51,17 @@ class UserDataRepo {
       solved = jsonDecode(value[3].body);
       skillstats = jsonDecode(value[4].body);
       languageStats = jsonDecode(value[5].body);
+      acSubmissions = jsonDecode(value[6].body);
     });
 
-     return UserModel.fromJSON(data, calendar, submissions, solved, skillstats, languageStats);
-
+    return UserModel.fromJSON(
+      data,
+      calendar,
+      submissions,
+      acSubmissions,
+      solved,
+      skillstats,
+      languageStats,
+    );
   }
 }

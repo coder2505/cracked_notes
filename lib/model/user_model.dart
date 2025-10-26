@@ -2,7 +2,7 @@ import 'package:cracked_notes/utils/datacleaning_user.dart';
 
 class UserModel {
   final String username, name, ranking;
-  final Map<String, dynamic> solved, skillStats, submissions;
+  final Map<String, dynamic> solved, skillStats, submissions, acSubmissions;
   final List<Map<String, dynamic>> languageStats;
   final Map<DateTime, int> calendar;
 
@@ -10,6 +10,7 @@ class UserModel {
     Map<String, dynamic> userDetails,
     Map<String,dynamic> calendar,
     submissions,
+    acSubmissions,
     solved,
     skillStats,
     languageStats
@@ -23,6 +24,7 @@ class UserModel {
       solved: solved,
       skillStats: skillStats,
       submissions: submissions,
+      acSubmissions : acSubmissions,
       languageStats: DataCleaningUser.cleanLanguageStats(languageStats),
     );
   }
@@ -35,6 +37,7 @@ class UserModel {
     required this.solved,
     required this.skillStats,
     required this.submissions,
+    required this.acSubmissions,
     required this.languageStats
   });
 }
