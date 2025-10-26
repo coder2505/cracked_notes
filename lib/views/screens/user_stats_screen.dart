@@ -22,6 +22,8 @@ class _UserStatsScreenState extends ConsumerState<UserStatsScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
+    ref.watch(clickedonAllSubmissions);
+
     return Scaffold(
       backgroundColor: AppColors.background_black,
       body: SafeArea(
@@ -143,6 +145,8 @@ class _UserStatsScreenState extends ConsumerState<UserStatsScreen> {
                           ],
                         ),
                        UserstatsScreenWidgets.buttonRow(ref),
+
+                        ref.read(clickedonAllSubmissions)? UserstatsScreenWidgets.recentAllActivity(widget.userModel.submissions) : UserstatsScreenWidgets.recentAcActivity(widget.userModel.acSubmissions),
                       ],
                     ),
                   ),

@@ -40,6 +40,118 @@ class UserstatsScreenWidgets {
     );
   }
 
+  static Widget recentAcActivity(Map<String, dynamic> submissions) {
+    return ListView.builder(
+      itemCount: 5,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) {
+        String title = submissions["submission"][index]["title"];
+        String language = submissions["submission"][index]["lang"];
+        String time = DataCleaningUser.formatSubmissionTime(
+          submissions["submission"][index]["timestamp"],
+        );
+        return ListTile(
+          // 1. Title remains the same
+          title: Text(
+            title,
+            style: const TextStyle(fontWeight: FontWeight.w600, fontFamily: 'Inter', color: AppColors.faded_yellow),
+          ),
+
+          // 2. Subtitle is replaced with a Row for two-sided alignment
+          subtitle: Padding(
+            padding: const EdgeInsets.only(top: 4.0),
+            child: Row(
+              // Ensure items are aligned to the baseline for consistent text size
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                // Extreme Left Field (Language)
+                Text(
+                  language,
+                  style: TextStyle(
+                      color: Theme.of(
+                        context,
+                      ).primaryColor, // Use a primary color for emphasis
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                      fontFamily: 'Inter'
+                  ),
+                ),
+
+                // Spacer pushes the next widget to the far right end
+                const Spacer(),
+
+                // Extreme Right Field (Time)
+                Text(
+                  time,
+                  style: TextStyle(color: Colors.grey.shade600, fontSize: 12, fontFamily: 'Inter'),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
+  static Widget recentAllActivity(Map<String, dynamic> submissions) {
+    return ListView.builder(
+      itemCount: 5,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) {
+        String title = submissions["submission"][index]["title"];
+        String language = submissions["submission"][index]["lang"];
+        String time = DataCleaningUser.formatSubmissionTime(
+          submissions["submission"][index]["timestamp"],
+        );
+        return ListTile(
+          // 1. Title remains the same
+          title: Text(
+            title,
+            style: const TextStyle(fontWeight: FontWeight.w600, fontFamily: 'Inter', color: AppColors.faded_yellow),
+          ),
+
+          // 2. Subtitle is replaced with a Row for two-sided alignment
+          subtitle: Padding(
+            padding: const EdgeInsets.only(top: 4.0),
+            child: Row(
+              // Ensure items are aligned to the baseline for consistent text size
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                // Extreme Left Field (Language)
+                Text(
+                  language,
+                  style: TextStyle(
+                    color: Theme.of(
+                      context,
+                    ).primaryColor, // Use a primary color for emphasis
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                    fontFamily: 'Inter'
+                  ),
+                ),
+
+                // Spacer pushes the next widget to the far right end
+                const Spacer(),
+
+                // Extreme Right Field (Time)
+                Text(
+                  time,
+                  style: TextStyle(color: Colors.grey.shade600, fontSize: 12, fontFamily: 'Inter'),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+
   static Widget buttonRow(WidgetRef ref){
     ref.watch(clickedonAllSubmissions);
 
