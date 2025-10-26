@@ -3,6 +3,7 @@ import 'package:cracked_notes/utils/datacleaning_user.dart';
 class UserModel {
   final String username, name, ranking;
   final Map<String, dynamic> solved, skillStats, submissions;
+  final List<Map<String, dynamic>> languageStats;
   final Map<DateTime, int> calendar;
 
   factory UserModel.fromJSON(
@@ -11,6 +12,7 @@ class UserModel {
     submissions,
     solved,
     skillStats,
+    languageStats
   ) {
 
     return UserModel(
@@ -21,6 +23,7 @@ class UserModel {
       solved: solved,
       skillStats: skillStats,
       submissions: submissions,
+      languageStats: DataCleaningUser.cleanLanguageStats(languageStats),
     );
   }
 
@@ -32,5 +35,6 @@ class UserModel {
     required this.solved,
     required this.skillStats,
     required this.submissions,
+    required this.languageStats
   });
 }

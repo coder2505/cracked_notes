@@ -5,12 +5,13 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 
 class UserDataRepo {
-  late Map<String, dynamic> data, calendar, solved, submissions, skillstats;
+  late Map<String, dynamic> data, calendar, solved, submissions, skillstats, languageStats;
 
   Future<UserModel> callForInfo(String username) async {
     Uri urlUserinfo = Uri.parse('${dotenv.env["BASE_URL"]}/$username');
     Uri urlCalendar = Uri.parse('${dotenv.env["BASE_URL"]}/$username/calendar');
     Uri urlSolved = Uri.parse('${dotenv.env["BASE_URL"]}/$username/solved');
+    Uri urlLang = Uri.parse('${dotenv.env["BASE_URL"]}/languageStats?username=$username');
     Uri urlSubmissions = Uri.parse(
       '${dotenv.env["BASE_URL"]}/$username/acSubmission',
     );
@@ -27,6 +28,7 @@ class UserDataRepo {
       http.get(urlSubmissions),
       http.get(urlSolved),
       http.get(urlSkillStats),
+      http.get(urlLang)
     ];
 
     await Future.wait(httpCalls).then((value) async {
@@ -35,9 +37,10 @@ class UserDataRepo {
       submissions = jsonDecode(value[2].body);
       solved = jsonDecode(value[3].body);
       skillstats = jsonDecode(value[4].body);
+      languageStats = jsonDecode(value[5].body);
     });
 
-     return UserModel.fromJSON(data, calendar, submissions, solved, skillstats);
+     return UserModel.fromJSON(data, calendar, submissions, solved, skillstats, languageStats);
 
   }
 }

@@ -5,17 +5,24 @@ import 'package:flutter/material.dart';
 import '../../utils/datacleaning_user.dart';
 
 class UserstatsScreenWidgets {
-  static Widget carousel_stats(Map<String, dynamic> skillstatsData) {
-    List<Widget> carousel_widgets = [
+  static Widget carouselStats(
+    Map<String, dynamic> skillstatsData,
+    final List<Map<String, dynamic>> languageStats,
+  ) {
+    List<Widget> carouselWidgets = [
       Padding(
         padding: const EdgeInsets.fromLTRB(8, 30, 8, 30),
         child: UserDashboardWidgets.radarChart(
           DataCleaningUser.sortProblemCounts(skillstatsData),
         ),
       ),
+      Padding(
+        padding: const EdgeInsets.fromLTRB(8, 30, 8, 30),
+        child: UserDashboardWidgets.pieChart(languageStats),
+      ),
     ];
     return CarouselSlider(
-      items: carousel_widgets,
+      items: carouselWidgets,
       options: CarouselOptions(
         height: 300,
         viewportFraction: 1,

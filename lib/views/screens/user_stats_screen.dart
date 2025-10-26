@@ -102,7 +102,7 @@ class _UserStatsScreenState extends State<UserStatsScreen> {
                         hardSolved: 10,
                         totalProblems: 100,
                       ),
-                      UserstatsScreenWidgets.carousel_stats(widget.userModel.skillStats)
+                      UserstatsScreenWidgets.carouselStats(widget.userModel.skillStats, widget.userModel.languageStats)
                     ],
                   ),
                 ),

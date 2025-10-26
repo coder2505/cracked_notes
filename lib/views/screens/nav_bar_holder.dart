@@ -39,7 +39,7 @@ class _NavBarHolderState extends ConsumerState<NavBarHolder> {
                 item: ItemConfig(icon: Icon(Icons.home), title: "Home"),
               ),
               PersistentTabConfig(
-                screen: UserStatsScreen(userModel: data,),
+                screen: UserStatsScreen(userModel: data),
                 item: ItemConfig(icon: Icon(Icons.person), title: "User"),
               ),
               PersistentTabConfig(

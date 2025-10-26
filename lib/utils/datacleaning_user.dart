@@ -4,7 +4,30 @@ import 'package:flutter/material.dart';
 
 class DataCleaningUser{
 
+  static List<Map<String, dynamic>> cleanLanguageStats(Map<String, dynamic> originalData) {
+    // 1. Navigate the nested structure to get the list of language counts.
+    // We safely access nested keys using the null-safe operator (?.) and default
+    // to an empty list (?? []) if any key is missing, preventing runtime errors.
+    final List<dynamic> languageCounts =
+        originalData['matchedUser']?['languageProblemCount'] ?? [];
+
+    // 2. Transform the list items using the map function.
+    final List<Map<String, dynamic>> cleanedData = languageCounts.map((item) {
+      // Explicitly cast the item to Map<String, dynamic> for type safety
+      final Map<String, dynamic> languageStat = item as Map<String, dynamic>;
+
+      return {
+        'languageName': languageStat['languageName'],
+        // Renaming the source field 'problemsSolved' to 'Solved'
+        'Solved': languageStat['problemsSolved'],
+      };
+    }).toList(); // Convert the resulting Iterable back into a List
+
+    return cleanedData;
+  }
   static List<Map<String, dynamic>> sortProblemCounts(Map<String, dynamic> data) {
+
+    print(data);
     // 1. Safely navigate to the tagProblemCounts object
     final tagCounts = data['data']['matchedUser']?['tagProblemCounts'] as Map<String, dynamic>?;
 

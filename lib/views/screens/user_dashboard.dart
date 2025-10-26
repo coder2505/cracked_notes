@@ -39,11 +39,6 @@ class _UserDashboardState extends ConsumerState<UserDashboard> {
                   spacing: 20,
                   children: [
                     UserDashboardWidgets.topRow(data.name),
-                    UserDashboardWidgets.streakContainer(
-                      width,
-                      height,
-                      context,
-                    ),
                     Container(
                       width: width,
                       decoration: BoxDecoration(
