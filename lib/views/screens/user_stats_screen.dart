@@ -18,8 +18,6 @@ class UserStatsScreen extends ConsumerStatefulWidget {
 class _UserStatsScreenState extends ConsumerState<UserStatsScreen> {
   @override
   Widget build(BuildContext context) {
-
-    double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
     ref.watch(clickedonAllSubmissions);
@@ -89,7 +87,8 @@ class _UserStatsScreenState extends ConsumerState<UserStatsScreen> {
                               ),
                             ),
                             Text(
-                              "88",
+                              widget.userModel.solved["solvedProblem"]
+                                  .toString(),
                               style: TextStyle(
                                 fontFamily: 'Inter',
                                 fontSize: 36,
@@ -105,7 +104,10 @@ class _UserStatsScreenState extends ConsumerState<UserStatsScreen> {
                           hardSolved: 10,
                           totalProblems: 100,
                         ),
-                        UserstatsScreenWidgets.carouselStats(widget.userModel.skillStats, widget.userModel.languageStats)
+                        UserstatsScreenWidgets.carouselStats(
+                          widget.userModel.skillStats,
+                          widget.userModel.languageStats,
+                        ),
                       ],
                     ),
                   ),
@@ -144,9 +146,15 @@ class _UserStatsScreenState extends ConsumerState<UserStatsScreen> {
                             ),
                           ],
                         ),
-                       UserstatsScreenWidgets.buttonRow(ref),
+                        UserstatsScreenWidgets.buttonRow(ref),
 
-                        ref.read(clickedonAllSubmissions)? UserstatsScreenWidgets.recentAllActivity(widget.userModel.submissions) : UserstatsScreenWidgets.recentAcActivity(widget.userModel.acSubmissions),
+                        ref.read(clickedonAllSubmissions)
+                            ? UserstatsScreenWidgets.recentAllActivity(
+                                widget.userModel.submissions,
+                              )
+                            : UserstatsScreenWidgets.recentAcActivity(
+                                widget.userModel.acSubmissions,
+                              ),
                       ],
                     ),
                   ),

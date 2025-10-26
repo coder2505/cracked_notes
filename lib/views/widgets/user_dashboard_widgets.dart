@@ -1,8 +1,10 @@
-import 'package:cracked_notes/utils/datacleaning_user.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class UserDashboardWidgets {
+
+  static List<Color> piechartcolors =[Color(0xff9999ff),Color(0xff993366), Color(0xffffffcc),Color(0xffccffff), Color(0xff660066)];
+
   static Widget topRow(String name) {
     return Row(
       spacing: 10,
@@ -61,17 +63,31 @@ class UserDashboardWidgets {
   }
 
   static Widget pieChart(List<Map<String, dynamic>> langStats) {
-    //{tagName: Array, tagSlug: array, problemsSolved: 46}
+    //{ "languageName": "Java","Solved": 85 },
 
     return SizedBox(
       height: 250,
-      child: PieChart(
-        PieChartData(
-          borderData: FlBorderData(show: false),
-          sectionsSpace: 0,
-          centerSpaceRadius: 0,
-          sections: returnPieList(langStats),
-        ),
+      child: Row(
+        children: [
+          Expanded(
+            child: PieChart(
+              PieChartData(
+                borderData: FlBorderData(show: false),
+                sectionsSpace: 0,
+                centerSpaceRadius: 0,
+                sections: returnPieList(langStats),
+              ),
+            ),
+          ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            spacing: 10,
+            children: List.generate(
+              langStats.length,
+              (index) => makealist(langStats[index]["languageName"]),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -79,8 +95,6 @@ class UserDashboardWidgets {
   static List<PieChartSectionData> returnPieList(
     List<Map<String, dynamic>> data,
   ) {
-    //{ "languageName": "Java","Solved": 85 },
-
     List<PieChartSectionData> list = [];
     for (Map language in data) {
       list.add(
@@ -95,7 +109,7 @@ class UserDashboardWidgets {
     switch (name) {
       case "Java":
         return PieChartSectionData(
-          color: Color(0xCCFFC300),
+          color: piechartcolors[0],
           value: value,
           title: name,
           radius: 100,
@@ -104,17 +118,13 @@ class UserDashboardWidgets {
             fontFamily: 'Inter',
             fontWeight: FontWeight.bold,
             color: const Color(0x00ffffff),
-          ),
-          badgeWidget: SizedBox(
-            height: 50,
-            child: Image.asset('assets/lang_icons/java.png'),
           ),
         );
         break;
 
       case "Python3":
         return PieChartSectionData(
-          color: Color(0xCCE8772E),
+          color: piechartcolors[1],
           value: value,
           title: name,
           radius: 100,
@@ -124,10 +134,28 @@ class UserDashboardWidgets {
             fontWeight: FontWeight.bold,
             color: const Color(0x00ffffff),
           ),
-          badgeWidget: SizedBox(
-            height: 75,
-            child: Image.asset('assets/lang_icons/python.png'),
+          // badgeWidget: SizedBox(
+          //   height: 50,
+          //   child: Image.asset('assets/lang_icons/python.png'),
+          // ),
+        );
+
+      case "C++":
+        return PieChartSectionData(
+          color: piechartcolors[2],
+          value: value,
+          title: name,
+          radius: 100,
+          titleStyle: TextStyle(
+            fontSize: 16,
+            fontFamily: 'Inter',
+            fontWeight: FontWeight.bold,
+            color: const Color(0x00ffffff),
           ),
+          // badgeWidget: SizedBox(
+          //   height: 50,
+          //   child: Image.asset('assets/lang_icons/c++.png'),
+          // ),
         );
     }
 
@@ -145,10 +173,32 @@ class UserDashboardWidgets {
     );
   }
 
+  static Widget makealist(String name) {
+    switch (name) {
+      case 'Java':
+        return buildColoredLabel(
+          img: Image.asset('assets/lang_icons/java.png'),
+          index: 0,
+        );
+      case 'Python3':
+        return buildColoredLabel(
+          img: Image.asset('assets/lang_icons/python.png'),
+          index: 1,
+        );
+
+      case 'C++':
+        return buildColoredLabel(
+          img: Image.asset('assets/lang_icons/c++.png'),
+          index: 2,
+        );
+    }
+
+    return SizedBox();
+  }
+
   static Widget buildColoredLabel({
-    required String text,
-    required Color color,
-    Color textColor = const Color(0xFF6A6A6A),
+    required Image img,
+    required int index,
     double iconSize = 16.0,
   }) {
     return Row(
@@ -161,9 +211,9 @@ class UserDashboardWidgets {
           width: iconSize,
           height: iconSize,
           decoration: BoxDecoration(
-            color: color,
+            color: piechartcolors[index],
             // Optional: Add rounded corners if desired
-            // borderRadius: BorderRadius.circular(4.0),
+            borderRadius: BorderRadius.circular(4.0),
           ),
         ),
 
@@ -171,16 +221,8 @@ class UserDashboardWidgets {
         const SizedBox(width: 8.0),
 
         // 2. The Text Label
-        Text(
-          text,
-          style: TextStyle(
-            color: textColor,
-            fontSize: 18.0, // Adjust size as needed
-            fontWeight: FontWeight.w600, // Medium to bold font weight
-          ),
-        ),
+        SizedBox(height: 40, child: img),
       ],
     );
   }
-
 }
