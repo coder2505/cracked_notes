@@ -25,7 +25,6 @@ class _UserDashboardState extends ConsumerState<UserDashboard> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
 
     final user = ref.watch(userProvider);
 

@@ -1,5 +1,4 @@
 import 'package:cracked_notes/core/theme/app_colors.dart';
-import 'package:cracked_notes/model/user_model.dart';
 import 'package:flutter/material.dart';
 
 class GithubWidget extends CustomPainter {
@@ -71,7 +70,7 @@ class GithubWidget extends CustomPainter {
         );
 
         DateTime time = endTime.subtract(
-          Duration(days: (((columns - i - 1) * rows) + (rows - j))),
+          Duration(days: (((columns - i -1) * rows) + (rows - j) - 1)),
         );
 
         cellToDate[rRect] = DateTime(time.year, time.month, time.day);

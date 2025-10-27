@@ -55,63 +55,11 @@ class UserstatsScreenWidgets {
           // 1. Title remains the same
           title: Text(
             title,
-            style: const TextStyle(fontWeight: FontWeight.w600, fontFamily: 'Inter', color: AppColors.faded_yellow),
-          ),
-
-          // 2. Subtitle is replaced with a Row for two-sided alignment
-          subtitle: Padding(
-            padding: const EdgeInsets.only(top: 4.0),
-            child: Row(
-              // Ensure items are aligned to the baseline for consistent text size
-              crossAxisAlignment: CrossAxisAlignment.baseline,
-              textBaseline: TextBaseline.alphabetic,
-              children: [
-                // Extreme Left Field (Language)
-                Text(
-                  language,
-                  style: TextStyle(
-                      color: Theme.of(
-                        context,
-                      ).primaryColor, // Use a primary color for emphasis
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12,
-                      fontFamily: 'Inter'
-                  ),
-                ),
-
-                // Spacer pushes the next widget to the far right end
-                const Spacer(),
-
-                // Extreme Right Field (Time)
-                Text(
-                  time,
-                  style: TextStyle(color: Colors.grey.shade600, fontSize: 12, fontFamily: 'Inter'),
-                ),
-              ],
+            style: const TextStyle(
+              fontWeight: FontWeight.w600,
+              fontFamily: 'Inter',
+              color: AppColors.faded_yellow,
             ),
-          ),
-        );
-      },
-    );
-  }
-
-
-  static Widget recentAllActivity(Map<String, dynamic> submissions) {
-    return ListView.builder(
-      itemCount: 5,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (context, index) {
-        String title = submissions["submission"][index]["title"];
-        String language = submissions["submission"][index]["lang"];
-        String time = DataCleaningUser.formatSubmissionTime(
-          submissions["submission"][index]["timestamp"],
-        );
-        return ListTile(
-          // 1. Title remains the same
-          title: Text(
-            title,
-            style: const TextStyle(fontWeight: FontWeight.w600, fontFamily: 'Inter', color: AppColors.faded_yellow),
           ),
 
           // 2. Subtitle is replaced with a Row for two-sided alignment
@@ -131,7 +79,7 @@ class UserstatsScreenWidgets {
                     ).primaryColor, // Use a primary color for emphasis
                     fontWeight: FontWeight.bold,
                     fontSize: 12,
-                    fontFamily: 'Inter'
+                    fontFamily: 'Inter',
                   ),
                 ),
 
@@ -141,7 +89,11 @@ class UserstatsScreenWidgets {
                 // Extreme Right Field (Time)
                 Text(
                   time,
-                  style: TextStyle(color: Colors.grey.shade600, fontSize: 12, fontFamily: 'Inter'),
+                  style: TextStyle(
+                    color: Colors.grey.shade600,
+                    fontSize: 12,
+                    fontFamily: 'Inter',
+                  ),
                 ),
               ],
             ),
@@ -151,16 +103,86 @@ class UserstatsScreenWidgets {
     );
   }
 
+  static Widget recentAllActivity(Map<String, dynamic> submissions) {
+    /*
 
-  static Widget buttonRow(WidgetRef ref){
+    {"count":20,"submission":
+    [{"title":"Add Two Numbers","titleSlug":"add-two-numbers","timestamp":"1761579056",
+    "statusDisplay":"Compile Error","lang":"java"}....]}
+     */
+
+    return ListView.builder(
+      itemCount: 5,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) {
+        String title = submissions["submission"][index]["title"];
+        String language = submissions["submission"][index]["lang"];
+        String time = DataCleaningUser.formatSubmissionTime(
+          submissions["submission"][index]["timestamp"],
+        );
+        String status = submissions["submission"][index]["statusDisplay"];
+        return ListTile(
+          // 1. Title remains the same
+          title: Text(
+            title,
+            style: const TextStyle(
+              fontWeight: FontWeight.w600,
+              fontFamily: 'Inter',
+              color: AppColors.faded_yellow,
+            ),
+          ),
+
+          // 2. Subtitle is replaced with a Row for two-sided alignment
+          subtitle: Padding(
+            padding: const EdgeInsets.only(top: 4.0),
+            child: Row(
+              // Ensure items are aligned to the baseline for consistent text size
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                // Extreme Left Field (Language)
+                Text(
+                  status,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w100,
+                    fontSize: 12,
+                    fontStyle: FontStyle.italic,
+                    fontFamily: 'Inter',
+                  ),
+                ),
+
+                // Spacer pushes the next widget to the far right end
+                const Spacer(),
+
+                // Extreme Right Field (Time)
+                Text(
+                  time,
+                  style: TextStyle(
+                    color: Colors.grey.shade600,
+                    fontSize: 12,
+                    fontFamily: 'Inter',
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  static Widget buttonRow(WidgetRef ref) {
     ref.watch(clickedonAllSubmissions);
 
-    return  Row(
+    return Row(
       spacing: 10,
       children: [
         TextButton(
           onPressed: () {
-            ref.read(clickedonAllSubmissions.notifier).state = !ref.read(clickedonAllSubmissions);
+            ref.read(clickedonAllSubmissions.notifier).state = !ref.read(
+              clickedonAllSubmissions,
+            );
           },
           style: ButtonStyle(
             shape: WidgetStateProperty.all(
@@ -174,14 +196,9 @@ class UserstatsScreenWidgets {
                 ),
               ),
             ),
-            backgroundColor: WidgetStateProperty.all(
-              Colors.transparent,
-            ),
+            backgroundColor: WidgetStateProperty.all(Colors.transparent),
             padding: WidgetStateProperty.all(
-              const EdgeInsets.symmetric(
-                horizontal: 24,
-                vertical: 10,
-              ),
+              const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
             ),
           ),
           child: Text(
@@ -196,7 +213,9 @@ class UserstatsScreenWidgets {
         ),
         TextButton(
           onPressed: () {
-            ref.read(clickedonAllSubmissions.notifier).state = !ref.read(clickedonAllSubmissions);
+            ref.read(clickedonAllSubmissions.notifier).state = !ref.read(
+              clickedonAllSubmissions,
+            );
           },
           style: ButtonStyle(
             shape: WidgetStateProperty.all(
@@ -210,14 +229,9 @@ class UserstatsScreenWidgets {
                 ),
               ),
             ),
-            backgroundColor: WidgetStateProperty.all(
-              Colors.transparent,
-            ),
+            backgroundColor: WidgetStateProperty.all(Colors.transparent),
             padding: WidgetStateProperty.all(
-              const EdgeInsets.symmetric(
-                horizontal: 24,
-                vertical: 10,
-              ),
+              const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
             ),
           ),
           child: Text(

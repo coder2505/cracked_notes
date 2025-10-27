@@ -120,7 +120,6 @@ class UserDashboardWidgets {
             color: const Color(0x00ffffff),
           ),
         );
-        break;
 
       case "Python3":
         return PieChartSectionData(
