@@ -51,15 +51,29 @@ class UserstatsScreenWidgets {
         String time = DataCleaningUser.formatSubmissionTime(
           submissions["submission"][index]["timestamp"],
         );
+        String status = submissions["submission"][index]["statusDisplay"];
         return ListTile(
           // 1. Title remains the same
-          title: Text(
-            title,
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
-              fontFamily: 'Inter',
-              color: AppColors.faded_yellow,
-            ),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Inter',
+                    color: returnTitleColor(status),
+                  ),
+                ),
+              ),
+
+              SizedBox(
+                width: 50,
+                height: 40,
+                child: returnLangIcon(language),
+              )
+            ],
           ),
 
           // 2. Subtitle is replaced with a Row for two-sided alignment
@@ -71,15 +85,16 @@ class UserstatsScreenWidgets {
               textBaseline: TextBaseline.alphabetic,
               children: [
                 // Extreme Left Field (Language)
-                Text(
-                  language,
-                  style: TextStyle(
-                    color: Theme.of(
-                      context,
-                    ).primaryColor, // Use a primary color for emphasis
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12,
-                    fontFamily: 'Inter',
+                Expanded(
+                  child: Text(
+                    status,
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w100,
+                      fontSize: 12,
+                      fontStyle: FontStyle.italic,
+                      fontFamily: 'Inter',
+                    ),
                   ),
                 ),
 
@@ -101,6 +116,7 @@ class UserstatsScreenWidgets {
         );
       },
     );
+
   }
 
   static Widget recentAllActivity(Map<String, dynamic> submissions) {
@@ -124,13 +140,24 @@ class UserstatsScreenWidgets {
         String status = submissions["submission"][index]["statusDisplay"];
         return ListTile(
           // 1. Title remains the same
-          title: Text(
-            title,
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
-              fontFamily: 'Inter',
-              color: AppColors.faded_yellow,
-            ),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                title,
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontFamily: 'Inter',
+                  color: returnTitleColor(status),
+                ),
+              ),
+
+              SizedBox(
+                width: 50,
+                height: 40,
+                child: returnLangIcon(language),
+              )
+            ],
           ),
 
           // 2. Subtitle is replaced with a Row for two-sided alignment
@@ -145,6 +172,7 @@ class UserstatsScreenWidgets {
                 Text(
                   status,
                   style: TextStyle(
+                    color: Colors.grey,
                     fontWeight: FontWeight.w100,
                     fontSize: 12,
                     fontStyle: FontStyle.italic,
@@ -172,6 +200,44 @@ class UserstatsScreenWidgets {
     );
   }
 
+  static Color returnTitleColor(String status)
+  {
+
+    switch(status){
+      case 'Compile Error':
+      case 'Time Limit Exceeded':
+        return  AppColors.app_yellow;
+
+      case 'Accepted':
+        return AppColors.green_counter;
+    }
+
+    return AppColors.app_red;
+
+  }
+
+  static Image returnLangIcon(String lang){
+
+    print(lang);
+    switch(lang){
+
+      case'cpp':
+        return Image.asset('assets/lang_icons/c++.png');
+      case 'java':
+        return Image.asset('assets/lang_icons/java.png');
+      case 'python':
+        return Image.asset('assets/lang_icons/python.png');
+      case 'c':
+        return Image.asset('assets/lang_icons/c_icon+.png');
+
+    }
+
+    return Image.asset('assets/dummy_img/q_mark.jpg');
+
+
+
+
+  }
   static Widget buttonRow(WidgetRef ref) {
     ref.watch(clickedonAllSubmissions);
 

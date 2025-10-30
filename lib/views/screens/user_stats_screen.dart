@@ -42,14 +42,14 @@ class _UserStatsScreenState extends ConsumerState<UserStatsScreen> {
                         ),
                         children: <TextSpan>[
                           TextSpan(
-                            text: "Manish.",
+                            text: '${widget.userModel.name}.',
                             style: TextStyle(
                               fontSize: 48,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                           TextSpan(text: "\n"),
-                          TextSpan(text: "manishraja2505"),
+                          TextSpan(text: '${widget.userModel.username}'),
                         ],
                       ),
                     ),
@@ -99,10 +99,10 @@ class _UserStatsScreenState extends ConsumerState<UserStatsScreen> {
                           ],
                         ),
                         StackedProgressBar(
-                          easySolved: 50,
-                          mediumSolved: 40,
-                          hardSolved: 10,
-                          totalProblems: 100,
+                          easySolved: widget.userModel.solved['easySolved'],
+                          mediumSolved: widget.userModel.solved['mediumSolved'],
+                          hardSolved: widget.userModel.solved['hardSolved'],
+                          totalProblems: widget.userModel.solved['solvedProblem'],
                         ),
                         UserstatsScreenWidgets.carouselStats(
                           widget.userModel.skillStats,
