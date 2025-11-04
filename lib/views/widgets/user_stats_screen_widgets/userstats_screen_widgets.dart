@@ -4,8 +4,8 @@ import 'package:cracked_notes/views/widgets/user_dashboard_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../core/theme/app_colors.dart';
-import '../../utils/datacleaning_user.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../../utils/datacleaning_user.dart';
 
 class UserstatsScreenWidgets {
   static Widget carouselStats(
@@ -42,7 +42,7 @@ class UserstatsScreenWidgets {
 
   static Widget recentAcActivity(Map<String, dynamic> submissions) {
     return ListView.builder(
-      itemCount: 5,
+      itemCount: 3,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
@@ -128,7 +128,7 @@ class UserstatsScreenWidgets {
      */
 
     return ListView.builder(
-      itemCount: 5,
+      itemCount: 3,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {

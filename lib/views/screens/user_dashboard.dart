@@ -2,7 +2,7 @@ import 'package:cracked_notes/core/extensions/extensions.dart';
 import 'package:cracked_notes/utils/datacleaning_user.dart';
 import 'package:cracked_notes/viewmodel/user_provider.dart';
 import 'package:cracked_notes/views/widgets/user_dashboard_widgets.dart';
-import 'package:cracked_notes/views/widgets/userstats_screen_widgets.dart';
+import 'package:cracked_notes/views/widgets/user_stats_screen_widgets/userstats_screen_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

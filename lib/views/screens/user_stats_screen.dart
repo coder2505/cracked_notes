@@ -2,7 +2,8 @@ import 'package:cracked_notes/core/theme/app_colors.dart';
 import 'package:cracked_notes/model/user_model.dart';
 import 'package:cracked_notes/viewmodel/ui_stateproviders.dart';
 import 'package:cracked_notes/views/widgets/stacked_progress_bar.dart';
-import 'package:cracked_notes/views/widgets/userstats_screen_widgets.dart';
+import 'package:cracked_notes/views/widgets/user_stats_screen_widgets/userstats_screen_widgets.dart';
+import 'package:cracked_notes/views/widgets/user_stats_screen_widgets/userstats_screen_widgets2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -49,15 +50,30 @@ class _UserStatsScreenState extends ConsumerState<UserStatsScreen> {
                             ),
                           ),
                           TextSpan(text: "\n"),
-                          TextSpan(text: '${widget.userModel.username}'),
+                          TextSpan(text: widget.userModel.username),
                         ],
                       ),
                     ),
                     SizedBox(
                       width: 100,
-                      child: Image.asset('assets/dummy_img/icon.png'),
+                      child: Image.network(widget.userModel.profilepic),
                     ),
                   ],
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    // color: Colors.white,
+                    color: AppColors.secondary_black_trans,
+                    border: BoxBorder.all(
+                      color: AppColors.secondary_black_outline,
+                    ),
+                    borderRadius: BorderRadius.all(Radius.circular(25)),
+                  ),
+                  width: width,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: UserStatsScreenWidgets2.BadgeRow(),
+                  ),
                 ),
                 Container(
                   decoration: BoxDecoration(
@@ -102,7 +118,8 @@ class _UserStatsScreenState extends ConsumerState<UserStatsScreen> {
                           easySolved: widget.userModel.solved['easySolved'],
                           mediumSolved: widget.userModel.solved['mediumSolved'],
                           hardSolved: widget.userModel.solved['hardSolved'],
-                          totalProblems: widget.userModel.solved['solvedProblem'],
+                          totalProblems:
+                              widget.userModel.solved['solvedProblem'],
                         ),
                         UserstatsScreenWidgets.carouselStats(
                           widget.userModel.skillStats,
