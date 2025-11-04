@@ -101,6 +101,31 @@ class DataCleaningUser{
     // Final formatted string, e.g., "14:30, 16 Oct"
     return '$hour:$minute, $day $monthAbbr';
   }
+  static String formatDate(String inputDate) {
+    // Parse the input string into a DateTime object
+    DateTime date = DateTime.parse(inputDate);
+
+    // Create a list of month names
+    const List<String> months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ];
+
+    // Format the date as "27 October, 2025"
+    String formattedDate = "${date.day} ${months[date.month - 1]}, ${date.year}";
+
+    return formattedDate;
+  }
   static Map<DateTime, int> formatCalendar(Map<String, dynamic> calendar) {
     Map<DateTime, int> toReturn = {};
     calendar = jsonDecode(calendar["submissionCalendar"]);

@@ -6,6 +6,7 @@ import 'package:cracked_notes/views/widgets/user_stats_screen_widgets/userstats_
 import 'package:cracked_notes/views/widgets/user_stats_screen_widgets/userstats_screen_widgets2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class UserStatsScreen extends ConsumerStatefulWidget {
   const UserStatsScreen({super.key, required this.userModel});
@@ -20,6 +21,7 @@ class _UserStatsScreenState extends ConsumerState<UserStatsScreen> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
 
     ref.watch(clickedonAllSubmissions);
 
@@ -72,7 +74,19 @@ class _UserStatsScreenState extends ConsumerState<UserStatsScreen> {
                   width: width,
                   child: Padding(
                     padding: const EdgeInsets.all(12),
-                    child: UserStatsScreenWidgets2.BadgeRow(),
+                    child: GestureDetector(
+                      onTap: () {
+                        showMaterialModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return UserStatsScreenWidgets2.onTapBadgeContainer(height, widget.userModel.badges, width);
+                          },
+                        );
+                      },
+                      child: UserStatsScreenWidgets2.BadgeRow(
+                        widget.userModel.badges,
+                      ),
+                    ),
                   ),
                 ),
                 Container(

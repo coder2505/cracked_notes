@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cracked_notes/viewmodel/ui_stateproviders.dart';
 import 'package:cracked_notes/views/widgets/user_dashboard_widgets.dart';
+import 'package:cracked_notes/views/widgets/user_stats_screen_widgets/helper_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -63,7 +64,7 @@ class UserstatsScreenWidgets {
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Inter',
-                    color: returnTitleColor(status),
+                    color: helperWidgets.returnTitleColor(status),
                   ),
                 ),
               ),
@@ -71,7 +72,7 @@ class UserstatsScreenWidgets {
               SizedBox(
                 width: 50,
                 height: 40,
-                child: returnLangIcon(language),
+                child: helperWidgets.returnLangIcon(language),
               )
             ],
           ),
@@ -143,19 +144,21 @@ class UserstatsScreenWidgets {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                title,
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'Inter',
-                  color: returnTitleColor(status),
+              Expanded(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Inter',
+                    color:helperWidgets.returnTitleColor(status),
+                  ),
                 ),
               ),
 
               SizedBox(
                 width: 50,
                 height: 40,
-                child: returnLangIcon(language),
+                child: helperWidgets.returnLangIcon(language),
               )
             ],
           ),
@@ -200,44 +203,7 @@ class UserstatsScreenWidgets {
     );
   }
 
-  static Color returnTitleColor(String status)
-  {
 
-    switch(status){
-      case 'Compile Error':
-      case 'Time Limit Exceeded':
-        return  AppColors.app_yellow;
-
-      case 'Accepted':
-        return AppColors.green_counter;
-    }
-
-    return AppColors.app_red;
-
-  }
-
-  static Image returnLangIcon(String lang){
-
-    print(lang);
-    switch(lang){
-
-      case'cpp':
-        return Image.asset('assets/lang_icons/c++.png');
-      case 'java':
-        return Image.asset('assets/lang_icons/java.png');
-      case 'python':
-        return Image.asset('assets/lang_icons/python.png');
-      case 'c':
-        return Image.asset('assets/lang_icons/c_icon+.png');
-
-    }
-
-    return Image.asset('assets/dummy_img/q_mark.jpg');
-
-
-
-
-  }
   static Widget buttonRow(WidgetRef ref) {
     ref.watch(clickedonAllSubmissions);
 
