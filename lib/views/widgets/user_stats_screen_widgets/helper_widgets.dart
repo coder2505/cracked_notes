@@ -37,7 +37,9 @@ class helperWidgets {
               ),
             )
           : Image.network(
-              imgUrl.startsWith('/static')? "https://leetcode.com$imgUrl": imgUrl,
+              imgUrl.startsWith('/static')
+                  ? "https://leetcode.com$imgUrl"
+                  : imgUrl,
               errorBuilder: (context, object, stackTrace) => SizedBox.shrink(),
             ),
     );
@@ -71,4 +73,41 @@ class helperWidgets {
 
     return Image.asset('assets/dummy_img/q_mark.jpg');
   }
+
+  static Widget contestText(
+    String text,
+    double size,
+    FontWeight weight,
+    bool color,
+  ) {
+    return !color
+        ? Text(
+            text,
+            style: TextStyle(
+              fontFamily: 'Inter',
+              fontSize: size,
+              fontWeight: weight,
+              color: AppColors.faded_yellow,
+            ),
+          )
+        : ShaderMask(
+            shaderCallback: (Rect bounds) {
+              return LinearGradient(
+                colors: <Color>[Color(0xFFFFD600), Color(0xFF998000)],
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+              ).createShader(bounds);
+            },
+            child: Text(
+              text,
+              style: TextStyle(
+                fontFamily: 'Inter',
+                fontSize: size,
+                fontWeight: weight,
+                color: AppColors.faded_yellow,
+              ),
+            ),
+          );
+  }
+
 }

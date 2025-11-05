@@ -1,3 +1,4 @@
+import 'package:cracked_notes/core/extensions/extensions.dart';
 import 'package:cracked_notes/core/theme/app_colors.dart';
 import 'package:cracked_notes/model/user_model.dart';
 import 'package:cracked_notes/viewmodel/ui_stateproviders.dart';
@@ -141,6 +142,21 @@ class _UserStatsScreenState extends ConsumerState<UserStatsScreen> {
                         ),
                       ],
                     ),
+                  ),
+                ),
+                Container(
+                    decoration: BoxDecoration(
+                      // color: Colors.white,
+                      color: AppColors.secondary_black_trans,
+                      border: BoxBorder.all(
+                        color: AppColors.secondary_black_outline,
+                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(25)),
+                    ),
+                    width: width,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: UserStatsScreenWidgets2.ContestHistory(width, height, context.containerDecoration),
                   ),
                 ),
                 Container(

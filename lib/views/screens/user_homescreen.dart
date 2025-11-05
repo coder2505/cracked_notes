@@ -147,7 +147,7 @@ class _UserHomescreenState extends State<UserHomescreen> {
                               ),
                               children: <TextSpan>[
                                 TextSpan(
-                                  text: 'Manish,\n',
+                                  text: '${widget.user.name},\n',
                                   style: TextStyle(fontWeight: FontWeight.w700, color: AppColors.faded_yellow),
                                 ),
                                 TextSpan(
