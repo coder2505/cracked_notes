@@ -12,7 +12,7 @@ class UserDataRepo {
       submissions,
       acSubmissions,
       skillstats,
-      languageStats, badges;
+      languageStats, badges, contest;
 
   Future<UserModel> callForInfo(String username) async {
     Uri urlUserinfo = Uri.parse('${dotenv.env["BASE_URL"]}/$username');
@@ -34,6 +34,10 @@ class UserDataRepo {
       '${dotenv.env["BASE_URL"]}/$username/badges',
     );
 
+    Uri urlContests = Uri.parse(
+      '${dotenv.env["BASE_URL"]}/$username/contest',
+    );
+
     final httpCalls = [
       http.get(urlUserinfo).catchError((e) {
         debugPrint("err $e");
@@ -46,6 +50,7 @@ class UserDataRepo {
       http.get(urlLang),
       http.get(urlAcSubmissions),
       http.get(urlbadges),
+      http.get(urlContests)
     ];
 
     await Future.wait(httpCalls).then((value) async {
@@ -57,12 +62,14 @@ class UserDataRepo {
       languageStats = jsonDecode(value[5].body);
       acSubmissions = jsonDecode(value[6].body);
       badges = jsonDecode(value[7].body);
+      contest = jsonDecode(value[8].body);
     });
 
     return UserModel.fromJSON(
       data,
       calendar,
       badges,
+      contest,
       submissions,
       acSubmissions,
       solved,

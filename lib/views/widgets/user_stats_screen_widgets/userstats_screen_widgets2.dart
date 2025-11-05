@@ -29,6 +29,7 @@ class UserStatsScreenWidgets2 {
     double width,
     double height,
     BoxDecoration decoration,
+      Map<String, dynamic> contestData
   ) {
     return Column(
       spacing: 10,
@@ -43,9 +44,9 @@ class UserStatsScreenWidgets2 {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                helperWidgets.contestText("78169", 48, FontWeight.w800, true),
+                helperWidgets.contestText(contestData["contestGlobalRanking"].toString(), 48, FontWeight.w800, true),
                 helperWidgets.contestText(
-                  "Participants",
+                  "Global Ranking",
                   16,
                   FontWeight.w700,
                   false,
@@ -70,7 +71,7 @@ class UserStatsScreenWidgets2 {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       helperWidgets.contestText(
-                        "22",
+                        contestData["contestAttend"].toString(),
                         48,
                         FontWeight.w700,
                         true,
@@ -94,7 +95,7 @@ class UserStatsScreenWidgets2 {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       helperWidgets.contestText(
-                        "2.6%",
+                        contestData["contestTopPercentage"].toString(),
                         44,
                         FontWeight.w700,
                         true,
@@ -138,7 +139,7 @@ class UserStatsScreenWidgets2 {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  helperWidgets.contestText("2550", 40, FontWeight.w700, true),
+                  helperWidgets.contestText((contestData["contestRating"].ceil()).toString(), 40, FontWeight.w700, true),
                   helperWidgets.contestText(
                     "Contest Rating",
                     13,
@@ -163,13 +164,13 @@ class UserStatsScreenWidgets2 {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     helperWidgets.contestText(
-                      "1931",
+                      contestData["totalParticipants"].toString(),
                       40,
                       FontWeight.w700,
                       true,
                     ),
                     helperWidgets.contestText(
-                      "Global Rating",
+                      "Participants",
                       13,
                       FontWeight.w700,
                       false,

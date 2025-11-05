@@ -156,7 +156,7 @@ class _UserStatsScreenState extends ConsumerState<UserStatsScreen> {
                     width: width,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: UserStatsScreenWidgets2.ContestHistory(width, height, context.containerDecoration),
+                    child: UserStatsScreenWidgets2.ContestHistory(width, height, context.containerDecoration, widget.userModel.contests),
                   ),
                 ),
                 Container(
