@@ -1,5 +1,6 @@
 import 'package:cracked_notes/core/theme/app_colors.dart';
 import 'package:cracked_notes/utils/datacleaning_user.dart';
+import 'package:cracked_notes/views/screens/contest_detail_screen.dart';
 import 'package:cracked_notes/views/widgets/user_stats_screen_widgets/helper_widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +30,8 @@ class UserStatsScreenWidgets2 {
     double width,
     double height,
     BoxDecoration decoration,
-      Map<String, dynamic> contestData
+    Map<String, dynamic> contestData,
+    BuildContext context,
   ) {
     return Column(
       spacing: 10,
@@ -44,7 +46,12 @@ class UserStatsScreenWidgets2 {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                helperWidgets.contestText(contestData["contestGlobalRanking"].toString(), 48, FontWeight.w800, true),
+                helperWidgets.contestText(
+                  contestData["contestGlobalRanking"].toString(),
+                  48,
+                  FontWeight.w800,
+                  true,
+                ),
                 helperWidgets.contestText(
                   "Global Ranking",
                   16,
@@ -95,7 +102,7 @@ class UserStatsScreenWidgets2 {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       helperWidgets.contestText(
-                        contestData["contestTopPercentage"].toString(),
+                    "${(contestData["contestTopPercentage"]*10).toString()}%",
                         44,
                         FontWeight.w700,
                         true,
@@ -139,7 +146,12 @@ class UserStatsScreenWidgets2 {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  helperWidgets.contestText((contestData["contestRating"].ceil()).toString(), 40, FontWeight.w700, true),
+                  helperWidgets.contestText(
+                    (contestData["contestRating"].ceil()).toString(),
+                    40,
+                    FontWeight.w700,
+                    true,
+                  ),
                   helperWidgets.contestText(
                     "Contest Rating",
                     13,
@@ -180,12 +192,23 @@ class UserStatsScreenWidgets2 {
               ),
             ),
             Expanded(
-              child: Container(
-                height: height/11,
-                decoration: decoration,
-                child: Icon(
-                  Icons.arrow_forward_ios,
-                  color: AppColors.faded_yellow,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ContestDetailScreen(contestData: contestData),
+                    ),
+                  );
+                },
+                child: Container(
+                  height: height / 11,
+                  decoration: decoration,
+                  child: Icon(
+                    Icons.arrow_forward_ios,
+                    color: AppColors.faded_yellow,
+                  ),
                 ),
               ),
             ),

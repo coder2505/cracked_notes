@@ -21,7 +21,7 @@ class _NavBarHolderState extends ConsumerState<NavBarHolder> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(userProvider.notifier).fetchUserData("PurpleCrayon");
+      ref.read(userProvider.notifier).fetchUserData("cpcs");
     });
   }
 

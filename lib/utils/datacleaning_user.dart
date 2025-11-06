@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class DataCleaningUser{
 
@@ -176,5 +177,60 @@ class DataCleaningUser{
 
     print(toReturn);
     return toReturn;
+  }
+  static String formatTimeInSeconds(int totalSeconds) {
+    // Use the Duration class for robust time calculation
+    Duration duration = Duration(seconds: totalSeconds);
+
+    // Get the total hours
+    int hours = duration.inHours;
+
+    // Get the remaining minutes after accounting for full hours
+    int minutes = duration.inMinutes.remainder(60);
+
+    if (hours > 0) {
+      // Format: X hr Y min (only show minutes if they are non-zero)
+      if (minutes > 0) {
+        return '${hours} hr ${minutes} min';
+      } else {
+        return '${hours} hr';
+      }
+    } else {
+      // Format: Y min (if less than an hour)
+      // Ensure we don't return "0 min" if the input was 0 seconds,
+      // though typically the smallest non-zero unit is desired.
+      if (minutes > 0) {
+        return '${minutes} min';
+      } else if (totalSeconds == 0) {
+        return '0 min'; // Handle the zero case explicitly
+      } else {
+        // Handle cases where totalSeconds > 0 but minutes calculation rounds down (e.g., 59 seconds)
+        // Since we are using duration.inMinutes.remainder(60), this will only be 0
+        // if totalSeconds < 60 and totalSeconds > 0.
+        // We ensure a minimum of 1 minute is shown if seconds are present.
+        return '1 min';
+      }
+    }
+  }
+  static String formatTimestampContest(int timestampMs) {
+    int safeTimestampMs = timestampMs;
+
+    if (timestampMs < 100000000000) {
+      safeTimestampMs = timestampMs * 1000;
+    }
+
+    // 1. Create a DateTime object from the milliseconds timestamp
+    final dateTime = DateTime.fromMillisecondsSinceEpoch(safeTimestampMs);
+
+    // 2. Define the desired format pattern:
+    //    'hh:mm a'  -> Time (e.g., 09:30 AM)
+    //    'EEEE'     -> Full Day Name (e.g., Friday)
+    //    'dd MMM yyyy' -> Date (e.g., 22 Aug 2025)
+    const pattern = 'hh:mm a, EEEE, dd MMM yyyy';
+
+    // 3. Create the DateFormat object and format the DateTime
+    final formatter = DateFormat(pattern);
+
+    return formatter.format(dateTime);
   }
 }
