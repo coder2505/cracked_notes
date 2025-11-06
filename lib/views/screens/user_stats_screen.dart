@@ -2,6 +2,7 @@ import 'package:cracked_notes/core/extensions/extensions.dart';
 import 'package:cracked_notes/core/theme/app_colors.dart';
 import 'package:cracked_notes/model/user_model.dart';
 import 'package:cracked_notes/viewmodel/ui_stateproviders.dart';
+import 'package:cracked_notes/views/screens/recent_activity_screen.dart';
 import 'package:cracked_notes/views/widgets/stacked_progress_bar.dart';
 import 'package:cracked_notes/views/widgets/user_stats_screen_widgets/userstats_screen_widgets.dart';
 import 'package:cracked_notes/views/widgets/user_stats_screen_widgets/userstats_screen_widgets2.dart';
@@ -197,7 +198,9 @@ class _UserStatsScreenState extends ConsumerState<UserStatsScreen> {
                               ),
                             ),
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>RecentActivityScreen(widget.userModel)));
+                              },
                               icon: Icon(Icons.arrow_forward_ios),
                               color: AppColors.faded_yellow,
                             ),
@@ -207,10 +210,10 @@ class _UserStatsScreenState extends ConsumerState<UserStatsScreen> {
 
                         ref.read(clickedonAllSubmissions)
                             ? UserstatsScreenWidgets.recentAllActivity(
-                                widget.userModel.submissions,
+                                widget.userModel.submissions,false
                               )
                             : UserstatsScreenWidgets.recentAcActivity(
-                                widget.userModel.acSubmissions,
+                                widget.userModel.acSubmissions,false
                               ),
                       ],
                     ),

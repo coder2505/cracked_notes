@@ -41,9 +41,9 @@ class UserstatsScreenWidgets {
     );
   }
 
-  static Widget recentAcActivity(Map<String, dynamic> submissions) {
+  static Widget recentAcActivity(Map<String, dynamic> submissions, bool displayAll) {
     return ListView.builder(
-      itemCount: 3,
+      itemCount: displayAll? submissions["submission"].length: 3,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
@@ -120,7 +120,7 @@ class UserstatsScreenWidgets {
 
   }
 
-  static Widget recentAllActivity(Map<String, dynamic> submissions) {
+  static Widget recentAllActivity(Map<String, dynamic> submissions, bool displayAll) {
     /*
 
     {"count":20,"submission":
@@ -129,7 +129,7 @@ class UserstatsScreenWidgets {
      */
 
     return ListView.builder(
-      itemCount: 3,
+      itemCount: displayAll? submissions["submission"].length:3,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
