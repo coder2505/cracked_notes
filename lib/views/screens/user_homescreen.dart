@@ -1,12 +1,12 @@
+import 'package:cracked_notes/core/extensions/extensions.dart';
 import 'package:cracked_notes/core/theme/app_colors.dart';
 import 'package:cracked_notes/model/user_model.dart';
 import 'package:cracked_notes/utils/timer_countdown.dart';
-import 'package:cracked_notes/views/widgets/github_widget.dart';
-import 'package:cracked_notes/views/widgets/timer_circles.dart';
+import 'package:cracked_notes/views/widgets/home_screen_widgets/github_widget.dart';
+import 'package:cracked_notes/views/widgets/home_screen_widgets/home_screen_widgets.dart';
 import 'package:flutter/material.dart';
 
 class UserHomescreen extends StatefulWidget {
-
   final UserModel user;
 
   const UserHomescreen({super.key, required this.user});
@@ -33,7 +33,6 @@ class _UserHomescreenState extends State<UserHomescreen> {
 
   @override
   Widget build(BuildContext context) {
-
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
@@ -42,215 +41,59 @@ class _UserHomescreenState extends State<UserHomescreen> {
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: SafeArea(
-          child: Column(
-            spacing: 12,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  color: AppColors.secondary_black_trans,
-                  border: BoxBorder.all(color: AppColors.green_trans_counter),
-                  borderRadius: BorderRadius.all(Radius.circular(25)),
+          child: SingleChildScrollView(
+            child: Column(
+              spacing: 12,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.secondary_black_trans,
+                    border: BoxBorder.all(color: AppColors.green_trans_counter),
+                    borderRadius: BorderRadius.all(Radius.circular(25)),
+                  ),
+                  height: height * 0.12,
+                  width: width,
+                  child: HomeScreenWidgets.timerRow(),
                 ),
-                height: height * 0.12,
-                width: width,
-                child: Row(
-                  spacing: 10,
+                Row(
+                  spacing: 4,
                   children: [
-                    Stack(
-                      children: [
-                        SizedBox(
-                          width: 100,
-                          child: StreamBuilder(
-                            initialData: TimerCountDown().printPercentageInitial(),
-                            stream: TimerCountDown.percentageController.stream,
-                            builder: (context, snapshot) {
-                              return CustomPaint(
-                                painter: TimerCircles(snapshot.data ?? 0),
-                                size: Size(200, 300),
-                              );
-                            },
-                          ),
-                        ),
-                        Positioned(
-                          left: 38,
-                          top: 20,
-                          child: StreamBuilder(
-                            initialData: TimerCountDown().printTimeInitial(),
-                            stream: TimerCountDown.controller.stream,
-                            builder: (context, snapshot) {
-                              return Text(
-                                '${snapshot.data}',
-                                style: TextStyle(
-                                  fontFamily: 'Inter',
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 22,
-                                  color: Colors.white
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ],
+                    Container(
+                      decoration: context.containerDecoration,
+                      width: ((width - 20) / 2),
+                      height: height * 0.2,
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: HomeScreenWidgets.streakContainer(height),
+                      ),
                     ),
-
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      spacing: 10,
-                      children: [
-                        Text(
-                          "The Countdown has begun.",
-                          style: TextStyle(
-                            fontFamily: 'Inter',
-                            fontWeight: FontWeight.w300,
-                            fontSize: 18,
-                              color: Colors.white
-
-                          ),
-                        ),
-                        Text(
-                          "Can you finish a problem before it ends?",
-                          style: TextStyle(
-                            fontFamily: 'Inter',
-                            fontWeight: FontWeight.w100,
-                            fontStyle: FontStyle.italic,
-                              color: Colors.white
-
-                          ),
-                        ),
-                      ],
+                    Container(
+                      decoration: context.containerDecoration,
+                      width: ((width - 20) / 2),
+                      height: height * 0.2,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: HomeScreenWidgets.carouselHomeScreen(),
+                      ),
                     ),
                   ],
                 ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  color: AppColors.secondary_black_trans,
-                  border: BoxBorder.all(color: AppColors.secondary_black_outline),
-                  borderRadius: BorderRadius.all(Radius.circular(25)),
-                ),
-                width: width,
-
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Row(
-                    children: [
-                      Column(
-                        spacing: 10,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text.rich(
-                            TextSpan(
-                              style: TextStyle(
-                                fontFamily: 'Inter',
-                                fontSize: 40,
-                              ),
-                              children: <TextSpan>[
-                                TextSpan(
-                                  text: '${widget.user.name},\n',
-                                  style: TextStyle(fontWeight: FontWeight.w700, color: AppColors.faded_yellow),
-                                ),
-                                TextSpan(
-                                  text: 'The Knight',
-                                  style: TextStyle(fontStyle: FontStyle.italic, color: AppColors.faded_yellow),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: AppColors.app_trans_blue,
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(30),
-                              ),
-                              border: BoxBorder.all(color: AppColors.app_blue),
-                            ),
-                            height: height * 0.05,
-                            child: Row(
-                              spacing: 8,
-                              children: [
-                                SizedBox(width: 3),
-                                Icon(Icons.star, color: Colors.amber.shade800),
-                                Icon(
-                                  Icons.diamond,
-                                  color: Colors.indigo.shade700,
-                                ),
-                                Icon(
-                                  Icons.workspace_premium,
-                                  color: Colors.purple.shade800,
-                                ),
-                                SizedBox(width: 3),
-                              ],
-                            ),
-                          ),
-                          Row(
-                            spacing: 10,
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: AppColors.app_trans_red,
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(20),
-                                  ),
-                                  border: BoxBorder.all(
-                                    color: AppColors.app_red,
-                                  ),
-                                ),
-                                height: height * 0.05,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    spacing: 8,
-                                    children: [
-                                      Icon(
-                                        Icons.whatshot,
-                                        color: Colors.orange.shade800,
-                                      ),
-                                      Text("62"),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: AppColors.app_trans_yellow,
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(20),
-                                  ),
-                                  border: BoxBorder.all(
-                                    color: AppColors.app_yellow,
-                                  ),
-                                ),
-                                height: height * 0.05,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    spacing: 8,
-                                    children: [
-                                      Icon(
-                                        Icons.developer_board,
-                                        color: Colors.grey.shade800,
-                                      ),
-                                      Text("1222"),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
+                Container(
+                  decoration: context.containerDecoration,
+                  width: width,
+                  child: HomeScreenWidgets.homeUserContainerInfo(
+                    height,
+                    widget.user.name,
                   ),
                 ),
-              ),
-              SizedBox(
-                child: CustomPaint(
-                  painter: GithubWidget(widget.user.calendar),
-                  size: Size(width, height * 0.25),
+                SizedBox(
+                  child: CustomPaint(
+                    painter: GithubWidget(widget.user.calendar),
+                    size: Size(width, height * 0.25),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

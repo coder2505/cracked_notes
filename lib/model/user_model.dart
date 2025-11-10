@@ -7,30 +7,22 @@ class UserModel {
   final Map<DateTime, int> calendar;
 
   factory UserModel.fromJSON(
-    Map<String, dynamic> userDetails,
-    Map<String,dynamic> calendar,
-    Map <String, dynamic> badges,
-    Map <String, dynamic> contests,
-    submissions,
-    acSubmissions,
-    solved,
-    skillStats,
-    languageStats
-  ) {
+      Map<String, dynamic> userDetails
+      ) {
 
     return UserModel(
-      username: userDetails["username"],
-      profilepic: userDetails["avatar"],
-      name: userDetails["name"],
-      ranking: userDetails["ranking"].toString(),
-      calendar: DataCleaningUser.formatCalendar(calendar),
-      solved: solved,
-      skillStats: skillStats,
-      submissions: submissions,
-      acSubmissions : acSubmissions,
-      languageStats: DataCleaningUser.cleanLanguageStats(languageStats),
-      badges: badges,
-      contests: contests,
+      username: userDetails["userName"]["username"],
+      profilepic: userDetails["userName"]["avatar"],
+      name: userDetails["userName"]["name"],
+      ranking: userDetails["userName"]["ranking"].toString(),
+      calendar: DataCleaningUser.formatCalendar(userDetails["calendar"]),
+      solved: userDetails["solved"],
+      skillStats: userDetails["skillStats"],
+      submissions: userDetails["submission"],
+      acSubmissions : userDetails["acSubmission"],
+      languageStats: DataCleaningUser.cleanLanguageStats(userDetails["languageStats"]),
+      badges: userDetails["badges"],
+      contests: userDetails["contest"],
     );
   }
 

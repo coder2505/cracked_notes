@@ -28,7 +28,6 @@ class DataCleaningUser{
   }
   static List<Map<String, dynamic>> sortProblemCounts(Map<String, dynamic> data) {
 
-    print(data);
     // 1. Safely navigate to the tagProblemCounts object
     final tagCounts = data['data']['matchedUser']?['tagProblemCounts'] as Map<String, dynamic>?;
 
@@ -175,7 +174,6 @@ class DataCleaningUser{
       }
     });
 
-    print(toReturn);
     return toReturn;
   }
   static String formatTimeInSeconds(int totalSeconds) {
