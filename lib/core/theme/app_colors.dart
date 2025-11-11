@@ -53,6 +53,8 @@ class AppColors{
   static const Color countdown = Color(0xBF00487B);
   static const Color countdown_outline = Color(0xFF00487B);
 
+  static const Color grey_text = Color(0x99FDF4E3);
+
 
 
 }

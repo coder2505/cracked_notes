@@ -1,5 +1,5 @@
 import 'package:cracked_notes/core/theme/app_colors.dart';
-import 'package:cracked_notes/views/screens/challenges_screen.dart';
+import 'package:cracked_notes/views/screens/achievements_screen.dart';
 import 'package:cracked_notes/views/screens/user_homescreen.dart';
 import 'package:cracked_notes/views/screens/user_stats_screen.dart';
 import 'package:flutter/material.dart';
@@ -43,10 +43,10 @@ class _NavBarHolderState extends ConsumerState<NavBarHolder> {
                 item: ItemConfig(icon: Icon(Icons.person), title: "User"),
               ),
               PersistentTabConfig(
-                screen: ChallengesScreen(),
+                screen: AchievementsScreen(),
                 item: ItemConfig(
-                  icon: Icon(Icons.military_tech),
-                  title: "Challenges",
+                  icon: Icon(Icons.star),
+                  title: "Achievements",
                 ),
               ),
             ],

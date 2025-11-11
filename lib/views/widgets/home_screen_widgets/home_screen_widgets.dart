@@ -7,7 +7,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../utils/timer_countdown.dart';
 
 class HomeScreenWidgets {
-  static Widget streakContainer(double height) {
+  static Widget streakContainer(double height, Map<String,dynamic> customUserData) {
     return Column(
       spacing: 10,
 
@@ -25,7 +25,7 @@ class HomeScreenWidgets {
             child: Align(
               alignment: Alignment.topCenter,
               child: AutoSizeText(
-                "10",
+                customUserData["currentStreak"].toString(),
                 maxLines: 1,
                 style: TextStyle(
                   color: AppColors.faded_yellow,

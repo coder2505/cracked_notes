@@ -64,7 +64,7 @@ class _UserHomescreenState extends State<UserHomescreen> {
                       height: height * 0.2,
                       child: Padding(
                         padding: const EdgeInsets.all(4.0),
-                        child: HomeScreenWidgets.streakContainer(height),
+                        child: HomeScreenWidgets.streakContainer(height, widget.user.customUserData),
                       ),
                     ),
                     Container(

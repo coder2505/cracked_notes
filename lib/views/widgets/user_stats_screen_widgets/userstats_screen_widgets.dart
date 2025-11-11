@@ -41,9 +41,12 @@ class UserstatsScreenWidgets {
     );
   }
 
-  static Widget recentAcActivity(Map<String, dynamic> submissions, bool displayAll) {
+  static Widget recentAcActivity(
+    Map<String, dynamic> submissions,
+    bool displayAll,
+  ) {
     return ListView.builder(
-      itemCount: displayAll? submissions["submission"].length: 3,
+      itemCount: displayAll ? submissions["submission"].length : 3,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
@@ -73,7 +76,7 @@ class UserstatsScreenWidgets {
                 width: 50,
                 height: 40,
                 child: helperWidgets.returnLangIcon(language),
-              )
+              ),
             ],
           ),
 
@@ -117,10 +120,12 @@ class UserstatsScreenWidgets {
         );
       },
     );
-
   }
 
-  static Widget recentAllActivity(Map<String, dynamic> submissions, bool displayAll) {
+  static Widget recentAllActivity(
+    Map<String, dynamic> submissions,
+    bool displayAll,
+  ) {
     /*
 
     {"count":20,"submission":
@@ -129,7 +134,11 @@ class UserstatsScreenWidgets {
      */
 
     return ListView.builder(
-      itemCount: displayAll? submissions["submission"].length:3,
+      itemCount: displayAll
+          ? submissions["submission"].length
+          : (submissions["submission"].length > 3
+                ? 3
+                : submissions["submission"].length),
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
@@ -150,7 +159,7 @@ class UserstatsScreenWidgets {
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontFamily: 'Inter',
-                    color:helperWidgets.returnTitleColor(status),
+                    color: helperWidgets.returnTitleColor(status),
                   ),
                 ),
               ),
@@ -159,7 +168,7 @@ class UserstatsScreenWidgets {
                 width: 50,
                 height: 40,
                 child: helperWidgets.returnLangIcon(language),
-              )
+              ),
             ],
           ),
 
@@ -202,7 +211,6 @@ class UserstatsScreenWidgets {
       },
     );
   }
-
 
   static Widget buttonRow(WidgetRef ref) {
     ref.watch(clickedonAllSubmissions);
