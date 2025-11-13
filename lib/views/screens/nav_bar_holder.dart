@@ -21,7 +21,7 @@ class _NavBarHolderState extends ConsumerState<NavBarHolder> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(userProvider.notifier).fetchUserData("cpcs");
+      ref.read(userProvider.notifier).fetchUserData("purpleCrayon");
     });
   }
 
@@ -43,7 +43,7 @@ class _NavBarHolderState extends ConsumerState<NavBarHolder> {
                 item: ItemConfig(icon: Icon(Icons.person), title: "User"),
               ),
               PersistentTabConfig(
-                screen: AchievementsScreen(),
+                screen: AchievementsScreen(user: data,),
                 item: ItemConfig(
                   icon: Icon(Icons.star),
                   title: "Achievements",
@@ -58,7 +58,10 @@ class _NavBarHolderState extends ConsumerState<NavBarHolder> {
             ),
           );
         },
-        error: (e, st) => Scaffold(body: Center(child: Text("error"))),
+        error: (e, st) {
+          print("ERROR WHILE FETCHING $e");
+          return Scaffold(body: Center(child: Text("error")));
+        },
         loading: () =>
             Scaffold(body: Center(child: CircularProgressIndicator())),
       ),

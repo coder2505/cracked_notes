@@ -12,7 +12,7 @@ class UserModel {
       allBadges;
   final List<Map<String, dynamic>> languageStats;
   final Map<DateTime, int> calendar;
-  final List<dynamic> userAttainedBadges;
+  final List<dynamic> userAttainedBadges,nextBadges;
 
   factory UserModel.fromJSON(Map<String, dynamic> userDetails) {
     return UserModel(
@@ -34,6 +34,7 @@ class UserModel {
       userAttainedBadges:
           userDetails["customData"]["badges"]["userAttainedBadges"],
       allBadges: userDetails["customData"]["badges"]["attainableBadgeData"],
+      nextBadges: userDetails["customData"]["badges"]["nextBadges"],
     );
   }
 
@@ -53,5 +54,6 @@ class UserModel {
     required this.customUserData,
     required this.userAttainedBadges,
     required this.allBadges,
+    required this.nextBadges
   });
 }
