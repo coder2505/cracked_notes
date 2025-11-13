@@ -1,4 +1,5 @@
 import 'package:cracked_notes/core/extensions/extensions.dart';
+import 'package:cracked_notes/views/screens/next_achievements_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/theme/app_colors.dart';
@@ -83,15 +84,23 @@ class AchievementsWidgets {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Next Achievements",
-              style: TextStyle(
-                color: AppColors.grey_text,
-                fontFamily: 'Inter',
-                fontWeight: FontWeight.normal,
-                fontSize: 16,
-                letterSpacing: -0.5,
-              ),
+            Row(
+              children: [
+                Text(
+                  "Next Achievements",
+                  style: TextStyle(
+                    color: AppColors.grey_text,
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.normal,
+                    fontSize: 16,
+                    letterSpacing: -0.5,
+                  ),
+                ),
+                Expanded(child: SizedBox()),
+                IconButton(onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> NextAchievementsScreen(allBadges: allBadges, nextBadge: nextBadge)));
+                }, icon: Icon(Icons.arrow_forward_ios, color: Colors.white,))
+              ],
             ),
             ListView.builder(
               physics: const NeverScrollableScrollPhysics(),
