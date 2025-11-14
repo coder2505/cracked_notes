@@ -4,7 +4,7 @@ import 'package:cracked_notes/model/user_model.dart';
 import 'package:cracked_notes/viewmodel/ui_stateproviders.dart';
 import 'package:cracked_notes/views/screens/recent_activity_screen.dart';
 import 'package:cracked_notes/views/widgets/stacked_progress_bar.dart';
-import 'package:cracked_notes/views/widgets/user_stats_screen_widgets/nocontesdata_widget.dart';
+import 'package:cracked_notes/views/widgets/user_stats_screen_widgets/userstat_widgets_3.dart';
 import 'package:cracked_notes/views/widgets/user_stats_screen_widgets/userstats_screen_widgets.dart';
 import 'package:cracked_notes/views/widgets/user_stats_screen_widgets/userstats_screen_widgets2.dart';
 import 'package:flutter/material.dart';
@@ -106,7 +106,7 @@ class _UserStatsScreenState extends ConsumerState<UserStatsScreen> {
                     borderRadius: BorderRadius.all(Radius.circular(25)),
                   ),
                   width: width,
-                  child: Padding(
+                  child: widget.userModel.solved["solvedProblem"] >0? Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Column(
                       spacing: 12,
@@ -140,7 +140,9 @@ class _UserStatsScreenState extends ConsumerState<UserStatsScreen> {
                           mediumSolved: widget.userModel.solved['mediumSolved'],
                           hardSolved: widget.userModel.solved['hardSolved'],
                           totalProblems:
-                              widget.userModel.solved['solvedProblem'],
+                              widget.userModel.solved['solvedProblem'] == 0
+                              ? 100
+                              : widget.userModel.solved['solvedProblem'],
                         ),
                         UserstatsScreenWidgets.carouselStats(
                           widget.userModel.skillStats,
@@ -148,7 +150,7 @@ class _UserStatsScreenState extends ConsumerState<UserStatsScreen> {
                         ),
                       ],
                     ),
-                  ),
+                  ) : userStatWidget3.noProblemSolved(context),
                 ),
                 widget.userModel.contests["contestParticipation"].length > 0
                     ? Container(
@@ -172,7 +174,7 @@ class _UserStatsScreenState extends ConsumerState<UserStatsScreen> {
                           ),
                         ),
                       )
-                    : noContestData.noContestData_Widget(context),
+                    : userStatWidget3.noContestData_Widget(context),
                 Container(
                   decoration: BoxDecoration(
                     // color: Colors.white,

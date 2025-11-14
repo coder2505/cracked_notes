@@ -45,7 +45,8 @@ class UserstatsScreenWidgets {
     Map<String, dynamic> submissions,
     bool displayAll,
   ) {
-    return ListView.builder(
+
+    return submissions["count"]>0? ListView.builder(
       itemCount: displayAll ? submissions["submission"].length : 3,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -119,7 +120,7 @@ class UserstatsScreenWidgets {
           ),
         );
       },
-    );
+    ) : Center(child: Text("One problem solved = insights unlocked", style: TextStyle(fontFamily: 'Inter', fontSize: 24, color: AppColors.faded_yellow,)),);
   }
 
   static Widget recentAllActivity(
@@ -133,7 +134,7 @@ class UserstatsScreenWidgets {
     "statusDisplay":"Compile Error","lang":"java"}....]}
      */
 
-    return ListView.builder(
+    return submissions["count"]>0 ? ListView.builder(
       itemCount: displayAll
           ? submissions["submission"].length
           : (submissions["submission"].length > 3
@@ -209,7 +210,7 @@ class UserstatsScreenWidgets {
           ),
         );
       },
-    );
+    ) : Center(child: Text("One problem solved = insights unlocked", style: TextStyle(fontFamily: 'Inter', fontSize: 24,color: AppColors.faded_yellow)),);
   }
 
   static Widget buttonRow(WidgetRef ref) {
