@@ -20,12 +20,12 @@ class UserDashboardWidgets {
   static Widget radarChart(List<Map<String, dynamic>> skillStats) {
     //{tagName: Array, tagSlug: array, problemsSolved: 46}
     List<RadarEntry> problemSolved = List.generate(
-      8,
+      skillStats.length >= 8 ? 8 : skillStats.length,
       (index) =>
           RadarEntry(value: skillStats[index]["problemsSolved"].toDouble()),
     );
     List<String> titlesList = List.generate(
-      8,
+        skillStats.length >= 8 ? 8 : skillStats.length,
       (index) =>
           "${skillStats[index]["tagName"]}\n${problemSolved[index].value.toInt()}",
     );

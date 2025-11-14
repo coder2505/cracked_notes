@@ -10,7 +10,7 @@ class DataCleaningUser{
     // We safely access nested keys using the null-safe operator (?.) and default
     // to an empty list (?? []) if any key is missing, preventing runtime errors.
     final List<dynamic> languageCounts =
-        originalData['matchedUser']?['languageProblemCount'] ?? [];
+        originalData["languageProblemCount"] ?? [];
 
     // 2. Transform the list items using the map function.
     final List<Map<String, dynamic>> cleanedData = languageCounts.map((item) {
@@ -29,7 +29,7 @@ class DataCleaningUser{
   static List<Map<String, dynamic>> sortProblemCounts(Map<String, dynamic> data) {
 
     // 1. Safely navigate to the tagProblemCounts object
-    final tagCounts = data['data']['matchedUser']?['tagProblemCounts'] as Map<String, dynamic>?;
+    final tagCounts = data['matchedUser']?['tagProblemCounts'] as Map<String, dynamic>?;
 
     if (tagCounts == null) {
       debugPrint('Error: Could not find tagProblemCounts in the input data.');

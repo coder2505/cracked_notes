@@ -4,6 +4,7 @@ import 'package:cracked_notes/model/user_model.dart';
 import 'package:cracked_notes/viewmodel/ui_stateproviders.dart';
 import 'package:cracked_notes/views/screens/recent_activity_screen.dart';
 import 'package:cracked_notes/views/widgets/stacked_progress_bar.dart';
+import 'package:cracked_notes/views/widgets/user_stats_screen_widgets/nocontesdata_widget.dart';
 import 'package:cracked_notes/views/widgets/user_stats_screen_widgets/userstats_screen_widgets.dart';
 import 'package:cracked_notes/views/widgets/user_stats_screen_widgets/userstats_screen_widgets2.dart';
 import 'package:flutter/material.dart';
@@ -149,27 +150,29 @@ class _UserStatsScreenState extends ConsumerState<UserStatsScreen> {
                     ),
                   ),
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    // color: Colors.white,
-                    color: AppColors.secondary_black_trans,
-                    border: BoxBorder.all(
-                      color: AppColors.secondary_black_outline,
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(25)),
-                  ),
-                  width: width,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: UserStatsScreenWidgets2.ContestHistory(
-                      width,
-                      height,
-                      context.containerDecoration,
-                      widget.userModel.contests,
-                      context,
-                    ),
-                  ),
-                ),
+                widget.userModel.contests["contestParticipation"].length > 0
+                    ? Container(
+                        decoration: BoxDecoration(
+                          // color: Colors.white,
+                          color: AppColors.secondary_black_trans,
+                          border: BoxBorder.all(
+                            color: AppColors.secondary_black_outline,
+                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(25)),
+                        ),
+                        width: width,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: UserStatsScreenWidgets2.ContestHistory(
+                            width,
+                            height,
+                            context.containerDecoration,
+                            widget.userModel.contests,
+                            context,
+                          ),
+                        ),
+                      )
+                    : noContestData.noContestData_Widget(context),
                 Container(
                   decoration: BoxDecoration(
                     // color: Colors.white,
@@ -199,7 +202,13 @@ class _UserStatsScreenState extends ConsumerState<UserStatsScreen> {
                             ),
                             IconButton(
                               onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>RecentActivityScreen(widget.userModel)));
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        RecentActivityScreen(widget.userModel),
+                                  ),
+                                );
                               },
                               icon: Icon(Icons.arrow_forward_ios),
                               color: AppColors.faded_yellow,
@@ -210,10 +219,12 @@ class _UserStatsScreenState extends ConsumerState<UserStatsScreen> {
 
                         ref.read(clickedonAllSubmissions)
                             ? UserstatsScreenWidgets.recentAllActivity(
-                                widget.userModel.submissions,false
+                                widget.userModel.submissions,
+                                false,
                               )
                             : UserstatsScreenWidgets.recentAcActivity(
-                                widget.userModel.acSubmissions,false
+                                widget.userModel.acSubmissions,
+                                false,
                               ),
                       ],
                     ),
