@@ -4,12 +4,16 @@ import 'package:flutter/material.dart';
 
 class customCircles extends CustomPainter{
 
+  final double rotationDegrees, progress;
+
   final List<double> rotationAnglesInDegrees = [
     0,    // 0 degrees
     45,   // 45 degrees
     90,   // 90 degrees
     135,  // 135 degrees
   ];
+
+  customCircles({super.repaint, required this.rotationDegrees, required this.progress});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -26,6 +30,12 @@ class customCircles extends CustomPainter{
         height: 400.0
     );
 
+    canvas.translate(center.dx, center.dy);
+    canvas.rotate(rotationDegrees);
+    canvas.translate(-center.dx, -center.dy);
+
+    final sweep = 2 * math.pi * progress;
+
     for (double angleDegrees in rotationAnglesInDegrees) {
 
       double angleRadians = angleDegrees * (math.pi / 180);
@@ -38,18 +48,22 @@ class customCircles extends CustomPainter{
 
       canvas.translate(-center.dx, -center.dy);
 
-      Path path = Path();
-      path.addOval(ovalRect);
+      canvas.drawArc(
+        ovalRect,
+        0,     // starting angle
+        sweep, // animated sweep
+        false,
+        paint,
+      );
 
-      canvas.drawPath(path, paint);
       canvas.restore();
     }
 
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
+  bool shouldRepaint(covariant customCircles oldDelegate) {
+    return oldDelegate.rotationDegrees != rotationDegrees;
   }
-  
+
 }

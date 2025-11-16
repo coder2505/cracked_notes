@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:cracked_notes/core/theme/app_colors.dart';
 import 'package:cracked_notes/views/widgets/landing_screen_widgets/custom_circles.dart';
 import 'package:flutter/material.dart';
@@ -9,13 +10,43 @@ class LandingScreen extends StatefulWidget {
   State<LandingScreen> createState() => _LandingScreenState();
 }
 
-class _LandingScreenState extends State<LandingScreen> {
+class _LandingScreenState extends State<LandingScreen>
+    with TickerProviderStateMixin {
+  late Animation<double> animation, drawAnimation;
+  late AnimationController controller, drawController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = AnimationController(duration: Duration(seconds: 30), vsync: this);
+    drawController = AnimationController(duration: Duration(seconds: 5), vsync:  this);
+
+    animation = Tween<double>(
+      begin: 0,
+      end: math.pi * 2,
+    ).animate(controller);
+
+    drawAnimation = Tween<double>(
+      begin: 0,
+      end: 1
+    ).animate(drawController);
+
+    controller.repeat();
+    drawController.forward();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    drawController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-
     double width = MediaQuery.sizeOf(context).width;
     double height = MediaQuery.sizeOf(context).height;
-
 
     return Scaffold(
       backgroundColor: AppColors.secondary_black_outline,
@@ -24,14 +55,23 @@ class _LandingScreenState extends State<LandingScreen> {
           padding: EdgeInsets.all(8),
           child: Stack(
             children: [
-
-              Center(
-                child: SizedBox(
-                  child: CustomPaint(
-                  painter : customCircles(),
-                    size: Size(width, height *0.3),
-                  ),
-                ),
+              AnimatedBuilder(
+                animation: animation,
+                builder: (BuildContext context, Widget? child) {
+                  return Center(
+                    child: SizedBox(
+                      child: CustomPaint(
+                        painter: customCircles(
+                          rotationDegrees: animation.value,
+                          progress: drawAnimation.value
+                        ),
+                        willChange: true,
+                        isComplex: true,
+                        size: Size(width, height * 0.3),
+                      ),
+                    ),
+                  );
+                },
               ),
               Center(
                 child: RichText(
