@@ -1,4 +1,6 @@
 import 'dart:math' as math;
+
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cracked_notes/core/theme/app_colors.dart';
 import 'package:cracked_notes/views/widgets/landing_screen_widgets/custom_circles.dart';
 import 'package:flutter/material.dart';
@@ -19,18 +21,18 @@ class _LandingScreenState extends State<LandingScreen>
   void initState() {
     super.initState();
 
-    controller = AnimationController(duration: Duration(seconds: 30), vsync: this);
-    drawController = AnimationController(duration: Duration(seconds: 5), vsync:  this);
+    controller = AnimationController(
+      duration: Duration(seconds: 30),
+      vsync: this,
+    );
+    drawController = AnimationController(
+      duration: Duration(seconds: 3),
+      vsync: this,
+    );
 
-    animation = Tween<double>(
-      begin: 0,
-      end: math.pi * 2,
-    ).animate(controller);
+    animation = Tween<double>(begin: 0, end: math.pi * 2).animate(controller);
 
-    drawAnimation = Tween<double>(
-      begin: 0,
-      end: 1
-    ).animate(drawController);
+    drawAnimation = Tween<double>(begin: 0, end: 1).animate(drawController);
 
     controller.repeat();
     drawController.forward();
@@ -63,7 +65,7 @@ class _LandingScreenState extends State<LandingScreen>
                       child: CustomPaint(
                         painter: customCircles(
                           rotationDegrees: animation.value,
-                          progress: drawAnimation.value
+                          progress: drawAnimation.value,
                         ),
                         willChange: true,
                         isComplex: true,
@@ -74,25 +76,127 @@ class _LandingScreenState extends State<LandingScreen>
                 },
               ),
               Center(
-                child: RichText(
-                  text: TextSpan(
-                    style: TextStyle(
-                      color: AppColors.faded_yellow,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w800,
-                      fontSize: 40,
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(text: "Show Up Daily,\nShip "),
-                      TextSpan(
-                        text: "Progress.",
-                        style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                          color: AppColors.app_highest_blue_github,
-                        ),
-                      ),
-                    ],
-                  ),
+                child: FutureBuilder(
+                  future: Future.delayed(Duration(seconds: 3)),
+                  builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {  
+                    
+                    if(snapshot.connectionState == ConnectionState.done){
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+
+                          Row(
+                            children: [
+                              Expanded(child: SizedBox()),
+                              AnimatedTextKit(
+                                animatedTexts: [
+                                  TypewriterAnimatedText(
+                                    'Show Up Daily,',
+                                    textStyle: TextStyle(
+                                      color: AppColors.faded_yellow,
+                                      fontFamily: 'Inter',
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 40,
+                                    ),
+                                    speed: Duration(milliseconds: 100),
+                                  ),
+                                ],
+                                totalRepeatCount: 1,
+                                pause: Duration(milliseconds: 0),
+                              ),
+                              Expanded(child: SizedBox()),
+
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(child: SizedBox()),
+                              FutureBuilder(
+                                future: Future.delayed(Duration(milliseconds: 2000)),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.done) {
+                                    return AnimatedTextKit(
+                                      animatedTexts: [
+                                        TyperAnimatedText(
+                                          'Ship ',
+                                          textStyle: TextStyle(
+                                            color: AppColors.faded_yellow,
+                                            fontFamily: 'Inter',
+                                            fontWeight: FontWeight.w800,
+                                            fontSize: 40,
+                                          ),
+                                          speed: Duration(milliseconds: 100),
+                                        ),
+                                      ],
+                                      totalRepeatCount: 1,
+                                      pause: Duration(milliseconds: 0),
+                                    );
+                                  }
+                                  return SizedBox.shrink();
+                                },
+                              ),
+                              // "Progress." starts after "Show Up Daily," + "Ship " completes
+                              // 2000ms + (5 characters * 100ms) = 2500ms delay
+                              FutureBuilder(
+                                future: Future.delayed(Duration(milliseconds: 2500)),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.done) {
+                                    return AnimatedTextKit(
+                                      animatedTexts: [
+                                        TypewriterAnimatedText(
+                                          'Progress.',
+                                          textStyle: TextStyle(
+                                            color: AppColors.app_highest_blue_github,
+                                            fontFamily: 'Inter',
+                                            fontWeight: FontWeight.w800,
+                                            fontSize: 40,
+                                            fontStyle: FontStyle.italic,
+                                          ),
+                                          speed: Duration(milliseconds: 100),
+                                        ),
+                                        TypewriterAnimatedText(
+                                          'Growth.',
+                                          textStyle: TextStyle(
+                                            color: AppColors.app_highest_blue_github,
+                                            fontFamily: 'Inter',
+                                            fontWeight: FontWeight.w800,
+                                            fontSize: 40,
+                                            fontStyle: FontStyle.italic,
+                                          ),
+                                          speed: Duration(milliseconds: 100),
+                                        ),
+                                        TypewriterAnimatedText(
+                                          'Success.',
+                                          textStyle: TextStyle(
+                                            color: AppColors.app_highest_blue_github,
+                                            fontFamily: 'Inter',
+                                            fontWeight: FontWeight.w800,
+                                            fontSize: 40,
+                                            fontStyle: FontStyle.italic,
+                                          ),
+                                          speed: Duration(milliseconds: 100),
+                                        ),
+                                      ],
+                                      totalRepeatCount: 1,
+                                      pause: Duration(milliseconds: 0),
+                                    );
+                                  }
+                                  return SizedBox.shrink();
+                                },
+                              ),
+                              Expanded(child: SizedBox())
+                            ],
+                          ),
+                        ],
+                      );
+                    }
+
+                    return SizedBox.shrink();
+                  },
                 ),
               ),
             ],

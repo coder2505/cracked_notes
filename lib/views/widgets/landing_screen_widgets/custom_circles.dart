@@ -7,10 +7,10 @@ class customCircles extends CustomPainter{
   final double rotationDegrees, progress;
 
   final List<double> rotationAnglesInDegrees = [
-    0,    // 0 degrees
-    45,   // 45 degrees
-    90,   // 90 degrees
-    135,  // 135 degrees
+    0,
+    45,
+    90,
+    135,
   ];
 
   customCircles({super.repaint, required this.rotationDegrees, required this.progress});
