@@ -155,7 +155,6 @@ class _UserStatsScreenState extends ConsumerState<UserStatsScreen> {
                 widget.userModel.contests["contestParticipation"].length > 0
                     ? Container(
                         decoration: BoxDecoration(
-                          // color: Colors.white,
                           color: AppColors.secondary_black_trans,
                           border: BoxBorder.all(
                             color: AppColors.secondary_black_outline,

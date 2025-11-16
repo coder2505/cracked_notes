@@ -1,3 +1,4 @@
+import 'package:cracked_notes/views/screens/landing_screen.dart';
 import 'package:cracked_notes/views/screens/welcome_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
@@ -12,13 +13,13 @@ class Routes{
 
   final GoRouter router = GoRouter(
 
-    initialLocation: '/home',
+    initialLocation: '/welcomeScreen',
 
     routes: <RouteBase>[
       GoRoute(
         path: '/welcomeScreen',
         builder: (BuildContext context, GoRouterState state) {
-          return const WelcomeScreen();
+          return LandingScreen();
         },
       ),
       GoRoute(
