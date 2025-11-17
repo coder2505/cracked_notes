@@ -9,7 +9,9 @@ import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import '../../viewmodel/user_provider.dart';
 
 class NavBarHolder extends ConsumerStatefulWidget {
-  const NavBarHolder({super.key});
+  final String username;
+
+  const NavBarHolder({super.key,required this.username});
 
   @override
   ConsumerState<NavBarHolder> createState() => _NavBarHolderState();
@@ -21,7 +23,7 @@ class _NavBarHolderState extends ConsumerState<NavBarHolder> {
     // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(userProvider.notifier).fetchUserData("manishraja2505");
+      ref.read(userProvider.notifier).fetchUserData(widget.username);
     });
   }
 

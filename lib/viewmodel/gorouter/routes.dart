@@ -1,3 +1,4 @@
+import 'package:cracked_notes/views/screens/entername_screen.dart';
 import 'package:cracked_notes/views/screens/landing_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
@@ -12,7 +13,7 @@ class Routes{
 
   final GoRouter router = GoRouter(
 
-    initialLocation: '/welcomeScreen',
+    initialLocation: '/enterNameScreen',
 
     routes: <RouteBase>[
       GoRoute(
@@ -22,9 +23,16 @@ class Routes{
         },
       ),
       GoRoute(
+        path: '/enterNameScreen',
+        builder: (BuildContext context, GoRouterState state) {
+          return EnternameScreen();
+        },
+      ),
+      GoRoute(
         path: '/home',
         builder: (BuildContext context, GoRouterState state) {
-          return const NavBarHolder();
+          final name = state.extra as String;
+          return NavBarHolder(username: name);
         },
       ),
     ],

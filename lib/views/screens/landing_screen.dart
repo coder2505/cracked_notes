@@ -2,8 +2,10 @@ import 'dart:math' as math;
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cracked_notes/core/theme/app_colors.dart';
+import 'package:cracked_notes/views/screens/entername_screen.dart';
 import 'package:cracked_notes/views/widgets/landing_screen_widgets/custom_circles.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class LandingScreen extends StatefulWidget {
   const LandingScreen({super.key});
@@ -22,12 +24,6 @@ class _LandingScreenState extends State<LandingScreen>
   @override
   void initState() {
     super.initState();
-
-    // WidgetsBinding.instance.addPostFrameCallback((_){
-    //   setState(() {
-    //     opacity = 1;
-    //   });
-    // });
 
     controller = AnimationController(
       duration: Duration(seconds: 30),
@@ -241,30 +237,36 @@ class _LandingScreenState extends State<LandingScreen>
                       alignment: Alignment.bottomRight,
                       child: FutureBuilder(
                         future: Future.delayed(Duration(seconds: 10)),
-                        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-
-                          if(snapshot.connectionState == ConnectionState.done){
-
-                            return Container(
-                              height: 75,
-                              width: 75,
-                              decoration: BoxDecoration(
-                                color: Color(0x3d0071FF),
-                                border: BoxBorder.all(color: Color(0xff0071FF)),
-                                borderRadius: BorderRadius.all(Radius.circular(50)),
-                              ),
-                              child: IconButton(
-                                onPressed: () {
-
-                                },
-                                icon: Icon(Icons.arrow_forward_ios),
-                                color: Colors.white,
-                              ),
-                            );
-
-                          }
-                          return SizedBox.shrink();
-                        },
+                        builder:
+                            (
+                              BuildContext context,
+                              AsyncSnapshot<dynamic> snapshot,
+                            ) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.done) {
+                                return Container(
+                                  height: 75,
+                                  width: 75,
+                                  decoration: BoxDecoration(
+                                    color: Color(0x3d0071FF),
+                                    border: BoxBorder.all(
+                                      color: Color(0xff0071FF),
+                                    ),
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(50),
+                                    ),
+                                  ),
+                                  child: IconButton(
+                                    onPressed: () {
+                                      context.go("/enterNameScreen");
+                                    },
+                                    icon: Icon(Icons.arrow_forward_ios),
+                                    color: Colors.white,
+                                  ),
+                                );
+                              }
+                              return SizedBox.shrink();
+                            },
                       ),
                     ),
                   ),
