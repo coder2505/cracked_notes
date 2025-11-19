@@ -54,7 +54,7 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
             child: Column(
               spacing: 10,
               children: [
-                AchievementsWidgets.nextAchievement(
+                 AchievementsWidgets.nextAchievement(
                   context,
                   widget.user.nextBadges,
                   widget.user.allBadges,
