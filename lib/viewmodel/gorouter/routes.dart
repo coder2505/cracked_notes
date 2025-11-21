@@ -13,7 +13,7 @@ class Routes{
 
   final GoRouter router = GoRouter(
 
-    initialLocation: '/welcomeScreen',
+    initialLocation: '/enterNameScreen',
 
     routes: <RouteBase>[
       GoRoute(
