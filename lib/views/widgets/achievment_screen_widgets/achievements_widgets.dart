@@ -169,15 +169,6 @@ class AchievementsWidgets {
                                   width: 75,
                                   child: returnBadge(curr["title"]),
                                 ),
-                                Text(
-                                  "${curr["completed"]}/${curr["total"]}",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'Inter',
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 26,
-                                  ),
-                                ),
                               ],
                             ),
                             StackedProgressbarTwoVariables(
