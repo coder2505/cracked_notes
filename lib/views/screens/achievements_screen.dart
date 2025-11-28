@@ -14,33 +14,6 @@ class AchievementsScreen extends StatefulWidget {
 }
 
 class _AchievementsScreenState extends State<AchievementsScreen> {
-  Map<String, dynamic> nextAchievements = {
-    "length": 3,
-    "names": [
-      {
-        "title": "Pattern Prodigy",
-        "shortDesc": "Solve 50 easy problems",
-        "completed": 42,
-        "total": 50,
-        "badge": "link",
-      },
-      {
-        "title": "Fearless Coder",
-        "shortDesc": "Solve Your First Hard Problem",
-        "completed": 0,
-        "total": 1,
-        "badge": "link",
-      },
-      {
-        "title": "Routine Builder",
-        "shortDesc": "Keep a 10 Day Streak !",
-        "completed": 6,
-        "total": 10,
-        "badge": "link",
-      },
-    ],
-  };
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;

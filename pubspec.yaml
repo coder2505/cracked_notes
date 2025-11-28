@@ -75,6 +75,11 @@ flutter:
     - .env
     - assets/dummy_img/
     - assets/lang_icons/
+    - assets/badges/HardBadges/
+    - assets/badges/EasyBadges/
+    - assets/badges/MediumBadges/
+    - assets/badges/StreakBadges/
+    - assets/badges/DSBadges/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 

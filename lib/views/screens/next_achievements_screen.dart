@@ -1,3 +1,4 @@
+import 'package:cracked_notes/viewmodel/returnbadgefromdata.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
@@ -64,9 +65,7 @@ class _NextAchievementsScreenState extends State<NextAchievementsScreen> {
                         ),
                         SizedBox(
                           width: 75,
-                          child: Image.asset(
-                            "assets/dummy_img/prettybadge.png",
-                          ),
+                          child: returnBadge(curr["title"]),
                         ),
                         Text(
                           "${curr["completed"]}/${curr["total"]}",
