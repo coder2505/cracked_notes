@@ -3,19 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-Future<void> main() async{
+import 'model/shared_prefs.dart';
+
+Future<void> main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+
   await dotenv.load(fileName: ".env");
-  runApp(ProviderScope(child: MyApp()));
+  bool isLogged = await UserPrefs.getLoginStatus();
+  String name = await UserPrefs.getUsername();
+
+  runApp(ProviderScope(child: MyApp(hasloggedin: isLogged, username: name)));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
 
-  // This widget is the root of your application.
+  final bool hasloggedin;
+  final String username;
+
+  const MyApp({super.key, required this.hasloggedin, required this.username});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerConfig: Routes(context: context).router,
-    );
+    return MaterialApp.router(routerConfig: Routes(context: context, hasloggedin:hasloggedin, username: username).router);
   }
 }

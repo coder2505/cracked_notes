@@ -1,4 +1,5 @@
 import 'package:cracked_notes/core/theme/app_colors.dart';
+import 'package:cracked_notes/model/shared_prefs.dart';
 import 'package:cracked_notes/views/screens/achievements_screen.dart';
 import 'package:cracked_notes/views/screens/user_homescreen.dart';
 import 'package:cracked_notes/views/screens/user_stats_screen.dart';
@@ -9,9 +10,8 @@ import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import '../../viewmodel/user_provider.dart';
 
 class NavBarHolder extends ConsumerStatefulWidget {
-  final String username;
 
-  const NavBarHolder({super.key,required this.username});
+  const NavBarHolder({super.key});
 
   @override
   ConsumerState<NavBarHolder> createState() => _NavBarHolderState();
@@ -22,8 +22,11 @@ class _NavBarHolderState extends ConsumerState<NavBarHolder> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(userProvider.notifier).fetchUserData(widget.username);
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+
+      String username = await UserPrefs.getUsername();
+
+      ref.read(userProvider.notifier).fetchUserData(username);
     });
   }
 

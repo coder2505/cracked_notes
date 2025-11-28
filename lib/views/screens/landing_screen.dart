@@ -2,7 +2,6 @@ import 'dart:math' as math;
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cracked_notes/core/theme/app_colors.dart';
-import 'package:cracked_notes/views/screens/entername_screen.dart';
 import 'package:cracked_notes/views/widgets/landing_screen_widgets/custom_circles.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -259,6 +258,7 @@ class _LandingScreenState extends State<LandingScreen>
                                   child: IconButton(
                                     onPressed: () {
                                       context.go("/enterNameScreen");
+                                      print("HI?");
                                     },
                                     icon: Icon(Icons.arrow_forward_ios),
                                     color: Colors.white,

@@ -1,4 +1,5 @@
 import 'package:cracked_notes/core/extensions/extensions.dart';
+import 'package:cracked_notes/model/shared_prefs.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -141,11 +142,18 @@ class EnterNameScreenWidgets {
                                 child: Text("Cancel"),
                               ),
                               ElevatedButton(
-                                onPressed: () {
-                                  context.go(
-                                    "/home",
-                                    extra: ref.read(userName).trim(),
+                                onPressed: () async {
+                                  await UserPrefs.saveUser(
+                                    isLoggedIn: true,
+                                    username: ref.read(userName).trim(),
                                   );
+
+                                  if (context.mounted) {
+                                    context.go(
+                                      "/home",
+                                      extra: ref.read(userName).trim(),
+                                    );
+                                  }
                                 },
                                 child: Text("Yes its me"),
                               ),
@@ -170,7 +178,6 @@ class EnterNameScreenWidgets {
                 child: IconButton(
                   onPressed: () {
                     if (controller.text.trim().isNotEmpty) {
-
                       ref.read(showContainer.notifier).state = true;
                       FocusScope.of(context).unfocus();
 
@@ -180,8 +187,7 @@ class EnterNameScreenWidgets {
                       ref
                           .read(userBasicInfoProvider.notifier)
                           .fetchBasicUserData(ref.read(userName).trim());
-
-                    }else{
+                    } else {
                       //show toast here
                     }
                   },

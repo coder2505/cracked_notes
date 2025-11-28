@@ -1,11 +1,8 @@
-import 'package:cracked_notes/core/extensions/extensions.dart';
 import 'package:cracked_notes/core/theme/app_colors.dart';
 import 'package:cracked_notes/viewmodel/ui_stateproviders.dart';
-import 'package:cracked_notes/viewmodel/user_basicinfo_viewmodel.dart';
 import 'package:cracked_notes/views/widgets/enter_name_screen_widgets/enter_name_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class EnternameScreen extends ConsumerStatefulWidget {
   const EnternameScreen({super.key});
@@ -22,7 +19,6 @@ class _EnternameScreenState extends ConsumerState<EnternameScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _controller.dispose();
     _focusNode.dispose();

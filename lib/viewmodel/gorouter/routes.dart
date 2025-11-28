@@ -8,12 +8,24 @@ import '../../views/screens/nav_bar_holder.dart';
 class Routes{
 
   final BuildContext context;
+  final bool hasloggedin;
+  final String username;
 
-  Routes({required this.context});
+  Routes({required this.context, required this.hasloggedin,required this.username, });
 
-  final GoRouter router = GoRouter(
 
-    initialLocation: '/enterNameScreen',
+  late final GoRouter router = GoRouter(
+
+    redirect: (BuildContext context, GoRouterState state){
+
+      if(hasloggedin && username.isNotEmpty){
+        return '/home';
+      }
+
+      return null;
+    },
+
+    initialLocation: '/welcomeScreen',
 
     routes: <RouteBase>[
       GoRoute(
@@ -31,8 +43,7 @@ class Routes{
       GoRoute(
         path: '/home',
         builder: (BuildContext context, GoRouterState state) {
-          final name = state.extra as String;
-          return NavBarHolder(username: name);
+          return NavBarHolder();
         },
       ),
     ],
