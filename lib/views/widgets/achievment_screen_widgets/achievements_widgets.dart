@@ -8,6 +8,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../stacked_progressbar_twovariables.dart';
+import '../user_stats_screen_widgets/helper_widgets.dart';
 
 class AchievementsWidgets {
   static Widget nextAchievement(
@@ -198,7 +199,6 @@ class AchievementsWidgets {
     BuildContext context,
     UserModel user,
   ) {
-
     final List<dynamic> userAttainedBadges = user.userAttainedBadges;
 
     return Container(
@@ -214,10 +214,10 @@ class AchievementsWidgets {
                 Text(
                   "Your Badges",
                   style: TextStyle(
-                    color: AppColors.grey_text,
+                    color: AppColors.faded_yellow,
                     fontFamily: 'Inter',
-                    fontWeight: FontWeight.normal,
-                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
                     letterSpacing: -0.5,
                   ),
                 ),
@@ -237,10 +237,12 @@ class AchievementsWidgets {
                         showMaterialModalBottomSheet(
                           context: context,
                           builder: (context) {
-
-                              return BadgesTapWidgets.onTapYourbadges(height, user.userAttainedBadges, user.allBadges, width);
-
-
+                            return BadgesTapWidgets.onTapYourbadges(
+                              height,
+                              user.userAttainedBadges,
+                              user.allBadges,
+                              width,
+                            );
                           },
                         );
                       },
@@ -285,7 +287,14 @@ class AchievementsWidgets {
     );
   }
 
-  static Widget allBadges(double width, BuildContext context) {
+  static Widget allBadges(
+    double width,
+    double height,
+    BuildContext context,
+    UserModel user
+  ) {
+    final List<dynamic> nextBadges = user.nextBadges;
+
     return Container(
       decoration: context.containerDecoration,
       width: width,
@@ -297,105 +306,78 @@ class AchievementsWidgets {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "All Badges",
+                  "Next Badges",
                   style: TextStyle(
-                    color: AppColors.grey_text,
+                    color: AppColors.faded_yellow,
                     fontFamily: 'Inter',
-                    fontWeight: FontWeight.normal,
-                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
                     letterSpacing: -0.5,
                   ),
                 ),
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.arrow_forward_ios),
+                Row(
+                  children: [
+                    Text(
+                      nextBadges.length.toString(),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        showMaterialModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return BadgesTapWidgets.onTapNextbadges(
+                              height,
+                              user.nextBadges,
+                              user.allBadges,
+                              width,
+                            );
+                          },
+                        );
+                      },
+                      icon: Icon(Icons.arrow_forward_ios),
+                    ),
+                  ],
                 ),
               ],
             ),
-            Row(
-              children: [
-                Expanded(
-                  child: ColorFiltered(
-                    colorFilter: ColorFilter.matrix(<double>[
-                      0.2126,
-                      0.7152,
-                      0.0722,
-                      0,
-                      0,
-                      0.2126,
-                      0.7152,
-                      0.0722,
-                      0,
-                      0,
-                      0.2126,
-                      0.7152,
-                      0.0722,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      1,
-                      0,
-                    ]),
-                    child: Image.asset('assets/dummy_img/prettybadge.png'),
-                  ),
+            SizedBox(
+              height: height * 0.2,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: 3,
+                itemBuilder: (context, index) {
+                  return SizedBox(
+                    width: width / 3.1,
+                    child: helperWidgets.makeBadgeForAssetImages(
+                      returnBadge(nextBadges[index]["title"]),
+                      false,
+                      100,
+                    ),
+                  );
+                },
+              ),
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: nextBadges.length > 3
+                  ? Text(
+                "+${nextBadges.length - 3}",
+                style: TextStyle(
+                  color: AppColors.grey_text,
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.normal,
+                  fontSize: 24,
                 ),
-                Expanded(
-                  child: ColorFiltered(
-                    colorFilter: ColorFilter.matrix(<double>[
-                      0.2126,
-                      0.7152,
-                      0.0722,
-                      0,
-                      0,
-                      0.2126,
-                      0.7152,
-                      0.0722,
-                      0,
-                      0,
-                      0.2126,
-                      0.7152,
-                      0.0722,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      1,
-                      0,
-                    ]),
-                    child: Image.asset('assets/dummy_img/prettybadge.png'),
-                  ),
-                ),
-                Expanded(
-                  child: ColorFiltered(
-                    colorFilter: ColorFilter.matrix(<double>[
-                      0.2126,
-                      0.7152,
-                      0.0722,
-                      0,
-                      0,
-                      0.2126,
-                      0.7152,
-                      0.0722,
-                      0,
-                      0,
-                      0.2126,
-                      0.7152,
-                      0.0722,
-                      0,
-                      0,
-                      0,
-                      0,
-                      0,
-                      1,
-                      0,
-                    ]),
-                    child: Image.asset('assets/dummy_img/prettybadge.png'),
-                  ),
-                ),
-              ],
+              )
+                  : SizedBox.shrink(),
             ),
           ],
         ),

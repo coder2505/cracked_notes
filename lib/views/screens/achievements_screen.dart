@@ -41,7 +41,7 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                   widget.user.allBadges,
                 ),
                 AchievementsWidgets.userBadges(height,width, context, widget.user),
-                AchievementsWidgets.allBadges(width, context),
+                AchievementsWidgets.allBadges(width,height, context, widget.user),
               ],
             ),
           ),
