@@ -12,10 +12,10 @@ class UserStatsScreenWidgets2 {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           ...badgeData["badges"].map(
-            (data) => helperWidgets.makeBadge(data["icon"], false, 100),
+            (data) => helperWidgets.makeBadgeForNetworkImages(data["icon"], false, 100),
           ),
           ...badgeData["upcomingBadges"].map(
-            (data) => helperWidgets.makeBadge(
+            (data) => helperWidgets.makeBadgeForNetworkImages(
               "https://leetcode.com${data["icon"]}",
               true,
               100,
@@ -264,7 +264,7 @@ class UserStatsScreenWidgets2 {
                         child: Column(
                           spacing: 10,
                           children: [
-                            helperWidgets.makeBadge(data["icon"], false, 125),
+                            helperWidgets.makeBadgeForNetworkImages(data["icon"], false, 125),
                             Text(
                               textAlign: TextAlign.center,
                               data["displayName"],
@@ -318,7 +318,7 @@ class UserStatsScreenWidgets2 {
                         child: Column(
                           spacing: 10,
                           children: [
-                            helperWidgets.makeBadge(
+                            helperWidgets.makeBadgeForNetworkImages(
                               "https://leetcode.com${data["icon"]}",
                               false,
                               125,

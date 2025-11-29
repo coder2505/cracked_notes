@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 
 class helperWidgets {
-  static Widget makeBadge(String imgUrl, bool blackAndWhite, double height) {
+  static Widget makeBadgeForNetworkImages(
+    String imgUrl,
+    bool blackAndWhite,
+    double height,
+  ) {
     return SizedBox(
       height: height,
       child: blackAndWhite == true
@@ -42,6 +46,43 @@ class helperWidgets {
                   : imgUrl,
               errorBuilder: (context, object, stackTrace) => SizedBox.shrink(),
             ),
+    );
+  }
+
+  static Widget makeBadgeForAssetImages(
+    Image image,
+    bool blackAndWhite,
+    double height,
+  ) {
+    return SizedBox(
+      height: height,
+      child: blackAndWhite
+          ? ColorFiltered(
+              colorFilter: ColorFilter.matrix(<double>[
+                0.2126,
+                0.7152,
+                0.0722,
+                0,
+                0,
+                0.2126,
+                0.7152,
+                0.0722,
+                0,
+                0,
+                0.2126,
+                0.7152,
+                0.0722,
+                0,
+                0,
+                0,
+                0,
+                0,
+                1,
+                0,
+              ]),
+              child: image,
+            )
+          : image,
     );
   }
 
@@ -109,5 +150,4 @@ class helperWidgets {
             ),
           );
   }
-
 }

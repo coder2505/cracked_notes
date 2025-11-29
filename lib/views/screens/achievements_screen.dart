@@ -17,6 +17,8 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
 
     return Scaffold(
       backgroundColor: AppColors.background_black,
@@ -38,7 +40,7 @@ class _AchievementsScreenState extends State<AchievementsScreen> {
                   widget.user.nextBadges,
                   widget.user.allBadges,
                 ),
-                AchievementsWidgets.userBadges(width, context),
+                AchievementsWidgets.userBadges(height,width, context, widget.user),
                 AchievementsWidgets.allBadges(width, context),
               ],
             ),
