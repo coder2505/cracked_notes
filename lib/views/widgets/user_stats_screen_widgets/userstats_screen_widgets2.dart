@@ -34,165 +34,132 @@ class UserStatsScreenWidgets2 {
     BuildContext context,
   ) {
     return Column(
-      spacing: 10,
-      mainAxisSize: MainAxisSize.max,
+      spacing: 10, // Keep your existing spacing
+      mainAxisSize: MainAxisSize.min, // Wrap content height
       children: [
+        // --- TOP SECTION (Global Ranking) ---
+        // No fixed height. It grows with text size.
         Container(
+          width: double.infinity, // Full width
           decoration: decoration,
-          width: width,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                helperWidgets.contestText(
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+          child: Column(
+            children: [
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: helperWidgets.contestText(
                   contestData["contestGlobalRanking"].toString(),
                   48,
                   FontWeight.w800,
                   true,
                 ),
-                helperWidgets.contestText(
-                  "Global Ranking",
-                  16,
-                  FontWeight.w700,
-                  false,
-                ),
-              ],
-            ),
+              ),
+              helperWidgets.contestText(
+                "Global Ranking",
+                16,
+                FontWeight.w700,
+                false,
+              ),
+            ],
           ),
         ),
-        Row(
-          spacing: 5,
-          children: [
-            Column(
-              spacing: 1,
-              children: [
-                Container(
-                  alignment: Alignment.center,
-                  width: width / 3.2,
-                  height: height / 9,
-                  decoration: decoration,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      helperWidgets.contestText(
-                        contestData["contestAttend"].toString(),
-                        48,
-                        FontWeight.w700,
-                        true,
-                      ),
-                      helperWidgets.contestText(
-                        "Attended",
-                        14,
-                        FontWeight.w700,
-                        false,
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.center,
-                  width: width / 3.2,
-                  height: height / 9,
-                  decoration: decoration,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      helperWidgets.contestText(
-                    "${(contestData["contestTopPercentage"]*10).toString()}%",
-                        44,
-                        FontWeight.w700,
-                        true,
-                      ),
-                      helperWidgets.contestText(
-                        "Top Percent",
-                        13,
-                        FontWeight.w700,
-                        false,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            Container(
-              decoration: decoration,
-              width: width / 3.2,
-              height: 2 * (height / 9),
-              child: Column(
-                spacing: 15,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset('assets/dummy_img/trophy.png'),
-                  helperWidgets.contestText(
-                    "Contests",
-                    18,
-                    FontWeight.w800,
-                    false,
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              decoration: decoration,
-              width: width / 3.8,
-              height: 2 * (height / 9),
-              child: Column(
-                spacing: 15,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  helperWidgets.contestText(
-                    (contestData["contestRating"].ceil()).toString(),
-                    40,
-                    FontWeight.w700,
-                    true,
-                  ),
-                  helperWidgets.contestText(
-                    "Contest Rating",
-                    13,
-                    FontWeight.w700,
-                    false,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-        Row(
-          spacing: 10,
-          children: [
-            Container(
-              decoration: decoration,
-              width: width / 1.6,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 4),
+
+        // --- MIDDLE SECTION (Grid) ---
+        // IntrinsicHeight ensures the "Contests" and "Rating" cards
+        // match the height of the column on the left.
+        IntrinsicHeight(
+          child: Row(
+            spacing: 10,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Left Column (Attended & Top Percent)
+              Expanded(
+                flex: 1,
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  spacing: 10,
                   children: [
-                    helperWidgets.contestText(
-                      contestData["totalParticipants"].toString(),
-                      40,
-                      FontWeight.w700,
-                      true,
+                    // Attended
+                    Expanded(
+                      child: _buildStatCard(
+                        decoration: decoration,
+                        value: contestData["contestAttend"].toString(),
+                        label: "Attended",
+                      ),
                     ),
-                    helperWidgets.contestText(
-                      "Participants",
-                      13,
-                      FontWeight.w700,
-                      false,
+                    // Top Percent
+                    Expanded(
+                      child: _buildStatCard(
+                        decoration: decoration,
+                        value: "${contestData["contestTopPercentage"]}%",
+                        label: "Top Percent",
+                        valueSize: 38, // Slightly smaller font for % to fit
+                      ),
                     ),
                   ],
                 ),
               ),
-            ),
-            Expanded(
-              child: GestureDetector(
+
+              // Middle Column (Contests / Trophy)
+              Expanded(
+                flex: 1,
+                child: Container(
+                  decoration: decoration,
+                  padding: const EdgeInsets.all(8),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // Using Flexible to let image shrink if needed
+                      Flexible(
+                        child: Image.asset(
+                          'assets/dummy_img/trophy.png',
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      helperWidgets.contestText(
+                        "Contests",
+                        18,
+                        FontWeight.w800,
+                        false,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              // Right Column (Contest Rating)
+              Expanded(
+                flex: 1,
+                child: _buildStatCard(
+                  decoration: decoration,
+                  value: contestData["contestRating"].ceil().toString(),
+                  label: "Contest Rating",
+                  valueSize: 40,
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        // --- BOTTOM SECTION (Participants & Arrow) ---
+        IntrinsicHeight(
+          child: Row(
+            spacing: 10,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Participants Card
+              Expanded(
+                child: _buildStatCard(
+                  decoration: decoration,
+                  value: contestData["totalParticipants"].toString(),
+                  label: "Participants",
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                ),
+              ),
+
+              // Arrow Button
+              GestureDetector(
                 onTap: () {
                   Navigator.push(
                     context,
@@ -202,19 +169,55 @@ class UserStatsScreenWidgets2 {
                     ),
                   );
                 },
-                child: Container(
-                  height: height / 11,
-                  decoration: decoration,
-                  child: Icon(
-                    Icons.arrow_forward_ios,
-                    color: AppColors.faded_yellow,
+                child: AspectRatio(
+                  aspectRatio: 1, // Keeps the button square
+                  child: Container(
+                    decoration: decoration,
+                    child: Icon(
+                      Icons.arrow_forward_ios,
+                      color: AppColors.faded_yellow,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ],
+    );
+  }
+
+  static Widget _buildStatCard({
+    required Decoration decoration,
+    required String value,
+    required String label,
+    double valueSize = 44,
+    EdgeInsets padding = const EdgeInsets.all(4),
+  }) {
+    return Container(
+      decoration: decoration,
+      padding: padding,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // FittedBox prevents overflow if the number is huge
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: helperWidgets.contestText(
+              value,
+              valueSize,
+              FontWeight.w700,
+              true,
+            ),
+          ),
+          helperWidgets.contestText(
+            label,
+            13, // Standardized label size
+            FontWeight.w700,
+            false,
+          ),
+        ],
+      ),
     );
   }
 

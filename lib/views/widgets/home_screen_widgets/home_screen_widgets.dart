@@ -190,97 +190,100 @@ class HomeScreenWidgets {
       padding: const EdgeInsets.all(12.0),
       child: Row(
         children: [
-          Column(
-            spacing: 10,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text.rich(
-                TextSpan(
-                  style: TextStyle(fontFamily: 'Inter', fontSize: 40),
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: '$name,\n',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.faded_yellow,
+          Expanded(
+            child: Column(
+              spacing: 10,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Text.rich(
+                  TextSpan(
+                    style: TextStyle(fontFamily: 'Inter', fontSize: 40),
+                    children: <TextSpan>[
+                      TextSpan(
+                        text: '$name,\n',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.faded_yellow,
+                        ),
                       ),
-                    ),
-                    TextSpan(
-                      text: 'The Knight',
-                      style: TextStyle(
-                        fontStyle: FontStyle.italic,
-                        color: AppColors.faded_yellow,
+                      TextSpan(
+                        text: 'The Knight',
+                        style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          color: AppColors.faded_yellow,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  color: AppColors.app_trans_blue,
-                  borderRadius: BorderRadius.all(Radius.circular(30)),
-                  border: BoxBorder.all(color: AppColors.app_blue),
+                Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.app_trans_blue,
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    border: BoxBorder.all(color: AppColors.app_blue),
+                  ),
+                  height: height * 0.05,
+                  child: Row(
+                    spacing: 8,
+                    children: [
+                      SizedBox(width: 3),
+                      Icon(Icons.star, color: Colors.amber.shade800),
+                      Icon(Icons.diamond, color: Colors.indigo.shade700),
+                      Icon(
+                        Icons.workspace_premium,
+                        color: Colors.purple.shade800,
+                      ),
+                      SizedBox(width: 3),
+                    ],
+                  ),
                 ),
-                height: height * 0.05,
-                child: Row(
-                  spacing: 8,
+                Row(
+                  spacing: 10,
                   children: [
-                    SizedBox(width: 3),
-                    Icon(Icons.star, color: Colors.amber.shade800),
-                    Icon(Icons.diamond, color: Colors.indigo.shade700),
-                    Icon(
-                      Icons.workspace_premium,
-                      color: Colors.purple.shade800,
+                    Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.app_trans_red,
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        border: BoxBorder.all(color: AppColors.app_red),
+                      ),
+                      height: height * 0.05,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          spacing: 8,
+                          children: [
+                            Icon(Icons.whatshot, color: Colors.orange.shade800),
+                            Text("62"),
+                          ],
+                        ),
+                      ),
                     ),
-                    SizedBox(width: 3),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.app_trans_yellow,
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        border: BoxBorder.all(color: AppColors.app_yellow),
+                      ),
+                      height: height * 0.05,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          spacing: 8,
+                          children: [
+                            Icon(
+                              Icons.developer_board,
+                              color: Colors.grey.shade800,
+                            ),
+                            Text("1222"),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
-              ),
-              Row(
-                spacing: 10,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.app_trans_red,
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                      border: BoxBorder.all(color: AppColors.app_red),
-                    ),
-                    height: height * 0.05,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        spacing: 8,
-                        children: [
-                          Icon(Icons.whatshot, color: Colors.orange.shade800),
-                          Text("62"),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.app_trans_yellow,
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                      border: BoxBorder.all(color: AppColors.app_yellow),
-                    ),
-                    height: height * 0.05,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        spacing: 8,
-                        children: [
-                          Icon(
-                            Icons.developer_board,
-                            color: Colors.grey.shade800,
-                          ),
-                          Text("1222"),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),

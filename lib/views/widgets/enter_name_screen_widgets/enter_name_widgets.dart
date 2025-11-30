@@ -37,29 +37,31 @@ class EnterNameScreenWidgets {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text.rich(
-                                  TextSpan(
-                                    style: TextStyle(
-                                      fontFamily: 'Inter',
-                                      color: AppColors.faded_yellow,
+                                Expanded(
+                                  child: Text.rich(
+                                    TextSpan(
+                                      style: TextStyle(
+                                        fontFamily: 'Inter',
+                                        color: AppColors.faded_yellow,
+                                      ),
+                                      children: <TextSpan>[
+                                        TextSpan(
+                                          text: 'is that you, ',
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                        TextSpan(text: "\n"),
+                                        TextSpan(
+                                          text: "${data["name"]} ?",
+                                          style: TextStyle(
+                                            fontSize: 32,
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: 'is that you, ',
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                      TextSpan(text: "\n"),
-                                      TextSpan(
-                                        text: "${data["name"]} ?",
-                                        style: TextStyle(
-                                          fontSize: 32,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                    ],
                                   ),
                                 ),
                                 SizedBox(

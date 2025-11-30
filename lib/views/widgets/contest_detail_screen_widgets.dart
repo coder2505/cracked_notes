@@ -100,7 +100,7 @@ class ContestDetailScreenWidgets{
                   ),
                 ),
                 Expanded(child: SizedBox()),
-                Text("${(data["contestTopPercentage"]*10).toString()} %",  style: TextStyle(
+                Text("${(data["contestTopPercentage"]).toString()} %",  style: TextStyle(
                   fontSize: 24,
                   fontFamily: 'Inter',
                   color: AppColors.faded_yellow,

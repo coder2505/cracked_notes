@@ -40,23 +40,25 @@ class _UserStatsScreenState extends ConsumerState<UserStatsScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text.rich(
-                      TextSpan(
-                        style: TextStyle(
-                          fontFamily: 'Inter',
-                          color: AppColors.faded_yellow,
-                        ),
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: '${widget.userModel.name}.',
-                            style: TextStyle(
-                              fontSize: 48,
-                              fontWeight: FontWeight.w600,
-                            ),
+                    Expanded(
+                      child: Text.rich(
+                        TextSpan(
+                          style: TextStyle(
+                            fontFamily: 'Inter',
+                            color: AppColors.faded_yellow,
                           ),
-                          TextSpan(text: "\n"),
-                          TextSpan(text: widget.userModel.username),
-                        ],
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: '${widget.userModel.name}.',
+                              style: TextStyle(
+                                fontSize: 48,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            TextSpan(text: "\n"),
+                            TextSpan(text: widget.userModel.username),
+                          ],
+                        ),
                       ),
                     ),
                     SizedBox(

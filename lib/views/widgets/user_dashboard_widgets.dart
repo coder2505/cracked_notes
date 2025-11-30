@@ -3,7 +3,13 @@ import 'package:flutter/material.dart';
 
 class UserDashboardWidgets {
 
-  static List<Color> piechartcolors =[Color(0xff9999ff),Color(0xff993366), Color(0xffffffcc),Color(0xffccffff), Color(0xff660066)];
+  static List<Color> piechartcolors = [
+    Color(0xff88C0D0), // Frost Blue
+    Color(0xffBF616A), // Soft Red (Errors)
+    Color(0xffA3BE8C), // Muted Green (Success)
+    Color(0xff81A1C1), // Glacial Blue
+    Color(0xffEBCB8B), // Soft Yellow (Warnings)
+  ];
 
   static Widget topRow(String name) {
     return Row(
@@ -80,7 +86,8 @@ class UserDashboardWidgets {
             ),
           ),
           Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.center,
             spacing: 10,
             children: List.generate(
               langStats.length,
@@ -121,7 +128,7 @@ class UserDashboardWidgets {
           ),
         );
 
-      case "Python3":
+      case String name when name.startsWith('Python'):
         return PieChartSectionData(
           color: piechartcolors[1],
           value: value,
@@ -133,15 +140,29 @@ class UserDashboardWidgets {
             fontWeight: FontWeight.bold,
             color: const Color(0x00ffffff),
           ),
-          // badgeWidget: SizedBox(
-          //   height: 50,
-          //   child: Image.asset('assets/lang_icons/python.png'),
-          // ),
         );
 
       case "C++":
         return PieChartSectionData(
           color: piechartcolors[2],
+          value: value,
+          title: name,
+          radius: 100,
+          titleStyle: TextStyle(
+            fontSize: 16,
+            fontFamily: 'Inter',
+            fontWeight: FontWeight.bold,
+            color: const Color(0x00ffffff),
+          ),
+          // badgeWidget: SizedBox(
+          //   height: 50,
+          //   child: Image.asset('assets/lang_icons/c++.png'),
+          // ),
+        );
+
+      case "C":
+        return PieChartSectionData(
+          color: piechartcolors[3],
           value: value,
           title: name,
           radius: 100,
@@ -189,6 +210,12 @@ class UserDashboardWidgets {
         return buildColoredLabel(
           img: Image.asset('assets/lang_icons/c++.png'),
           index: 2,
+        );
+
+      case 'C':
+        return buildColoredLabel(
+          img: Image.asset('assets/lang_icons/c_icon.png'),
+          index: 3,
         );
     }
 
