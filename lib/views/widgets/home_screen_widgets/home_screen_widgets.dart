@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cracked_notes/viewmodel/returnbadgefromdata.dart';
 import 'package:cracked_notes/views/widgets/home_screen_widgets/timer_circles.dart';
 import 'package:flutter/material.dart';
 
@@ -53,8 +54,8 @@ class HomeScreenWidgets {
     );
   }
 
-  static Widget carouselHomeScreen() {
-    List<Widget> listCarousel = [currentBadge(), userMessage()];
+  static Widget carouselHomeScreen(List<dynamic> nextbadge, Map badgeData, double height) {
+    List<Widget> listCarousel = [nextBadge(nextbadge, height), userMessage(nextbadge, badgeData)];
 
     return CarouselSlider(
       items: listCarousel,
@@ -74,10 +75,14 @@ class HomeScreenWidgets {
     );
   }
 
-  static Widget userMessage() {
+  static Widget userMessage(List<dynamic> nextbadge, Map attainableBadgeData) {
+
+    print(attainableBadgeData);
+    print(nextbadge);
+
     return Center(
       child: Text(
-        "You Unlock Warrior Badge on 5 day streak ! \n\n\nKeep Going!",
+        "${attainableBadgeData[nextbadge[0]["title"]]["shortDesc"]}\nProgress: ${nextbadge[0]["completed"]}/${nextbadge[0]["total"]}",
         style: TextStyle(
           color: AppColors.faded_yellow,
           fontFamily: 'Inter',
@@ -89,26 +94,26 @@ class HomeScreenWidgets {
     );
   }
 
-  static Widget currentBadge() {
+  static Widget nextBadge(List<dynamic> nextbadge, double height) {
     return Column(
       children: [
         Align(
           alignment: Alignment.centerLeft,
           child: Text(
-            "Current\nBadge",
+            "Next\nAchievement",
             style: TextStyle(
               color: AppColors.faded_yellow,
               fontFamily: 'Inter',
               fontWeight: FontWeight.w600,
-              fontSize: 20,
+              fontSize: 16,
             ),
           ),
         ),
         Align(
           alignment: Alignment.centerRight,
           child: SizedBox(
-            width: 100,
-            child: Image.asset('assets/dummy_img/trophy.png'),
+            height: height*0.12,
+            child: returnBadge(nextbadge[0]["title"]),
           ),
         ),
       ],

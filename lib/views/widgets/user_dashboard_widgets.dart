@@ -69,13 +69,14 @@ class UserDashboardWidgets {
   }
 
   static Widget pieChart(List<Map<String, dynamic>> langStats) {
-    //{ "languageName": "Java","Solved": 85 },
-
     return SizedBox(
       height: 250,
       child: Row(
+        spacing: 10,
         children: [
+          // 1. The Chart (Takes 60% of width)
           Expanded(
+            flex: 3,
             child: PieChart(
               PieChartData(
                 borderData: FlBorderData(show: false),
@@ -85,13 +86,22 @@ class UserDashboardWidgets {
               ),
             ),
           ),
-          Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            spacing: 10,
-            children: List.generate(
-              langStats.length,
-              (index) => makealist(langStats[index]["languageName"]),
+
+          // 2. The Scrollable Legend (Takes 40% of width)
+          Expanded(
+            flex: 2,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: ListView.separated(
+                // shrinkWrap true allows it to occupy only needed space if list is small
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
+                itemCount: langStats.length,
+                separatorBuilder: (c, i) => const SizedBox(height: 10),
+                itemBuilder: (context, index) {
+                  return makealist(langStats[index]["languageName"]);
+                },
+              ),
             ),
           ),
         ],

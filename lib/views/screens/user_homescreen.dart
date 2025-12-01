@@ -73,7 +73,7 @@ class _UserHomescreenState extends State<UserHomescreen> {
                       height: height * 0.2,
                       child: Padding(
                         padding: const EdgeInsets.all(12.0),
-                        child: HomeScreenWidgets.carouselHomeScreen(),
+                        child: HomeScreenWidgets.carouselHomeScreen(widget.user.nextBadges, widget.user.allBadges, height),
                       ),
                     ),
                   ],

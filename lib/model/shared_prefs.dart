@@ -9,6 +9,7 @@ class UserPrefs {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_keyLoggedIn, isLoggedIn);
     await prefs.setString(_keyUsername, username);
+    print("saved");
   }
 
   // --- GETTERS ---
