@@ -2,27 +2,31 @@ import 'package:cracked_notes/core/extensions/extensions.dart';
 import 'package:cracked_notes/core/theme/app_colors.dart';
 import 'package:cracked_notes/model/user_model.dart';
 import 'package:cracked_notes/utils/timer_countdown.dart';
+import 'package:cracked_notes/viewmodel/ui_stateproviders.dart';
 import 'package:cracked_notes/views/widgets/home_screen_widgets/github_widget.dart';
 import 'package:cracked_notes/views/widgets/home_screen_widgets/home_screen_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class UserHomescreen extends StatefulWidget {
+class UserHomescreen extends ConsumerStatefulWidget {
   final UserModel user;
 
   const UserHomescreen({super.key, required this.user});
 
   @override
-  State<UserHomescreen> createState() => _UserHomescreenState();
+  ConsumerState<UserHomescreen> createState() => _UserHomescreenState();
 }
 
-class _UserHomescreenState extends State<UserHomescreen> {
+class _UserHomescreenState extends ConsumerState<UserHomescreen> {
   TimerCountDown timerService = TimerCountDown();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    timerService.timeToMidnight();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      timerService.timeToMidnight(ref);
+    });
   }
 
   @override
@@ -48,7 +52,7 @@ class _UserHomescreenState extends State<UserHomescreen> {
                 Container(
                   decoration: BoxDecoration(
                     color: AppColors.secondary_black_trans,
-                    border: BoxBorder.all(color: AppColors.green_trans_counter),
+                    border: BoxBorder.all(color: ref.watch(timerBorderColor)),
                     borderRadius: BorderRadius.all(Radius.circular(25)),
                   ),
                   height: height * 0.12,

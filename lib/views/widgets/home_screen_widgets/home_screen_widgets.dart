@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cracked_notes/viewmodel/returnbadgefromdata.dart';
 import 'package:cracked_notes/views/widgets/home_screen_widgets/timer_circles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../utils/timer_countdown.dart';
@@ -170,7 +171,7 @@ class HomeScreenWidgets {
               "The Countdown has begun.",
               style: TextStyle(
                 fontFamily: 'Inter',
-                fontWeight: FontWeight.w300,
+                fontWeight: FontWeight.normal,
                 fontSize: 18,
                 color: Colors.white,
               ),

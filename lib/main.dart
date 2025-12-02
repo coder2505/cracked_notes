@@ -24,6 +24,6 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key, required this.hasloggedin, required this.username});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(routerConfig: Routes(context: context, hasloggedin:hasloggedin, username: username).router);
+    return MaterialApp.router(routerConfig: Routes(context: context, hasloggedin:hasloggedin, username: username).router, debugShowCheckedModeBanner: false,);
   }
 }

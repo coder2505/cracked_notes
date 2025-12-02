@@ -1,5 +1,9 @@
 import 'dart:async';
 
+import 'package:cracked_notes/core/theme/app_colors.dart';
+import 'package:cracked_notes/viewmodel/ui_stateproviders.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 class TimerCountDown {
   static StreamController<String> controller =
       StreamController<String>.broadcast();
@@ -23,7 +27,22 @@ class TimerCountDown {
     return Duration(hours: hour, minutes: minutes);
   }
 
-  void timeToMidnight() async {
+  static void calculateTimerColor(String duration, WidgetRef ref) {
+    List time = duration.split('\n');
+    int hour = int.parse(time[0]);
+
+    if(hour<16){
+      ref.read(timerBorderColor.notifier).state = AppColors.app_trans_yellow;
+    }else if(hour < 8){
+      ref.read(timerBorderColor.notifier).state = AppColors.app_trans_red;
+    }else{
+      ref.read(timerBorderColor.notifier).state = AppColors.green_trans_counter;
+    }
+
+  }
+
+
+  void timeToMidnight(WidgetRef ref) async {
     Timer.periodic(const Duration(seconds: 60), (timer) {
       DateTime midnight = DateTime(
         DateTime.now().year,
@@ -36,6 +55,7 @@ class TimerCountDown {
       String timeLeft = _printDuration(difference);
 
       calculatePercentage(timeLeft);
+      calculateTimerColor(timeLeft, ref);
 
       controller.add(timeLeft);
 
@@ -68,8 +88,6 @@ class TimerCountDown {
     int timeLeft = fromStringToDuration(_printDuration(difference)).inMinutes;
 
     return timeLeft/_totalminutes;
-
-
   }
 
   String printTimeInitial() {
