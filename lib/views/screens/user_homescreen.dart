@@ -24,7 +24,7 @@ class _UserHomescreenState extends ConsumerState<UserHomescreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_){
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       timerService.timeToMidnight(ref);
     });
   }
@@ -33,6 +33,32 @@ class _UserHomescreenState extends ConsumerState<UserHomescreen> {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+  }
+
+  String returnUserTitle(List<dynamic> badges) {
+
+    List<String> badges_attainable = [
+      "Hot Start",
+      "Routine Builder",
+      "Habit Hacker",
+      "Flow Keeper",
+      "Unstoppable",
+    ];
+
+    int i = 0;
+
+    if(badges.isEmpty) return "Sapling";
+
+    for(; i < 5; i++){
+      
+      if(badges[i] != badges_attainable[i]){
+        return badges_attainable[i];
+      }
+      
+    }
+    
+    return badges_attainable[i];
+
   }
 
   @override
@@ -68,7 +94,10 @@ class _UserHomescreenState extends ConsumerState<UserHomescreen> {
                       height: height * 0.2,
                       child: Padding(
                         padding: const EdgeInsets.all(4.0),
-                        child: HomeScreenWidgets.streakContainer(height, widget.user.customUserData),
+                        child: HomeScreenWidgets.streakContainer(
+                          height,
+                          widget.user.customUserData,
+                        ),
                       ),
                     ),
                     Container(
@@ -77,7 +106,11 @@ class _UserHomescreenState extends ConsumerState<UserHomescreen> {
                       height: height * 0.2,
                       child: Padding(
                         padding: const EdgeInsets.all(12.0),
-                        child: HomeScreenWidgets.carouselHomeScreen(widget.user.nextBadges, widget.user.allBadges, height),
+                        child: HomeScreenWidgets.carouselHomeScreen(
+                          widget.user.nextBadges,
+                          widget.user.allBadges,
+                          height,
+                        ),
                       ),
                     ),
                   ],
@@ -87,7 +120,11 @@ class _UserHomescreenState extends ConsumerState<UserHomescreen> {
                   width: width,
                   child: HomeScreenWidgets.homeUserContainerInfo(
                     height,
+                    width,
                     widget.user.name,
+                    returnUserTitle(widget.user.userAttainedBadges),
+                    widget.user.userAttainedBadges,
+                    context
                   ),
                 ),
                 SizedBox(

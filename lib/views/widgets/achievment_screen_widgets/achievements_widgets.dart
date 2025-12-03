@@ -258,7 +258,9 @@ class AchievementsWidgets {
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: 3,
+                itemCount: userAttainedBadges.length > 3
+                    ? 3
+                    : userAttainedBadges.length,
                 itemBuilder: (context, index) {
                   return SizedBox(
                     width: width / 3.1,
@@ -291,7 +293,7 @@ class AchievementsWidgets {
     double width,
     double height,
     BuildContext context,
-    UserModel user
+    UserModel user,
   ) {
     final List<dynamic> nextBadges = user.nextBadges;
 
@@ -369,14 +371,14 @@ class AchievementsWidgets {
               alignment: Alignment.centerRight,
               child: nextBadges.length > 3
                   ? Text(
-                "+${nextBadges.length - 3}",
-                style: TextStyle(
-                  color: AppColors.grey_text,
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.normal,
-                  fontSize: 24,
-                ),
-              )
+                      "+${nextBadges.length - 3}",
+                      style: TextStyle(
+                        color: AppColors.grey_text,
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.normal,
+                        fontSize: 24,
+                      ),
+                    )
                   : SizedBox.shrink(),
             ),
           ],

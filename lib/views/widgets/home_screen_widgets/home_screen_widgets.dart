@@ -3,13 +3,15 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cracked_notes/viewmodel/returnbadgefromdata.dart';
 import 'package:cracked_notes/views/widgets/home_screen_widgets/timer_circles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../utils/timer_countdown.dart';
 
 class HomeScreenWidgets {
-  static Widget streakContainer(double height, Map<String,dynamic> customUserData) {
+  static Widget streakContainer(
+    double height,
+    Map<String, dynamic> customUserData,
+  ) {
     return Column(
       spacing: 10,
 
@@ -55,8 +57,15 @@ class HomeScreenWidgets {
     );
   }
 
-  static Widget carouselHomeScreen(List<dynamic> nextbadge, Map badgeData, double height) {
-    List<Widget> listCarousel = [nextBadge(nextbadge, height), userMessage(nextbadge, badgeData)];
+  static Widget carouselHomeScreen(
+    List<dynamic> nextbadge,
+    Map badgeData,
+    double height,
+  ) {
+    List<Widget> listCarousel = [
+      nextBadge(nextbadge, height),
+      userMessage(nextbadge, badgeData),
+    ];
 
     return CarouselSlider(
       items: listCarousel,
@@ -77,10 +86,6 @@ class HomeScreenWidgets {
   }
 
   static Widget userMessage(List<dynamic> nextbadge, Map attainableBadgeData) {
-
-    print(attainableBadgeData);
-    print(nextbadge);
-
     return Center(
       child: Text(
         "${attainableBadgeData[nextbadge[0]["title"]]["shortDesc"]}\nProgress: ${nextbadge[0]["completed"]}/${nextbadge[0]["total"]}",
@@ -113,7 +118,7 @@ class HomeScreenWidgets {
         Align(
           alignment: Alignment.centerRight,
           child: SizedBox(
-            height: height*0.12,
+            height: height * 0.12,
             child: returnBadge(nextbadge[0]["title"]),
           ),
         ),
@@ -191,7 +196,14 @@ class HomeScreenWidgets {
     );
   }
 
-  static Widget homeUserContainerInfo(double height, String name) {
+  static Widget homeUserContainerInfo(
+    double height,
+    double width,
+    String name,
+    String title,
+    List<dynamic> attainedBadges,
+    BuildContext context,
+  ) {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: Row(
@@ -214,7 +226,7 @@ class HomeScreenWidgets {
                         ),
                       ),
                       TextSpan(
-                        text: 'The Knight',
+                        text: "$title.",
                         style: TextStyle(
                           fontStyle: FontStyle.italic,
                           color: AppColors.faded_yellow,
@@ -223,71 +235,46 @@ class HomeScreenWidgets {
                     ],
                   ),
                 ),
-                Container(
+                attainedBadges.isNotEmpty? Container(
                   decoration: BoxDecoration(
-                    color: AppColors.app_trans_blue,
-                    borderRadius: BorderRadius.all(Radius.circular(30)),
-                    border: BoxBorder.all(color: AppColors.app_blue),
+                    color: AppColors.secondary_black_outline,
+                    border: BoxBorder.all(
+                      color: AppColors.secondary_black_trans,
+                    ),
+                    borderRadius: BorderRadius.all(Radius.circular(25)),
                   ),
-                  height: height * 0.05,
+                  height: height * 0.1,
                   child: Row(
-                    spacing: 8,
                     children: [
-                      SizedBox(width: 3),
-                      Icon(Icons.star, color: Colors.amber.shade800),
-                      Icon(Icons.diamond, color: Colors.indigo.shade700),
-                      Icon(
-                        Icons.workspace_premium,
-                        color: Colors.purple.shade800,
+                      ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: attainedBadges.length > 3
+                            ? 3
+                            : attainedBadges.length,
+                        itemBuilder: (context, index) {
+                          return SizedBox(
+                            width: width / 5,
+                            child: returnBadge(attainedBadges[index]),
+                          );
+                        },
                       ),
-                      SizedBox(width: 3),
+                      Expanded(
+                        child: Center(
+                          child: Text(
+                            attainedBadges.length > 3?"+${attainedBadges.length - 3}":"",
+                            style: TextStyle(
+                              fontFamily: 'Inter',
+                              fontSize: 32,
+                              color: AppColors.grey_text,
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
-                ),
-                Row(
-                  spacing: 10,
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.app_trans_red,
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                        border: BoxBorder.all(color: AppColors.app_red),
-                      ),
-                      height: height * 0.05,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          spacing: 8,
-                          children: [
-                            Icon(Icons.whatshot, color: Colors.orange.shade800),
-                            Text("62"),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: AppColors.app_trans_yellow,
-                        borderRadius: BorderRadius.all(Radius.circular(20)),
-                        border: BoxBorder.all(color: AppColors.app_yellow),
-                      ),
-                      height: height * 0.05,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          spacing: 8,
-                          children: [
-                            Icon(
-                              Icons.developer_board,
-                              color: Colors.grey.shade800,
-                            ),
-                            Text("1222"),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                ): SizedBox.shrink(),
               ],
             ),
           ),

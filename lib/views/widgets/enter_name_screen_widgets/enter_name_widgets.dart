@@ -102,7 +102,7 @@ class EnterNameScreenWidgets {
       alignment: Alignment.center,
       child: AnimatedSwitcher(
         duration: Duration(seconds: 1),
-        child: ref.watch(showContainer)
+        child: ref.watch(foundUser)
             ? Row(
                 mainAxisSize: MainAxisSize.min,
                 spacing: 20,
@@ -118,6 +118,7 @@ class EnterNameScreenWidgets {
                     child: IconButton(
                       onPressed: () {
                         ref.read(showContainer.notifier).state = false;
+                        ref.read(foundUser.notifier).state = false;
                       },
                       icon: Icon(Icons.close),
                       color: Colors.white,

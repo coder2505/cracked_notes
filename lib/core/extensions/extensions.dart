@@ -149,7 +149,6 @@ extension ThemeColors on BuildContext {
 
   BoxDecoration get containerDecoration {
     return BoxDecoration(
-      // color: Colors.white,
       color: AppColors.secondary_black_trans,
       border: BoxBorder.all(color: AppColors.secondary_black_outline),
       borderRadius: BorderRadius.all(Radius.circular(25)),
