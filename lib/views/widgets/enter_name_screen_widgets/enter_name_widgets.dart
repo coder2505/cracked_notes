@@ -31,47 +31,54 @@ class EnterNameScreenWidgets {
                 .watch(userBasicInfoProvider)
                 .when(
                   data: (data) {
-                    return ref.read(foundUser)
-                        ? Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: Text.rich(
-                                    TextSpan(
-                                      style: TextStyle(
-                                        fontFamily: 'Inter',
-                                        color: AppColors.faded_yellow,
-                                      ),
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                          text: 'is that you, ',
-                                          style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                        TextSpan(text: "\n"),
-                                        TextSpan(
-                                          text: "${data["name"]} ?",
-                                          style: TextStyle(
-                                            fontSize: 32,
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+
+                    if(ref.read(foundUser)){
+                      return Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text.rich(
+                                TextSpan(
+                                  style: TextStyle(
+                                    fontFamily: 'Inter',
+                                    color: AppColors.faded_yellow,
                                   ),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: 'is that you, ',
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    TextSpan(text: "\n"),
+                                    TextSpan(
+                                      text: "${data["name"]} ?",
+                                      style: TextStyle(
+                                        fontSize: 32,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(
-                                  width: 100,
-                                  child: Image.network(data["avatar"]),
-                                ),
-                              ],
+                              ),
                             ),
-                          )
-                        : Padding(
+                            SizedBox(
+                              width: 100,
+                              child: Image.network(data["avatar"]),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+
+                    Future.microtask(() {
+                      ref.read(errorUser.notifier).state = true;
+                    });
+
+                    return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Center(
                               child: Text(
@@ -81,12 +88,18 @@ class EnterNameScreenWidgets {
                             ),
                           );
                   },
-                  error: (e, st) => Center(
+                  error: (e, st){
+
+                    Future.microtask(() {
+                      ref.read(errorUser.notifier).state = true;
+                    });
+
+                    return Center(
                     child: Text(
                       "Had trouble loading data",
                       style: TextStyle(color: Colors.white),
                     ),
-                  ),
+                  );},
                   loading: () => Center(child: CircularProgressIndicator()),
                 )
           : SizedBox.shrink(),
@@ -119,6 +132,8 @@ class EnterNameScreenWidgets {
                       onPressed: () {
                         ref.read(showContainer.notifier).state = false;
                         ref.read(foundUser.notifier).state = false;
+                        ref.read(errorUser.notifier).state = false;
+
                       },
                       icon: Icon(Icons.close),
                       color: Colors.white,
@@ -170,6 +185,25 @@ class EnterNameScreenWidgets {
                   ),
                 ],
               )
+            : ref.watch(errorUser)?
+        Container(
+          height: 75,
+          width: 75,
+          decoration: BoxDecoration(
+            color: Color(0x3d0071FF),
+            border: BoxBorder.all(color: Color(0xff0071FF)),
+            borderRadius: BorderRadius.all(Radius.circular(50)),
+          ),
+          child: IconButton(
+            onPressed: () {
+              ref.read(showContainer.notifier).state = false;
+              ref.read(foundUser.notifier).state = false;
+              ref.read(errorUser.notifier).state = false;
+            },
+            icon: Icon(Icons.refresh),
+            color: Colors.white,
+          ),
+        )
             : Container(
                 height: 75,
                 width: 75,
