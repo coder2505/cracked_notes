@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("kotlin-android")
+    id("org.jetbrains.kotlin.plugin.compose")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
@@ -9,6 +10,14 @@ android {
     namespace = "com.coder2505.cracked_notes"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "27.0.12077973"
+
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.1.0-beta03"
+    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -37,6 +46,13 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+}
+
+dependencies {
+    implementation("androidx.glance:glance:1.2.0-rc01")
+    implementation("androidx.glance:glance-appwidget:1.2.0-rc01")
+    implementation("androidx.glance:glance-material3:1.1.1")
+    implementation("androidx.glance:glance-material:1.1.1")
 }
 
 flutter {
