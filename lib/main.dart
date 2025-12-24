@@ -1,3 +1,4 @@
+import 'package:cracked_notes/repositories/methodchannel.dart';
 import 'package:cracked_notes/viewmodel/gorouter/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -24,6 +25,9 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key, required this.hasloggedin, required this.username});
   @override
   Widget build(BuildContext context) {
+
+    Methodchannel.getbattery();
+
     return MaterialApp.router(routerConfig: Routes(context: context, hasloggedin:hasloggedin, username: username).router, debugShowCheckedModeBanner: false,);
   }
 }
