@@ -1,10 +1,13 @@
 package com.example.cracked_notes
 
+import Constants
+import android.appwidget.AppWidgetManager
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceId
@@ -23,36 +26,64 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
+import com.example.cracked_notes.datastore.DataStore
 
 
-class Widgets : GlanceAppWidgetReceiver(){
+class Widgets : GlanceAppWidgetReceiver() {
 
     override val glanceAppWidget: GlanceAppWidget = StreakWidget()
 
 }
 
-class StreakWidget : GlanceAppWidget (){
+class StreakWidget : GlanceAppWidget() {
+    
+    private val TAG = "StreakWidget"
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
 
+        Log.d(TAG, "provideGlance: entered")
+
+        val streak = DataStore.read(Constants.STREAK_COUNT) ?: "0"
+
+        Log.d(TAG, "provideGlance: Read data from datastore")
+
         provideContent {
 
-            UI()
+            UI(streak)
 
         }
     }
 
     @Preview
     @Composable
-    fun UI(){
+    fun UI (streak : String = "100") {
 
-        Column(modifier = GlanceModifier.fillMaxSize().padding(16.dp).background(Color(0XFF1E1E1E))) {
-            Text("Streak", style = TextStyle(color = ColorProvider(Color.White), fontFamily = FontFamily.Monospace))
+        Log.d(TAG, "UI: inside widget ui")
+
+
+        Column(
+            modifier = GlanceModifier.fillMaxSize().padding(16.dp).background(Color(0XFF1E1E1E))
+        ) {
+            Text(
+                "Streak",
+                style = TextStyle(
+                    color = ColorProvider(Color.White),
+                    fontFamily = FontFamily.Monospace
+                )
+            )
             Box(
                 modifier = GlanceModifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                Text("100", style = TextStyle(color = ColorProvider(Color(0xffd64a4a)), fontSize = 72.sp, fontWeight = FontWeight.Bold ,fontFamily = FontFamily.SansSerif))
+                Text(
+                    streak,
+                    style = TextStyle(
+                        color = ColorProvider(Color(0xffd64a4a)),
+                        fontSize = 72.sp,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = FontFamily.SansSerif
+                    )
+                )
             }
         }
 
