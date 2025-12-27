@@ -62,7 +62,7 @@ class StreakWidget : GlanceAppWidget() {
 
 
         Column(
-            modifier = GlanceModifier.fillMaxSize().padding(16.dp).background(Color(0XFF1E1E1E))
+            modifier = GlanceModifier.fillMaxSize().padding(16.dp).background(Color(0XFF1B1B1B))
         ) {
             Text(
                 "Streak",
@@ -78,7 +78,7 @@ class StreakWidget : GlanceAppWidget() {
                 Text(
                     streak,
                     style = TextStyle(
-                        color = ColorProvider(Color(0xffd64a4a)),
+                        color = ColorProvider(Color(0xff0071FF)),
                         fontSize = 72.sp,
                         fontWeight = FontWeight.Bold,
                         fontFamily = FontFamily.SansSerif
