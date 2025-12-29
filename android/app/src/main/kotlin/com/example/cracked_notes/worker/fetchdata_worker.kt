@@ -2,12 +2,11 @@ package com.example.cracked_notes.worker
 
 import Constants
 import android.content.Context
-import android.content.Intent
 import android.util.Log
 import androidx.glance.appwidget.updateAll
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import com.example.cracked_notes.StreakWidget
+import com.example.cracked_notes.widgets.StreakWidget
 import com.example.cracked_notes.datastore.DataStore
 import com.example.cracked_notes.retrofit.RetrofitInstance
 import com.example.cracked_notes.retrofit.data_objects.UserDataObject

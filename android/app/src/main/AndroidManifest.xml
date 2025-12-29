@@ -32,7 +32,7 @@
             android:name="flutterEmbedding"
             android:value="2" />
 
-        <receiver android:name="com.example.cracked_notes.Widgets"
+        <receiver android:name="com.example.cracked_notes.widgets.Widgets"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -40,6 +40,16 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/streak_widget_info" />
+        </receiver>
+
+        <receiver android:name="com.example.cracked_notes.widgets.ProblemsSolvedVisualizationWidget"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/problems_solved_widget_info" />
         </receiver>
 
     </application>
