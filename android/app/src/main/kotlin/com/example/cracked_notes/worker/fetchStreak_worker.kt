@@ -25,7 +25,7 @@ class FetchDataWorker(appContext: Context, workerParameters: WorkerParameters) :
 
             if(response.isSuccessful){
                 Log.d(TAG, "doWork: worker has retrieved the data ${response.body()}")
-                DataStore.write(Constants.STREAK_COUNT, response.body()?.streak.toString())
+                DataStore.write(context = applicationContext,Constants.STREAK_COUNT, response.body()?.streak.toString())
                 Log.d(TAG, "doWork: worker has finished the work and wrote to datastore")
                 StreakWidget().updateAll(context = applicationContext)
                 Result.success()

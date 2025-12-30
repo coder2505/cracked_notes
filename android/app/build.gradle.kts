@@ -4,6 +4,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
+    kotlin("plugin.serialization") version "2.3.0" // Use your Kotlin version here
 }
 
 android {
@@ -21,13 +22,13 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
-    }
+//    kotlinOptions {
+//        jvmTarget = JavaVersion.VERSION_11.toString()
+//    }
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
@@ -87,6 +88,9 @@ dependencies {
 
     // Preferences DataStore (SharedPreferences like APIs)
     implementation("androidx.datastore:datastore-preferences:1.2.0")
+
+    //To use JSON serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
 
 }
 

@@ -41,7 +41,7 @@ class StreakWidget : GlanceAppWidget() {
 
         Log.d(TAG, "provideGlance: entered")
 
-        val streak = DataStore.read(Constants.STREAK_COUNT) ?: "0"
+        val streak = DataStore.read(context,Constants.STREAK_COUNT) ?: "0"
 
         Log.d(TAG, "provideGlance: Read data from datastore")
 

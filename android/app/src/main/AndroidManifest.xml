@@ -42,7 +42,7 @@
                 android:resource="@xml/streak_widget_info" />
         </receiver>
 
-        <receiver android:name="com.example.cracked_notes.widgets.ProblemsSolvedVisualizationWidget"
+        <receiver android:name="com.example.cracked_notes.widgets.ProblemsSolvedVisualization"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

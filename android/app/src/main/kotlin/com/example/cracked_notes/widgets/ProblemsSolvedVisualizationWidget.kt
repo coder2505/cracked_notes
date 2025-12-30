@@ -35,19 +35,26 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
+import com.example.cracked_notes.datastore.JsonDataStore
 
 
-class ProblemsSolvedVisualizationWidget : GlanceAppWidgetReceiver() {
+class ProblemsSolvedVisualization : GlanceAppWidgetReceiver() {
 
-    override val glanceAppWidget: GlanceAppWidget = Widget()
+    override val glanceAppWidget: GlanceAppWidget = ProblemsSolvedVisualizationWidget()
 
 
 }
 
-data class ChartSegment(val value: Float, val color: Int)
+data class ChartSegment(val value: Int, val color: Int)
 
-private class Widget : GlanceAppWidget() {
+val BLUE_COLOR: Long = 0xff7FB0FF
+
+class ProblemsSolvedVisualizationWidget : GlanceAppWidget() {
     override suspend fun provideGlance(context: Context, id: GlanceId) {
+
+        val obj = JsonDataStore.read(context)
+
+
         provideContent {
 
             Column(
@@ -55,9 +62,17 @@ private class Widget : GlanceAppWidget() {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                ProgressWidgetUI()
+                ProgressWidgetUI(
+                    hardProblems = obj.hardSolved,
+                    mediumProblems = obj.mediumSolved,
+                    easyProblems = obj.easySolved,
+                )
                 Spacer(GlanceModifier.height(16.dp))
-                Index()
+                Index(
+                    hardProblems = obj.hardSolved,
+                    mediumProblems = obj.mediumSolved,
+                    easyProblems = obj.easySolved,
+                )
             }
 
 
@@ -67,7 +82,7 @@ private class Widget : GlanceAppWidget() {
 
 
 @Composable
-fun Index() {
+fun Index(hardProblems: Int, mediumProblems: Int, easyProblems: Int) {
 
     Row(
         modifier = GlanceModifier.fillMaxWidth(),
@@ -80,12 +95,15 @@ fun Index() {
         Row(verticalAlignment = Alignment.Vertical.CenterVertically) {
             Box(
                 modifier = GlanceModifier.width(10.dp).height(10.dp).cornerRadius(5.dp)
-                    .background(Color.Green)
+                    .background(Color(0xff00C853))
             ) { }
             Spacer(GlanceModifier.width(4.dp))
             Text(
-                "50",
-                style = TextStyle(color = ColorProvider(Color.White), fontWeight = FontWeight.Bold)
+                easyProblems.toString(),
+                style = TextStyle(
+                    color = ColorProvider(Color(BLUE_COLOR)),
+                    fontWeight = FontWeight.Bold
+                )
             )
         }
 
@@ -94,12 +112,15 @@ fun Index() {
         Row(verticalAlignment = Alignment.Vertical.CenterVertically) {
             Box(
                 modifier = GlanceModifier.width(10.dp).height(10.dp).cornerRadius(5.dp)
-                    .background(Color.Yellow)
+                    .background(Color(0xffFFD600))
             ) { }
             Spacer(GlanceModifier.width(4.dp))
             Text(
-                "30",
-                style = TextStyle(color = ColorProvider(Color.White), fontWeight = FontWeight.Bold)
+                mediumProblems.toString(),
+                style = TextStyle(
+                    color = ColorProvider(Color(BLUE_COLOR)),
+                    fontWeight = FontWeight.Bold
+                )
             )
         }
 
@@ -108,12 +129,15 @@ fun Index() {
         Row(verticalAlignment = Alignment.Vertical.CenterVertically) {
             Box(
                 modifier = GlanceModifier.width(10.dp).height(10.dp).cornerRadius(5.dp)
-                    .background(Color.Red)
+                    .background(Color(0xffC00000))
             ) { }
             Spacer(GlanceModifier.width(4.dp))
             Text(
-                "20",
-                style = TextStyle(color = ColorProvider(Color.White), fontWeight = FontWeight.Bold)
+                hardProblems.toString(),
+                style = TextStyle(
+                    color = ColorProvider(Color(BLUE_COLOR)),
+                    fontWeight = FontWeight.Bold
+                )
             )
         }
 
@@ -127,11 +151,11 @@ fun Index() {
 
 
 @Composable
-fun ProgressWidgetUI() {
+fun ProgressWidgetUI(hardProblems: Int, mediumProblems: Int, easyProblems: Int) {
     val segments = listOf(
-        ChartSegment(50f, "#4CAF50".toColorInt()), // Green
-        ChartSegment(30f, "#FFC107".toColorInt()), // Yellow
-        ChartSegment(20f, "#F44336".toColorInt())  // Red
+        ChartSegment(easyProblems, "#00C853".toColorInt()), // Green
+        ChartSegment(mediumProblems, "#FFD600".toColorInt()), // Yellow
+        ChartSegment(hardProblems, "#C00000".toColorInt())  // Red
     )
 
     // Generate the Bitmap (Ensure sizePx matches your widget design)
@@ -155,9 +179,9 @@ fun ProgressWidgetUI() {
 
         // 2. The Text Overlay
         Text(
-            text = "100",
+            text = "${hardProblems + easyProblems + mediumProblems}",
             style = TextStyle(
-                color = ColorProvider(Color.White),
+                color = ColorProvider(Color(BLUE_COLOR)),
                 fontSize = 40.sp,
                 fontWeight = FontWeight.Bold
             )
