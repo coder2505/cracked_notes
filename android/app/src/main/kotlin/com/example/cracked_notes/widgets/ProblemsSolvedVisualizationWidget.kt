@@ -15,6 +15,8 @@ import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
+import androidx.glance.action.actionStartActivity
+import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
 import androidx.glance.appwidget.cornerRadius
@@ -35,6 +37,7 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
+import com.coder2505.cracked_notes.MainActivity
 import com.example.cracked_notes.datastore.JsonDataStore
 
 
@@ -57,24 +60,29 @@ class ProblemsSolvedVisualizationWidget : GlanceAppWidget() {
 
         provideContent {
 
-            Column(
-                modifier = GlanceModifier.fillMaxSize().background(color = Color(0xff1b1b1b)),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalAlignment = Alignment.CenterVertically
+            Box(
+                modifier = GlanceModifier.clickable(
+                    onClick = actionStartActivity<MainActivity>()
+                )
             ) {
-                ProgressWidgetUI(
-                    hardProblems = obj.hardSolved,
-                    mediumProblems = obj.mediumSolved,
-                    easyProblems = obj.easySolved,
-                )
-                Spacer(GlanceModifier.height(16.dp))
-                Index(
-                    hardProblems = obj.hardSolved,
-                    mediumProblems = obj.mediumSolved,
-                    easyProblems = obj.easySolved,
-                )
+                Column(
+                    modifier = GlanceModifier.fillMaxSize().background(color = Color(0xff1b1b1b)),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    ProgressWidgetUI(
+                        hardProblems = obj.hardSolved,
+                        mediumProblems = obj.mediumSolved,
+                        easyProblems = obj.easySolved,
+                    )
+                    Spacer(GlanceModifier.height(16.dp))
+                    Index(
+                        hardProblems = obj.hardSolved,
+                        mediumProblems = obj.mediumSolved,
+                        easyProblems = obj.easySolved,
+                    )
+                }
             }
-
 
         }
     }

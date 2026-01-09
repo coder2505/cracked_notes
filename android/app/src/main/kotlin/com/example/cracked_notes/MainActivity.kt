@@ -5,18 +5,13 @@ import android.content.IntentFilter
 import android.os.BatteryManager
 import android.os.Bundle
 import android.util.Log
-import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
-import com.example.cracked_notes.datastore.DataStore
-import com.example.cracked_notes.datastore.JsonDataStore
 import com.example.cracked_notes.worker.FetchDataWorker
 import com.example.cracked_notes.worker.ProblemSolvedWorker
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
-import java.util.concurrent.TimeUnit
 
 class MainActivity : FlutterActivity() {
 
@@ -92,6 +87,15 @@ class MainActivity : FlutterActivity() {
 
         return level
 
+    }
+
+    fun callStreakWorker(){
+
+        val oneTimeRequest = OneTimeWorkRequestBuilder<FetchDataWorker>()
+            .build()
+
+        WorkManager.getInstance(context)
+            .enqueue(oneTimeRequest)
     }
 
 
