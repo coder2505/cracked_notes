@@ -31,11 +31,6 @@ import kotlinx.coroutines.launch
  * this now runs on onCreate, which checks sharedpreferences boolean logged in value and calls api
  * and updates data store.
  *
- *
- *TODO
- * add not logged in to problem widget as well
- * that's it?
- *
  **/
 
 class MainActivity : FlutterActivity() {
