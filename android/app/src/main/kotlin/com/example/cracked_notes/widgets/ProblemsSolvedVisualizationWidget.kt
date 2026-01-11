@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.graphics.RectF
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.createBitmap
@@ -35,10 +36,12 @@ import androidx.glance.layout.size
 import androidx.glance.layout.width
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
+import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import com.coder2505.cracked_notes.MainActivity
 import com.example.cracked_notes.datastore.JsonDataStore
+import com.example.cracked_notes.retrofit.data_objects.ProblemsSolvedDataObject
 
 
 class ProblemsSolvedVisualization : GlanceAppWidgetReceiver() {
@@ -59,31 +62,38 @@ class ProblemsSolvedVisualizationWidget : GlanceAppWidget() {
 
 
         provideContent {
+            UI(obj)
+        }
+    }
+}
 
-            Box(
-                modifier = GlanceModifier.clickable(
-                    onClick = actionStartActivity<MainActivity>()
+@Composable
+fun UI(obj : ProblemsSolvedDataObject) {
+    Box(
+        modifier = GlanceModifier.clickable(
+            onClick = actionStartActivity<MainActivity>()
+        )
+    ) {
+        Column(
+            modifier = GlanceModifier.fillMaxSize().background(color = Color(0xff1b1b1b)),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            if(obj.solvedProblem >= 0) {
+                ProgressWidgetUI(
+                    hardProblems = obj.hardSolved,
+                    mediumProblems = obj.mediumSolved,
+                    easyProblems = obj.easySolved,
                 )
-            ) {
-                Column(
-                    modifier = GlanceModifier.fillMaxSize().background(color = Color(0xff1b1b1b)),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    ProgressWidgetUI(
-                        hardProblems = obj.hardSolved,
-                        mediumProblems = obj.mediumSolved,
-                        easyProblems = obj.easySolved,
-                    )
-                    Spacer(GlanceModifier.height(16.dp))
-                    Index(
-                        hardProblems = obj.hardSolved,
-                        mediumProblems = obj.mediumSolved,
-                        easyProblems = obj.easySolved,
-                    )
-                }
+                Spacer(GlanceModifier.height(16.dp))
+                Index(
+                    hardProblems = obj.hardSolved,
+                    mediumProblems = obj.mediumSolved,
+                    easyProblems = obj.easySolved,
+                )
+            }else {
+                Text("User Is Not Logged In", style = TextStyle(textAlign = TextAlign.Center, color = ColorProvider(Color.White)))
             }
-
         }
     }
 }

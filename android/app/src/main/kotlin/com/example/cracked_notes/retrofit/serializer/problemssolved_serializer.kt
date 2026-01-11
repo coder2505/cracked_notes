@@ -12,10 +12,10 @@ class ProblemSolvedSerializer :
     Serializer<ProblemsSolvedDataObject> {
 
     override val defaultValue: ProblemsSolvedDataObject = ProblemsSolvedDataObject(
-        easySolved = 60,
-        mediumSolved = 30,
-        hardSolved = 10,
-        solvedProblem = 100
+        easySolved = -1,
+        mediumSolved = -1,
+        hardSolved = -1,
+        solvedProblem = -1
     )
 
     override suspend fun readFrom(input: InputStream): ProblemsSolvedDataObject {

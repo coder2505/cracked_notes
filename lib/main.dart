@@ -26,7 +26,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    Methodchannel.getbattery();
 
     return MaterialApp.router(routerConfig: Routes(context: context, hasloggedin:hasloggedin, username: username).router, debugShowCheckedModeBanner: false,);
   }

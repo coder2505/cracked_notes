@@ -77,13 +77,19 @@ class StreakWidget : GlanceAppWidget() {
 
         Log.d(TAG, "UI: inside widget ui")
 
+        var streakVal = "Streak"
+
+        if(streak=="-1"){
+            streakVal = "Please log in"
+        }
+
 
             Column(
                 modifier = GlanceModifier.fillMaxSize().padding(16.dp).background(Color(0XFF1B1B1B))
             ) {
                 Row {
                     Text(
-                        "Streak",
+                        streakVal,
                         style = TextStyle(
                             color = ColorProvider(Color.White),
                             fontFamily = FontFamily.Monospace
