@@ -6,6 +6,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -20,6 +21,7 @@ import androidx.glance.action.actionStartActivity
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
+import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.provideContent
 import androidx.glance.background
@@ -32,6 +34,7 @@ import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
+import androidx.glance.layout.padding
 import androidx.glance.layout.size
 import androidx.glance.layout.width
 import androidx.glance.text.FontWeight
@@ -40,6 +43,9 @@ import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
 import com.coder2505.cracked_notes.MainActivity
+import com.coder2505.cracked_notes.R
+import com.example.cracked_notes.actionCallBack.RefreshButtonProblems
+import com.example.cracked_notes.actionCallBack.RefreshButtonStreak
 import com.example.cracked_notes.datastore.JsonDataStore
 import com.example.cracked_notes.retrofit.data_objects.ProblemsSolvedDataObject
 
@@ -80,17 +86,40 @@ fun UI(obj : ProblemsSolvedDataObject) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             if(obj.solvedProblem >= 0) {
-                ProgressWidgetUI(
-                    hardProblems = obj.hardSolved,
-                    mediumProblems = obj.mediumSolved,
-                    easyProblems = obj.easySolved,
-                )
+
+                Box(
+                    modifier = GlanceModifier.fillMaxWidth().padding(8.dp)
+                ) {
+                    Column(
+                        modifier = GlanceModifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.Horizontal.CenterHorizontally,
+                        verticalAlignment = Alignment.Vertical.CenterVertically
+                    ) {
+                        ProgressWidgetUI(
+                            hardProblems = obj.hardSolved,
+                            mediumProblems = obj.mediumSolved,
+                            easyProblems = obj.easySolved,
+                        )
+                    }
+
+
+                    Row(
+                        modifier = GlanceModifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.Horizontal.End, // Far Right
+                        verticalAlignment = Alignment.Vertical.Top      // Top Edge
+                    ) {
+                        RefreshButton()
+                    }
+                }
+
                 Spacer(GlanceModifier.height(16.dp))
+
                 Index(
                     hardProblems = obj.hardSolved,
                     mediumProblems = obj.mediumSolved,
                     easyProblems = obj.easySolved,
                 )
+
             }else {
                 Text("User Is Not Logged In", style = TextStyle(textAlign = TextAlign.Center, color = ColorProvider(Color.White)))
             }
@@ -207,6 +236,16 @@ fun ProgressWidgetUI(hardProblems: Int, mediumProblems: Int, easyProblems: Int) 
     }
 }
 
+@Composable
+fun RefreshButton() {
+    Image(
+        provider = ImageProvider(R.drawable.baseline_refresh_24),
+        contentDescription = "Refresh Data",
+        modifier = GlanceModifier
+            .size(22.dp)
+            .clickable(onClick = actionRunCallback<RefreshButtonProblems>()) // Force the image size (optional, but good for control)
+    )
+}
 
 fun createCircularChartBitmap(
     segments: List<ChartSegment>,

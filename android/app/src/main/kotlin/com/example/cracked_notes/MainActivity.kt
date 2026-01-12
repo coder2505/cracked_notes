@@ -1,24 +1,14 @@
 package com.coder2505.cracked_notes
 
-import Constants
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
-import android.content.SharedPreferences
-import android.os.BatteryManager
 import android.os.Bundle
 import android.util.Log
-import androidx.lifecycle.lifecycleScope
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import com.example.cracked_notes.datastore.DataStore
 import com.example.cracked_notes.worker.FetchDataWorker
 import com.example.cracked_notes.worker.ProblemSolvedWorker
 import io.flutter.embedding.android.FlutterActivity
-import io.flutter.embedding.android.KeyData.CHANNEL
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
-import kotlinx.coroutines.launch
 
 
 /**
@@ -57,7 +47,6 @@ class MainActivity : FlutterActivity() {
 
             } else result.notImplemented()
 
-            // TODO
         }
 
     }
@@ -83,7 +72,7 @@ class MainActivity : FlutterActivity() {
 //            val workRequest =
 //                PeriodicWorkRequest.Builder(
 //                    FetchDataWorker::class.java, // Your worker class
-//                    4, // repeating interval
+//                    12, // repeating interval
 //                    TimeUnit.HOURS,
 //                    15, // flex interval - worker will run somewhen within this period of time, but at the end of repeating interval
 //                    TimeUnit.MINUTES
@@ -103,7 +92,7 @@ class MainActivity : FlutterActivity() {
     }
 
 
-    fun callStreakWorker(){
+    private fun callStreakWorker() {
         val oneTimeRequest = OneTimeWorkRequestBuilder<FetchDataWorker>()
             .build()
 
@@ -116,7 +105,6 @@ class MainActivity : FlutterActivity() {
         WorkManager.getInstance(context)
             .enqueue(problemFetchWork)
     }
-
 
 }
 
