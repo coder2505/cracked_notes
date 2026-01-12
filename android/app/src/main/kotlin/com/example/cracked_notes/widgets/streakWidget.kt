@@ -124,7 +124,7 @@ class StreakWidget : GlanceAppWidget() {
             provider = ImageProvider(R.drawable.baseline_refresh_24),
             contentDescription = "Refresh Data",
             modifier = GlanceModifier
-                .size(32.dp).padding(all = 6.dp)
+                .size(28.dp).padding(all = 3.dp)
                 .clickable(onClick = actionRunCallback<RefreshButtonStreak>()) // Force the image size (optional, but good for control)
         )
     }
