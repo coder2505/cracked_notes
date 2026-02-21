@@ -18,14 +18,15 @@ class ProblemSolvedWorker(appContext: Context, params: WorkerParameters) :
 
     private val TAG = "ProblemSolvedWorker Coroutine"
 
-    override suspend fun doWork(): Result {
 
+    override suspend fun doWork(): Result {
 
         return try {
 
             Log.d(TAG, "onCreate: inside worker pls god")
 
             val sharedPref : SharedPreferences = applicationContext.getSharedPreferences("FlutterSharedPreferences", Context.MODE_PRIVATE)
+
 
             val username = sharedPref.getString("flutter.username", "purpleCrayon") ?: "purpleCrayon"
             val isLoggedIn = sharedPref.getBoolean("flutter.isUserLoggedIn", false)

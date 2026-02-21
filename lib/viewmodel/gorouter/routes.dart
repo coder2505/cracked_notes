@@ -17,8 +17,7 @@ class Routes{
   late final GoRouter router = GoRouter(
 
     redirect: (BuildContext context, GoRouterState state){
-      print(hasloggedin);
-      print(username);
+
       if(hasloggedin && username.isNotEmpty){
         return '/home';
       }

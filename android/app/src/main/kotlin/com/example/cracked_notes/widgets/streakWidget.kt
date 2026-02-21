@@ -2,6 +2,7 @@ package com.example.cracked_notes.widgets
 
 import Constants
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -12,10 +13,11 @@ import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
-import androidx.glance.action.actionStartActivity
+import androidx.glance.action.ActionParameters
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
+import androidx.glance.appwidget.action.ActionCallback
 import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.appwidget.provideContent
 import androidx.glance.background
@@ -61,7 +63,8 @@ class StreakWidget : GlanceAppWidget() {
 
             Box(
                 modifier = GlanceModifier.clickable(
-                    onClick = actionStartActivity<MainActivity>()
+                    onClick =
+                        actionRunCallback<checkUserLogState>()
                 )
             ) {
                 UI(streak)
@@ -127,6 +130,37 @@ class StreakWidget : GlanceAppWidget() {
                 .size(28.dp).padding(all = 3.dp)
                 .clickable(onClick = actionRunCallback<RefreshButtonStreak>()) // Force the image size (optional, but good for control)
         )
+    }
+
+}
+
+class checkUserLogState : ActionCallback {
+    override suspend fun onAction(
+        context: Context,
+        glanceId: GlanceId,
+        parameters: ActionParameters
+    ) {
+
+        val sharedPreferences =
+            context.getSharedPreferences("FlutterSharedPreferences", Context.MODE_PRIVATE)
+
+        lateinit var route : String;
+
+        if (sharedPreferences.getBoolean("flutter.isUserLoggedIn", false)) {
+
+            route = "/home"
+
+        } else route = "/enterNameScreen"
+
+        val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            // This is the key: passing the route as an extra
+            putExtra("route", route)
+        }
+
+        context.startActivity(intent)
+
+
     }
 
 }
