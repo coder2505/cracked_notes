@@ -101,96 +101,111 @@ class HomeScreenWidgets {
   }
 
   static Widget nextBadge(List<dynamic> nextbadge, double height) {
-    return Column(
-      children: [
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            "Next\nAchievement",
-            style: TextStyle(
-              color: AppColors.faded_yellow,
-              fontFamily: 'Inter',
-              fontWeight: FontWeight.w600,
-              fontSize: 16,
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        double availableHeight = constraints.maxHeight - 45;
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "Next\nAchievement",
+              style: TextStyle(
+                color: AppColors.faded_yellow,
+                fontFamily: 'Inter',
+                fontWeight: FontWeight.w600,
+                fontSize: 15,
+                height: 1.0,
+              ),
             ),
-          ),
-        ),
-        Align(
-          alignment: Alignment.centerRight,
-          child: SizedBox(
-            height: height * 0.12,
-            child: returnBadge(nextbadge[0]["title"]),
-          ),
-        ),
-      ],
+            const Spacer(),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: SizedBox(
+                // Force the badge to fit in the remaining space
+                height: availableHeight > 0 ? availableHeight : 10,
+                child: FittedBox(
+                  fit: BoxFit.contain,
+                  child: returnBadge(nextbadge[0]["title"]),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
   static Widget timerRow() {
     return Row(
-      spacing: 10,
+
+      mainAxisSize: MainAxisSize.max,
       children: [
-        Stack(
-          children: [
-            SizedBox(
-              width: 100,
-              child: StreamBuilder(
+        SizedBox(
+          width: 100,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              StreamBuilder(
                 initialData: TimerCountDown().printPercentageInitial(),
                 stream: TimerCountDown.percentageController.stream,
                 builder: (context, snapshot) {
                   return CustomPaint(
+                    // Ensure your CustomPaint fits the 100x100 box
                     painter: TimerCircles(snapshot.data ?? 0),
-                    size: Size(200, 300),
+                    size: const Size(100, 100),
                   );
                 },
               ),
-            ),
-            Positioned(
-              left: 38,
-              top: 20,
-              child: StreamBuilder(
+              StreamBuilder(
                 initialData: TimerCountDown().printTimeInitial(),
                 stream: TimerCountDown.controller.stream,
                 builder: (context, snapshot) {
                   return Text(
                     '${snapshot.data}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontFamily: 'Inter',
                       fontWeight: FontWeight.w700,
-                      fontSize: 22,
+                      fontSize: 20,
                       color: Colors.white,
                     ),
                   );
                 },
               ),
-            ),
-          ],
+            ],
+          ),
         ),
 
-        Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: 10,
-          children: [
-            Text(
-              "The Countdown has begun.",
-              style: TextStyle(
-                fontFamily: 'Inter',
-                fontWeight: FontWeight.normal,
-                fontSize: 18,
-                color: Colors.white,
+        const SizedBox(width: 15),
+
+        Expanded(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const [
+              Text(
+                "The Countdown has begun.",
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.normal,
+                  fontSize: 18,
+                  color: Colors.white,
+                ),
+                softWrap: true,
               ),
-            ),
-            Text(
-              "Can you finish a problem before it ends?",
-              style: TextStyle(
-                fontFamily: 'Inter',
-                fontWeight: FontWeight.w100,
-                fontStyle: FontStyle.italic,
-                color: Colors.white,
+              SizedBox(height: 4),
+              Text(
+                "Can you finish a problem before it ends?",
+                style: TextStyle(
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.w100,
+                  fontStyle: FontStyle.italic,
+                  color: Colors.white70,
+                ),
+                softWrap: true,
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ],
     );
