@@ -1,5 +1,7 @@
 package com.example.cracked_notes.retrofit.data_objects
 
+import kotlinx.serialization.SerialName
+
 data class StreakDataObject(
-    val streak: Int
+    @SerialName("streak") val streak: Int
 )

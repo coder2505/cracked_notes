@@ -32,6 +32,9 @@ class FetchDataWorker(appContext: Context, workerParameters: WorkerParameters) :
             val response =
                 RetrofitInstance.api.getUserStreak(userDataObject = UserDataObject(userName = username))
 
+            Log.d(TAG, "doWork: USERNAME -> $username")
+            Log.d(TAG, "doWork: HAS LOGGEDIN ->  $isLoggedIn")
+
             if (response.isSuccessful && isLoggedIn) {
                 Log.d(TAG, "doWork: worker has retrieved the data ${response.body()}")
                 DataStore.write(
