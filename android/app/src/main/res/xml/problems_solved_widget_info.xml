@@ -3,7 +3,7 @@
 
     android:minWidth="100dp"
     android:minHeight="100dp"
-    android:resizeMode="none"
+    android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen"
     android:previewLayout="@xml/problems_solved_widget_preview"
     />

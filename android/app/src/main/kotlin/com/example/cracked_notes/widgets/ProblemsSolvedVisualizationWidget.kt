@@ -5,10 +5,9 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
+import androidx.annotation.Dimension.Companion.DP
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.createBitmap
@@ -17,10 +16,10 @@ import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
-import androidx.glance.action.actionStartActivity
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
+import androidx.glance.appwidget.SizeMode
 import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.provideContent
@@ -42,10 +41,8 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import androidx.glance.unit.ColorProvider
-import com.coder2505.cracked_notes.MainActivity
 import com.coder2505.cracked_notes.R
 import com.example.cracked_notes.actionCallBack.RefreshButtonProblems
-import com.example.cracked_notes.actionCallBack.RefreshButtonStreak
 import com.example.cracked_notes.datastore.JsonDataStore
 import com.example.cracked_notes.retrofit.data_objects.ProblemsSolvedDataObject
 
@@ -61,7 +58,11 @@ data class ChartSegment(val value: Int, val color: Int)
 
 val BLUE_COLOR: Long = 0xff7FB0FF
 
+
 class ProblemsSolvedVisualizationWidget : GlanceAppWidget() {
+
+    override val sizeMode: SizeMode = SizeMode.Exact
+
     override suspend fun provideGlance(context: Context, id: GlanceId) {
 
         val obj = JsonDataStore.read(context)
@@ -77,7 +78,7 @@ class ProblemsSolvedVisualizationWidget : GlanceAppWidget() {
 fun UI(obj : ProblemsSolvedDataObject) {
     Box(
         modifier = GlanceModifier.clickable(
-            onClick = actionStartActivity<MainActivity>()
+            onClick = actionRunCallback<checkUserLogState>()
         )
     ) {
         Column(
@@ -100,8 +101,15 @@ fun UI(obj : ProblemsSolvedDataObject) {
                             mediumProblems = obj.mediumSolved,
                             easyProblems = obj.easySolved,
                         )
-                    }
 
+                        Spacer(modifier = GlanceModifier.height(20.dp))
+
+                        Index(
+                            hardProblems = obj.hardSolved,
+                            mediumProblems = obj.mediumSolved,
+                            easyProblems = obj.easySolved,
+                        )
+                    }
 
                     Row(
                         modifier = GlanceModifier.fillMaxWidth(),
@@ -112,13 +120,6 @@ fun UI(obj : ProblemsSolvedDataObject) {
                     }
                 }
 
-                Spacer(GlanceModifier.height(16.dp))
-
-                Index(
-                    hardProblems = obj.hardSolved,
-                    mediumProblems = obj.mediumSolved,
-                    easyProblems = obj.easySolved,
-                )
 
             }else {
                 Text("User Is Not Logged In", style = TextStyle(textAlign = TextAlign.Center, color = ColorProvider(Color.White)))
