@@ -7,12 +7,14 @@ import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
+import androidx.glance.LocalSize
 import androidx.glance.action.ActionParameters
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
@@ -86,6 +88,13 @@ class StreakWidget : GlanceAppWidget() {
             streakVal = "Please log in"
         }
 
+        val size  = LocalSize.current
+        val height = size.height
+
+        val numberSize : TextUnit = (height.value * 0.75f).sp
+        val textSize : TextUnit = (height.value * 0.15f).sp
+
+
 
         Column(
             modifier = GlanceModifier.fillMaxSize().padding(16.dp).background(Color(0XFF1B1B1B))
@@ -96,6 +105,7 @@ class StreakWidget : GlanceAppWidget() {
                 Text(
                     streakVal,
                     style = TextStyle(
+                        fontSize = textSize,
                         color = ColorProvider(Color.White),
                         fontFamily = FontFamily.Monospace
                     )
@@ -111,7 +121,7 @@ class StreakWidget : GlanceAppWidget() {
                     streak,
                     style = TextStyle(
                         color = ColorProvider(Color(0xff0071FF)),
-                        fontSize = 72.sp,
+                        fontSize = numberSize,
                         fontWeight = FontWeight.Bold,
                         fontFamily = FontFamily.SansSerif
                     )

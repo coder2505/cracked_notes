@@ -5,9 +5,10 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.RectF
-import androidx.annotation.Dimension.Companion.DP
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.createBitmap
@@ -16,6 +17,7 @@ import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.Image
 import androidx.glance.ImageProvider
+import androidx.glance.LocalSize
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
@@ -48,11 +50,9 @@ import com.example.cracked_notes.retrofit.data_objects.ProblemsSolvedDataObject
 
 
 class ProblemsSolvedVisualization : GlanceAppWidgetReceiver() {
-
     override val glanceAppWidget: GlanceAppWidget = ProblemsSolvedVisualizationWidget()
-
-
 }
+
 
 data class ChartSegment(val value: Int, val color: Int)
 
@@ -64,65 +64,86 @@ class ProblemsSolvedVisualizationWidget : GlanceAppWidget() {
     override val sizeMode: SizeMode = SizeMode.Exact
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
-
         val obj = JsonDataStore.read(context)
-
-
         provideContent {
-            UI(obj)
+            WidgetRoot(obj)
         }
     }
 }
 
 @Composable
-fun UI(obj : ProblemsSolvedDataObject) {
+fun WidgetRoot(obj: ProblemsSolvedDataObject) {
+
+    val size = LocalSize.current          // DpSize — actual space given by launcher
+    val width = size.width                 // Dp  e.g. 176.dp on Samsung, 110.dp on Pixel
+    val height = size.height                // Dp  same idea vertically
+
+
+    val chartSize: Dp = (height.value * 0.60f).dp
+        .coerceAtMost((width.value * 0.75f).dp)
+
+    val countFontSize: TextUnit = (chartSize.value * 0.4f).sp
+
+    val legendFontSize: TextUnit = (height.value * 0.08f).sp
+    val dotSize: Dp = (height.value * 0.06f).dp
+
+    val gap: Dp = (height.value * 0.07f).dp
+
     Box(
-        modifier = GlanceModifier.clickable(
-            onClick = actionRunCallback<checkUserLogState>()
-        )
+        modifier = GlanceModifier
+            .fillMaxSize()
+            .background(Color(0xff1b1b1b))
+            .padding(6.dp)
+            .clickable(onClick = actionRunCallback<checkUserLogState>())
     ) {
-        Column(
-            modifier = GlanceModifier.fillMaxSize().background(color = Color(0xff1b1b1b)),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            if(obj.solvedProblem >= 0) {
+        if (obj.solvedProblem >= 0) {
 
-                Box(
-                    modifier = GlanceModifier.fillMaxWidth().padding(8.dp)
-                ) {
-                    Column(
-                        modifier = GlanceModifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.Horizontal.CenterHorizontally,
-                        verticalAlignment = Alignment.Vertical.CenterVertically
-                    ) {
-                        ProgressWidgetUI(
-                            hardProblems = obj.hardSolved,
-                            mediumProblems = obj.mediumSolved,
-                            easyProblems = obj.easySolved,
-                        )
+            // Main content: chart on top, legend below
+            Column(
+                modifier = GlanceModifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                DonutChart(
+                    easy = obj.easySolved,
+                    medium = obj.mediumSolved,
+                    hard = obj.hardSolved,
+                    chartSize = chartSize,
+                    countFontSize = countFontSize
+                )
 
-                        Spacer(modifier = GlanceModifier.height(20.dp))
+                Spacer(modifier = GlanceModifier.height(gap))
 
-                        Index(
-                            hardProblems = obj.hardSolved,
-                            mediumProblems = obj.mediumSolved,
-                            easyProblems = obj.easySolved,
-                        )
-                    }
+                Legend(
+                    easy = obj.easySolved,
+                    medium = obj.mediumSolved,
+                    hard = obj.hardSolved,
+                    dotSize = dotSize,
+                    fontSize = legendFontSize
+                )
+            }
 
-                    Row(
-                        modifier = GlanceModifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.Horizontal.End, // Far Right
-                        verticalAlignment = Alignment.Vertical.Top      // Top Edge
-                    ) {
-                        RefreshButton()
-                    }
-                }
+            Row(
+                modifier = GlanceModifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.Horizontal.End,
+                verticalAlignment = Alignment.Vertical.Top
+            ) {
+                RefreshButton()
+            }
 
-
-            }else {
-                Text("User Is Not Logged In", style = TextStyle(textAlign = TextAlign.Center, color = ColorProvider(Color.White)))
+        } else {
+            Box(
+                modifier = GlanceModifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "Not Logged In",
+                    style = TextStyle(
+                        textAlign = TextAlign.Center,
+                        color = ColorProvider(Color.White),
+                        fontSize = legendFontSize
+                    )
+                )
             }
         }
     }
@@ -130,107 +151,41 @@ fun UI(obj : ProblemsSolvedDataObject) {
 
 
 @Composable
-fun Index(hardProblems: Int, mediumProblems: Int, easyProblems: Int) {
-
-    Row(
-        modifier = GlanceModifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-
-        Spacer(modifier = GlanceModifier.defaultWeight())
-
-
-        Row(verticalAlignment = Alignment.Vertical.CenterVertically) {
-            Box(
-                modifier = GlanceModifier.width(10.dp).height(10.dp).cornerRadius(5.dp)
-                    .background(Color(0xff00C853))
-            ) { }
-            Spacer(GlanceModifier.width(4.dp))
-            Text(
-                easyProblems.toString(),
-                style = TextStyle(
-                    color = ColorProvider(Color(BLUE_COLOR)),
-                    fontWeight = FontWeight.Bold
-                )
-            )
-        }
-
-        Spacer(modifier = GlanceModifier.defaultWeight())
-
-        Row(verticalAlignment = Alignment.Vertical.CenterVertically) {
-            Box(
-                modifier = GlanceModifier.width(10.dp).height(10.dp).cornerRadius(5.dp)
-                    .background(Color(0xffFFD600))
-            ) { }
-            Spacer(GlanceModifier.width(4.dp))
-            Text(
-                mediumProblems.toString(),
-                style = TextStyle(
-                    color = ColorProvider(Color(BLUE_COLOR)),
-                    fontWeight = FontWeight.Bold
-                )
-            )
-        }
-
-        Spacer(modifier = GlanceModifier.defaultWeight())
-
-        Row(verticalAlignment = Alignment.Vertical.CenterVertically) {
-            Box(
-                modifier = GlanceModifier.width(10.dp).height(10.dp).cornerRadius(5.dp)
-                    .background(Color(0xffC00000))
-            ) { }
-            Spacer(GlanceModifier.width(4.dp))
-            Text(
-                hardProblems.toString(),
-                style = TextStyle(
-                    color = ColorProvider(Color(BLUE_COLOR)),
-                    fontWeight = FontWeight.Bold
-                )
-            )
-        }
-
-        Spacer(modifier = GlanceModifier.defaultWeight())
-
-
-    }
-
-
-}
-
-
-@Composable
-fun ProgressWidgetUI(hardProblems: Int, mediumProblems: Int, easyProblems: Int) {
+fun DonutChart(
+    easy: Int,
+    medium: Int,
+    hard: Int,
+    chartSize: Dp,
+    countFontSize: TextUnit
+) {
     val segments = listOf(
-        ChartSegment(easyProblems, "#00C853".toColorInt()), // Green
-        ChartSegment(mediumProblems, "#FFD600".toColorInt()), // Yellow
-        ChartSegment(hardProblems, "#C00000".toColorInt())  // Red
+        ChartSegment(easy, "#00C853".toColorInt()),   // green
+        ChartSegment(medium, "#FFD600".toColorInt()),   // yellow
+        ChartSegment(hard, "#C00000".toColorInt())    // red
     )
 
-    // Generate the Bitmap (Ensure sizePx matches your widget design)
-    val chartBitmap = createCircularChartBitmap(
-        segments = segments,
-        sizePx = 300,
-        strokeWidthPx = 15f
-    )
+
+    val bitmapPx = (chartSize.value * 3f).toInt().coerceAtLeast(150)
+    val strokePx = bitmapPx * 0.06f
+
+    val bitmap = buildDonutBitmap(segments, sizePx = bitmapPx, strokeWidthPx = strokePx)
 
     Box(
         contentAlignment = Alignment.Center,
-        modifier = GlanceModifier.size(100.dp) // Display size in Widget
+        modifier = GlanceModifier.size(chartSize)
     ) {
-        // 1. The Chart Image
         Image(
-            provider = ImageProvider(chartBitmap),
-            contentDescription = "Progress Chart",
+            provider = ImageProvider(bitmap),
+            contentDescription = "Donut chart",
             contentScale = ContentScale.Fit,
-            modifier = GlanceModifier.size(100.dp)
+            modifier = GlanceModifier.size(chartSize)
         )
-
-        // 2. The Text Overlay
+        // Total problems in the centre
         Text(
-            text = "${hardProblems + easyProblems + mediumProblems}",
+            text = "${easy + medium + hard}",
             style = TextStyle(
                 color = ColorProvider(Color(BLUE_COLOR)),
-                fontSize = 40.sp,
+                fontSize = countFontSize,
                 fontWeight = FontWeight.Bold
             )
         )
@@ -238,58 +193,103 @@ fun ProgressWidgetUI(hardProblems: Int, mediumProblems: Int, easyProblems: Int) 
 }
 
 @Composable
+fun Legend(
+    easy: Int,
+    medium: Int,
+    hard: Int,
+    dotSize: Dp,
+    fontSize: TextUnit
+) {
+    Row(
+        modifier = GlanceModifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(modifier = GlanceModifier.defaultWeight())
+        LegendItem(color = Color(0xff00C853), count = easy, dotSize = dotSize, fontSize = fontSize)
+        Spacer(modifier = GlanceModifier.defaultWeight())
+        LegendItem(
+            color = Color(0xffFFD600),
+            count = medium,
+            dotSize = dotSize,
+            fontSize = fontSize
+        )
+        Spacer(modifier = GlanceModifier.defaultWeight())
+        LegendItem(color = Color(0xffC00000), count = hard, dotSize = dotSize, fontSize = fontSize)
+        Spacer(modifier = GlanceModifier.defaultWeight())
+    }
+}
+
+@Composable
+fun LegendItem(color: Color, count: Int, dotSize: Dp, fontSize: TextUnit) {
+    Row(verticalAlignment = Alignment.Vertical.CenterVertically) {
+        // Coloured circle — size scales with widget height
+        Box(
+            modifier = GlanceModifier
+                .width(dotSize)
+                .height(dotSize)
+                .cornerRadius(50.dp)
+                .background(color)
+        ) {}
+        Spacer(GlanceModifier.width(3.dp))
+        Text(
+            count.toString(),
+            style = TextStyle(
+                color = ColorProvider(Color(BLUE_COLOR)),
+                fontWeight = FontWeight.Bold,
+                fontSize = fontSize
+            )
+        )
+    }
+}
+
+
+@Composable
 fun RefreshButton() {
     Image(
         provider = ImageProvider(R.drawable.baseline_refresh_24),
-        contentDescription = "Refresh Data",
+        contentDescription = "Refresh",
         modifier = GlanceModifier
             .size(22.dp)
-            .clickable(onClick = actionRunCallback<RefreshButtonProblems>()) // Force the image size (optional, but good for control)
+            .clickable(onClick = actionRunCallback<RefreshButtonProblems>())
     )
 }
 
-fun createCircularChartBitmap(
+
+fun buildDonutBitmap(
     segments: List<ChartSegment>,
     sizePx: Int,
     strokeWidthPx: Float
 ): Bitmap {
-    // 1. Create a blank bitmap
-    val bitmap = createBitmap(sizePx, sizePx)
+
+    val bitmap = createBitmap(sizePx, sizePx)   // transparent ARGB_8888 bitmap
     val canvas = Canvas(bitmap)
 
-    // 2. Prepare the Paint
     val paint = Paint().apply {
         isAntiAlias = true
-        style = Paint.Style.STROKE
+        style = Paint.Style.STROKE       // draw only the ring, not filled
         strokeWidth = strokeWidthPx
-        strokeCap = Paint.Cap.ROUND // Makes the ends rounded if you want
+        strokeCap = Paint.Cap.ROUND          // rounded arc ends
     }
 
-    // 3. Define the drawing area (with padding for stroke)
-    val padding = strokeWidthPx / 2
-    val rect = RectF(padding, padding, sizePx - padding, sizePx - padding)
+    val pad = strokeWidthPx / 2f
+    val rect = RectF(pad, pad, sizePx - pad, sizePx - pad)
 
-    // 4. Calculate total for percentages
     val total = segments.sumOf { it.value.toDouble() }.toFloat()
-    var startAngle = -90f // Start from top (12 o'clock)
 
-    // 5. Draw each segment
+    if (total <= 0f) {
+        paint.color = 0x33FFFFFF.toInt()
+        canvas.drawArc(rect, -90f, 360f, false, paint)
+        return bitmap
+    }
+
+    var startAngle = -90f   // -90° = 12 o'clock
     for (segment in segments) {
-        val sweepAngle = (segment.value / total) * 360f
-
+        if (segment.value <= 0) continue
+        val sweep = (segment.value / total) * 360f
         paint.color = segment.color
-
-        // Draw the arc
-        canvas.drawArc(rect, startAngle, sweepAngle, false, paint)
-
-        startAngle += sweepAngle
+        canvas.drawArc(rect, startAngle, sweep, false, paint)
+        startAngle += sweep
     }
 
     return bitmap
 }
-
-
-
-
-
-
