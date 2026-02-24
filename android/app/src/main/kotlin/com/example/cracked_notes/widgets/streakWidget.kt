@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -41,6 +42,7 @@ import com.coder2505.cracked_notes.MainActivity
 import com.coder2505.cracked_notes.R
 import com.example.cracked_notes.actionCallBack.RefreshButtonStreak
 import com.example.cracked_notes.datastore.DataStore
+import org.w3c.dom.Text
 
 
 class Widgets : GlanceAppWidgetReceiver() {

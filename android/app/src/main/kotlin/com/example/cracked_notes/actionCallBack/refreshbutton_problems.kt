@@ -1,6 +1,7 @@
 package com.example.cracked_notes.actionCallBack
 
 import android.content.Context
+import androidx.annotation.Keep
 import androidx.glance.GlanceId
 import androidx.glance.action.ActionParameters
 import androidx.glance.appwidget.action.ActionCallback
@@ -8,6 +9,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.cracked_notes.worker.ProblemSolvedWorker
 
+@Keep
 class RefreshButtonProblems : ActionCallback {
     override suspend fun onAction(
         context: Context,

@@ -249,7 +249,7 @@ fun RefreshButton() {
         provider = ImageProvider(R.drawable.baseline_refresh_24),
         contentDescription = "Refresh",
         modifier = GlanceModifier
-            .size(22.dp)
+            .size(24.dp)
             .clickable(onClick = actionRunCallback<RefreshButtonProblems>())
     )
 }

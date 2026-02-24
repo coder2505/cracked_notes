@@ -1,6 +1,6 @@
 name: cracked_notes
 description: "A new Flutter project."
-version: 1.0.4+11
+version: 1.0.5+12
 
 environment:
   sdk: ^3.8.1
